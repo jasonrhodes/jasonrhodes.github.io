@@ -1,6 +1,6 @@
 markdown: rdiscount
 pygments: true
-safe: true
+safe: false
 lsi: false
 
 title: jasonrhodes.github.com
