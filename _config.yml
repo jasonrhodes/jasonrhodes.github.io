@@ -1,5 +1,7 @@
 markdown: rdiscount
 pygments: true
+safe: true
+lsi: false
 
 title: jasonrhodes.github.com
 twitter: rhodesjason
