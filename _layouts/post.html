@@ -3,12 +3,22 @@ layout: default
 ---
 <div class="post single">
 <div class="center">
-    <h1 class="post-title">{{ page.title }}</h1>
-    {% if page.subtitle %}
-    <h2 class="post-subtitle">{{ page.subtitle }}</h2>
+
+    {% if page.topImage %}
+    <img class="top-image" src="/images/{{ page.topImage }}" />
     {% endif %}
+    <div class="titles">
+        {% assign words = page.title | split: " " %}
+        {% assign last = words | last %}
+        {% assign count = words | size | minus: 1 %}
+        {% assign trunctitle = page.title | truncatewords: count, '' %}
+        <h1 class="post-title">{{ trunctitle }}&nbsp;{{ last }}&nbsp;<span class="datestamp">{{ page.date | date: "%d %b %Y" }}</span></h1>
+        {% if page.subtitle %}
+        <h2 class="post-subtitle">{{ page.subtitle }}</h2>
+        {% endif %}
+    </div>
     <div class="post-content">
-            {{ content }}
+        {{ content }}
     </div>
     <div class="comments">
         <!-- disqus -->
