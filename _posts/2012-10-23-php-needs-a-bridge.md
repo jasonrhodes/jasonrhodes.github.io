@@ -1,6 +1,7 @@
 ---
 layout: post
 title: PHP needs a better bridge
+tags: [php, programming]
 ---
 
 I learned PHP because I needed to coerce WordPress 2.5 into being a CMS for a client's website. I was pretty new to the full-stack freelancer gig, and by "pretty new" I mean completely and totally unqualified with absolutely no experience with anything but HTML and CSS and maybe a little JavaScript.

@@ -2,6 +2,7 @@
 layout: post
 title: How to write a blog post
 subtitle: Reminding myself how to use Jekyll to write my posts
+tags: [jekyll, how to]
 ---
 
 1. In your notrobotic folder, where you keep this project, make sure you're on the `src` branch.
