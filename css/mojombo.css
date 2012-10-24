@@ -1,3 +1,12 @@
+---
+---
+
+/**
+ * Less Variables
+ */
+@lato: 'Open Sans', Lato, "Myriad Pro", Helvetica, sans-serif;
+
+
 /*****************************************************************************/
 /*
 /* Common
@@ -17,7 +26,7 @@ html, body {
 
 body {
   background-color: white;
-  font: 13.34px helvetica, arial, clean, sans-serif;
+  font: 13.34px @lato;
   *font-size: small;
   text-align: center;
 }
@@ -68,7 +77,7 @@ ul.posts {
 
   ul.posts span {
     color: #aaa;
-    font-family: Monaco, "Courier New", monospace;
+    font-family: @lato;
     font-size: 80%;
   }
 
@@ -152,12 +161,23 @@ ul.posts {
 
 }
 
+h1.post-title {
+  font-size: 24px;
+  line-height: 28px;
+}
+h2.post-subtitle {
+  color: #999;
+  margin-top: -1.4em;
+}
+
   /* standard */
 
+  @codebg: #efefef;
   #post pre {
     border: 1px solid #ddd;
-    background-color: #eef;
-    padding: 0 .4em;
+    background-color: @codebg;
+    padding: 0.5em;
+    border-radius: 3px;
   }
 
   #post ul,
@@ -167,13 +187,15 @@ ul.posts {
 
   #post code {
     border: 1px solid #ddd;
-    background-color: #eef;
-    font-size: 85%;
+    background-color: @codebg;
+    // font-size: 90%;
     padding: 0 .2em;
   }
 
     #post pre code {
       border: none;
+      background-color: transparent;
+      font-size: 100%;
     }
 
   /* terminal */
@@ -195,3 +217,7 @@ ul.posts {
   #related h2 {
     margin-bottom: 1em;
   }
+
+.highlight {
+
+}
