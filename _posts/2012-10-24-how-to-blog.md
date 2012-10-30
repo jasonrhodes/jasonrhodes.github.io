@@ -19,6 +19,6 @@ tags: [jekyll, how to]
 
 7. Push those changes to the src branch? Maybe?
 
-8. Run `$ genblog`, an alias for the bash script you wrote that generates the blog, copies the _site folder, switches to the `master` branch, pulls in all the compiled contents of the _site folder, and pushes those changes to github to be served by Github pages with the .nojekyll command flag
+8. Run `$ genblog`, an alias for the bash script you wrote that generates the blog, copies the \_site folder, switches to the `master` branch, pulls in all the compiled contents of the \_site folder, and pushes those changes to github to be served by Github pages with the .nojekyll command flag
 
 9. Done!

@@ -1,7 +1,13 @@
 ---
 ---
+// Fonts
 @sans: "Open Sans", "Myriad Pro", Verdana, sans-serif;
 @serif: Merriweather, Georgia, serif;
+
+// Colors
+@twitterblue: #00aced;
+@codebg: #efefef;
+@codeborder: darken(@codebg, 5%);
 
 body {
     font-family: @sans;
@@ -28,18 +34,32 @@ a {
 .header {
     margin-bottom: 2em;
     .site-title {
-        font-family: @sans;
+        // font-size: 120%;
+        text-transform: lowercase;
+        font-size: 90%;
         color: black;
+        strong {
+            text-transform: uppercase;
+            font-weight: 900;
+            color: darken(saturate(orange, 10%), 5%);
+        }
     }
     .twitter {
+        font-size: 90%;
+        font-weight: 700;
+        color: fade(black, 20%);
         float: right;
+        &:hover {
+            color: @twitterblue;
+        }
     }
 }
 
 .intro {
+    font-family: @serif;
     font-size: 24px;
     line-height: 120%;
-    color: #999;
+    color: darken(brown, 10%);
     font-weight: 400;
 }
 .posts {
@@ -79,5 +99,26 @@ a {
 .post-content {
     h3 {
         margin-top: 2em;
+    }
+    padding-bottom: 2em;
+
+    code {
+        background-color: @codebg;
+        border: 1px solid @codeborder;
+        padding: 0.2em 0.3em;
+        margin: 0 2px;
+        display: inline-block;
+    }
+
+    pre {
+        border-top: 4px solid @codeborder;
+        background-color: @codebg;
+        padding: 1em 0.3em;
+        margin: 0;
+        code {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
     }
 }

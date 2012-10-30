@@ -15,3 +15,14 @@ That kind of learning curve is usually described as a strength of PHP, but it en
 I like WordPress a lot, actually. And if all you need to do is get a Loop running, maybe you don't need to worry about anything else, but I think a lot of WordPress developers could become better at WordPress (or Drupal, or whatever) by learning about programming in general. This isn't about "Fuck WordPress use a real framework", this is about becoming a better community of code writers together.
 
 That's why we need a bridge. 
+
+Here's some code.
+
+{% highlight php %}
+<?php
+	echo "this is some code";
+?>
+{% endhighlight %}
+
+<p style="font-size: 30px; font-weight: 900; margin: 4em 0;">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp
+Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz</p>
