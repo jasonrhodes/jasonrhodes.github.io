@@ -5,13 +5,11 @@ title: This is not robotic
 
 <div class="home">
 <div class="center">
-    <p class="intro">I'm Jason and I develop <span class="nowrap">internet things</span>. Mostly in PHP and Javascript. I like to write about things that I've learned and pretend like <span class="nowrap">someone might be listening</span>.</p>
-    <h2>Blog Posts</h2>
+    <h2>Posts</h2>
     <ul class="posts">
         {% for post in site.posts %}
             <li><span>{{ post.date | date_to_string }}</span> / <a href="{{ post.url }}">{{ post.title }}</a> / <span class="tags">{{ post.tags | join: ",&nbsp;" }}</span></li>
         {% endfor %}
     </ul>
-
 </div>
 </div>
