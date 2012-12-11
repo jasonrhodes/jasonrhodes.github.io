@@ -12,7 +12,7 @@ layout: default
         {% assign last = words | last %}
         {% assign count = words | size | minus: 1 %}
         {% assign trunctitle = page.title | truncatewords: count, '' %}
-        <h1 class="post-title">{{ trunctitle }}&nbsp;{{ last }}&nbsp;<span class="datestamp">{{ page.date | date: "%d %b %Y" }}</span></h1>
+        <h1 class="post-title">{{ page.title }} <span class="datestamp">{{ page.date | date: "%d %b %Y" }}</span></h1>
         {% if page.subtitle %}
         <h2 class="post-subtitle">{{ page.subtitle }}</h2>
         {% endif %}
