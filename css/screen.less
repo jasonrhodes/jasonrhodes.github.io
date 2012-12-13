@@ -6,8 +6,8 @@
 
 // Colors
 @twitterblue: #00aced;
-@codebg: #efefef;
-@codeborder: darken(@codebg, 5%);
+@codebg: darken(#5091cd, 50%);
+@codeborder: lighten(@codebg, 5%);
 
 body {
     font-family: @sans;
@@ -102,9 +102,18 @@ a {
     }
     padding-bottom: 2em;
 
+    ol, ul {
+        border-left: 4px solid #efefef;
+    }
+
+    li {
+        font-size: 14px;
+        margin-bottom: 0.5em;
+    }
+
     code {
-        background-color: @codebg;
-        border: 1px solid @codeborder;
+        background-color: fade(#efefef, 50%);
+        border: 1px solid #efefef;
         padding: 0.2em 0.3em;
         margin: 0 2px;
         display: inline-block;
@@ -113,9 +122,11 @@ a {
     pre {
         border-top: 4px solid @codeborder;
         background-color: @codebg;
-        padding: 1em 0.3em;
+        padding: 1em;
         margin: 0;
         code {
+            font-size: 14px;
+            line-height: 16px;
             background-color: transparent;
             border: none;
             padding: 0;
