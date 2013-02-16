@@ -1,9 +1,11 @@
 ---
 layout: post
 title: How to write a blog post
-subtitle: Reminding myself how to use Jekyll to write my posts
+subtitle: Reminding myself how to use Jekyll to write posts
 tags: [jekyll, how to]
 ---
+
+If you decide to be _supercool_ and switch to Jekyll, too, you can modify these for your own use. Unless you blog every day, it's easy to forget.
 
 1. In your site folder ("notrobotic" for me), where you keep the project, make sure you're on the `src` branch.
 
