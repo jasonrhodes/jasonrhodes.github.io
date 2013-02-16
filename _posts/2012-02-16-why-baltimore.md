@@ -21,15 +21,15 @@ I didn't make it to CreateBaltimore for all kinds of boring reasons, but I've be
 
 > What can you do better in Bmore than anywhere else?
 
-**I don't have a good answer to that question.** I think that most of the things I want to devote my small amounts of free time to would be just as viable and interesting and successful (or not) if I lived in any other place. That's why said what I said on Twitter. I've grown to love my time in Baltimore over almost 10 years, but I live here by accident. My answer sounds like "just because" because, well, that's kind of what it is.
+**I don't have a good answer to that question.** I think that most of the things I want to devote my small amounts of free time to would be just as viable and interesting and successful (or not) if I lived in any other place. That's why I said what I said on Twitter. I've grown to love my time in Baltimore over the past almost 10 years, but I live here by accident. My answer sounds like "just because" because, well, that's kind of what it is.
 
-That's not a weak answer to me, I'm just not that interested in the question. Today, I started to understand that when people ask "Why Baltimore?", I think they're asking "Why would _others outside Baltimore_ want to come here?" or "Why would people here want to stay, instead of leaving to go somewhere else?" These are important questions to think about if you want to attract a great talent pool or a host of growing companies to your city. And because a lot of the people doing this work are awesome, they're working on directing all that excited energy back into projects that will make the city great (and more attractive, again). 
+That's not a weak or snarky answer to me, either&mdash;I'm just not that interested in the question. Today, I started to understand that when people ask "Why Baltimore?", I think they're asking "Why would _others outside Baltimore_ want to come here?" or "Why would people here want to stay, instead of leaving to go somewhere else?" These are important questions to think about if you want to attract a great talent pool or a host of growing companies to your city. And because a lot of the people doing this work are awesome, they're working on directing all that excited energy back into projects that will make the city great (and more attractive, again). 
 
 In other words: **be attractive to the world, develop for the city**.
 
-If I'm right about that, then I understand why I don't always feel excited about what those groups are trying to do, because I think I want the opposite. I want to be a part of a community that embraces **"be attractive to the city, develop for the world"**, if that makes sense.
+If I'm right about that, then I understand why I don't always feel excited about what those groups are trying to do, because I'm interested in the opposite. I want to be a part of a community that embraces **"be attractive to the city, develop for the world"**, if that makes sense.
 
-I live in Baltimore because I ended up here, and I'm sure a lot of people are here the same way. Now that I live here, I'm interested in being a part of the community of other people who happen to find themselves here, too. 
+I live in Baltimore because I ended up here, and I'm sure a lot of people ended up here the same way. Now that I live here, I'm interested in being a part of the community of other people who happen to find themselves here, too. 
 
 If I was trying to get a group of folks to play intramural baseball on Sunday afternoons, I wouldn't need to think about questions like "What kind of baseball can we play here that you can't play anywhere else?" I'm not trying to attract people from Florida or Arizona, or even to keep people here. If you live in the area and you like baseball, come play -- maybe we'll get to be friends, have a few laughs, and possibly even get better at baseball while we're at it.
 
