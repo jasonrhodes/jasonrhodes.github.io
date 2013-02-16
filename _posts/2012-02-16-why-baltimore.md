@@ -5,6 +5,8 @@ subtitle:
 tags: [baltimore, technology, community]
 ---
 
+_Herp derp disclaimer: I posted this in 2013 but dated the file wrongly as 2012, and if I change it now the URL will break, so... crap._
+
 A few hours ago, I tweeted a few times about [the CreateBaltimore event](http://createbaltimore.org/) happening today. I said:
 
 > I love Baltimore. But reading through some notes from @CreateBaltimore, I wonder if I belong in the tech community here, or understand it. [12:40 PM](https://twitter.com/rhodesjason/status/302834921783824385)
