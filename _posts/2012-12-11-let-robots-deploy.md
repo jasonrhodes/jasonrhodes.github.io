@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Let the robots deploy your PHP project
-subtitle: Robots like Capistrano and git-ftp are better at deploying than you are, so you'll have more time to complain about open-source projects on Twitter
-tags: [deployment, capistrano, git, robots]
+title: Let the robots deploy your code
+subtitle: Think about all the time you'll have to complain about open-source projects on Twitter if you just let robots deploy for you
+tags: [deployment, capistrano, git]
 ---
 
 I used to have a well-rehearsed routine that you might recognize.
