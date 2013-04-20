@@ -6,8 +6,8 @@
 
 // Colors
 @twitterblue: #00aced;
-@codebg: darken(#5091cd, 50%);
-@codeborder: lighten(@codebg, 5%);
+@codebg: transparent;
+@codeborder: #dedede;
 
 body {
     font-family: @sans;
@@ -123,6 +123,7 @@ a {
     }
 
     code {
+        font-family: Consolas,"Liberation Mono",Courier,monospace;
         background-color: fade(#efefef, 50%);
         border: 1px solid #efefef;
         padding: 0.2em 0.3em;
@@ -131,16 +132,25 @@ a {
     }
 
     pre {
-        border-top: 4px solid @codeborder;
+        border: 1px solid @codeborder;
+        border-radius: 2px;
         background-color: @codebg;
         padding: 1em;
         margin: 0;
         code {
-            font-size: 14px;
-            line-height: 16px;
-            background-color: transparent;
+            font-size: 12px;
+            line-height: 1.4;
+            background-color: @codebg;
             border: none;
             padding: 0;
         }
+    }
+
+    .gist .gist-file .gist-data {
+        font-size: 12px;
+        line-height: 1.4;
+        background-color: transparent;
+        border: none;
+        padding: 0;
     }
 }
