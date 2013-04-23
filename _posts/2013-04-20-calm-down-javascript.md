@@ -5,15 +5,17 @@ subtitle: Finally understanding throttling and debouncing
 tags: [javascript, functions]
 ---
 
-I've been writing a lot of JavaScript lately, mostly for browser interactions, animations, and single-page navigation control. As you begin to attach more callbacks to the window's onscroll event, you become aware of just how often that event fires, and how costly it becomes if your callbacks are doing anything remotely intense. 
+I've been writing a lot of JavaScript lately, mostly for browser interactions, animations, and single-page navigation controls. As you begin to attach more callbacks to the window's onscroll event, you become aware of just how jumpy that event is, and how costly it becomes if your callbacks are doing anything remotely intense.
 
-I'd heard of the concepts of throttling and debouncing before&mdash;mostly from [Underscore](http://underscorejs.org)&mdash;but a library isn't always necessary, especially for two small utility functions. Not to mention it'd be nice to fully understand what throttling and debouncing are, what the difference is, and how they work. I started by trying to understand how Underscore does it.
+I'd heard of the concepts of throttling and debouncing before&mdash;mostly from [Underscore](http://underscorejs.org)&mdash;but a library isn't always necessary, especially for two small utility functions. Not to mention it'd be nice to fully understand what throttling and debouncing are, what the difference is, and how they work. 
+
+I started by reading through the Underscore docs for the _.throttle and _.debounce functions, which basically say something like this.
 
 > **A throttled function** will only actually call the original function at most once per every `wait` milliseconds.
 > 
 > **A debounced function** will postpone its execution until after `wait` milliseconds have elapsed since the last time it was invoked.
 
-The first fifty times I read those descriptions, I couldn't tell the difference, so I started with throttling, which basically looks like this:
+The first fifty times I read those descriptions, I couldn't tell the difference, so I decided to make my own versions. I started with throttling.
 
 ```javascript
 var last;
@@ -27,31 +29,32 @@ function doStuff() {
 }
 ```
 
-If it hasn't been at least 100 milliseconds since the last time you tried to call me, I'm not going to do anything but return. This function is, in effect, _throttled_. But not without problems. 
+If it hasn't been at least 100 milliseconds since the last time you tried to call `doStuff`, it's not going to do anything but return. The function is, in effect, _throttled_. But not without problems. 
 
-1. The `last` variable is possibly global because the function needs access to it's value from the previous call, and global or out-of-scope variables suck.
-1. The actual throttling is being done inside the function itself, which really sucks. 
-1. The number of milliseconds to throttle is hard-coded into the whole mess, which also sucks. We can do better.
+1. The `last` variable is possibly global because the function needs access to its value from the previous call, and global or badly scoped variables suck.
+1. The actual throttling is being done inside the function itself, which also sucks. 
+1. The number of milliseconds to throttle is hard-coded into the whole mess, which really sucks. 
+
+We can do better.
 
 
 ## Closures to the rescue
 
-To encapsulate our 'last' variable, we can wrap the function in a closure. If you don't know what a closure does, think of it as a function that returns another function. Anything defined in the scope of the outside function is available to the inside function forever, without ever colliding with other variables outside the outer function. Perfect for our 'last' scenario.
+To encapsulate our 'last' variable in the right scope, we can wrap the function in a closure. If you don't know what a closure does, think of it as a function that returns another function. Anything defined in the scope of the outer function is available to the inner function forever, without ever colliding with other variables outside the outer function. Perfect for what we need here.
 
 ```javascript
 var doStuff = (function () {
-    // Scope: outside function
+    // This is the scope of the 'outer function'
     var last;
     return function () {
-        // This is the inside function that's assigned to doStuff
-        // It has access to 'last' forever
+        // This is the scope of the 'inner function', with access to 'last' forever
         
-        // do stuff
+        // do cool stuff
     };
 })();
 ```
 
-This fixes the scope problem, but to address the others, we need a function that takes your function and turns it into a newly throttled function. Function!
+This fixes the scope problem, but we still need to separate out the throttling code and make it flexible. For that, we need a function that takes a function and turns it into a newly throttled function. (Function!)
 
 ```javascript
 var throttle = function (ms, func) {
@@ -64,18 +67,30 @@ var throttle = function (ms, func) {
         func();
         last = now;
     }
-}
+};
 
-var doStuff = throttle(100, function () {
+var doStuff = throttle(500, function () {
     // do stuff 
 });
+
+doStuff(); // will run, and set last to now
+doStuff(); // now - last will be less than 500 ms, so nothing happens (last stays unchanged)
+
+// 1 second later
+doStuff(); // last is more than 500 ms ago, function will run
 ```
 
-Success! Now we've moved the throttling code outside of the doStuff definition, and we've allowed the ms to be adjusted per throttle. But what if we wanted to pass arguments to `doStuff()`? You could define the parameters in the anonymous function that you pass to `throttle`, but then you'd have to explicitly pass them in what's supposed to be a general throttle function&mdash;not good. We need to use `function.apply()`.
+Success! Now we've moved the throttling code outside of the doStuff definition, and we've allowed the ms to be adjusted per throttle. But what if you wanted to pass arguments to `doStuff()`? You could define the parameters in the anonymous function that you pass to `throttle`, but then you'd have to explicitly pass them in what's supposed to be a general throttle function&mdash;not good. We need to use `function.apply()`.
 
 ## Function.apply() yourself
 
-The `.apply()` method makes you 3x smarter every time you use it, and it's pretty simple, too. Inside any function, `this` can refer to a lot of different things. Often you want more control over what `this` will be (it's _context_), so when you use `function.apply()` the first argument is the context, or value of `this`, for that function while it runs.
+> People see `fn.apply(var, args)` and go `head.asplode()`.
+>
+> &mdash;[@jcarouth](https://twitter.com/jcarouth) 
+
+Fn.apply (and its sibling, 'fn.call') has a reputation for being difficult because it involves the confusing value of 'this', but it's not that complicated, and it's a really powerful and useful tool to understand. 
+
+[MDN has a great explanation](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/apply), but the short version is this: Inside any function `fn`, if you want control over what the magic `this` value will be, use `fn.apply`. If you call `myFunction.apply(a, b)`, `a` will be _the context_, or value of `this`, for myFunction while it runs.
 
 ```javascript
 // Pass in money and it returns the change
@@ -109,10 +124,26 @@ var sweetRide = new Car('Honda', 'Civic', 18999);
 sweetRide.purchase(3000);
 // => TypeError: Property 'purchase' of object [object Object] is not a function
 
-purchase.apply(sweetRide, 3000);
+purchase.apply(sweetRide, [3000]);
 // => -15999 (somebody needs a loan)
 ```
-In our example, we're not worried about setting the context, but the second parameter passed to .apply() is an array of arguments. JavaScript magically takes the array you pass to apply() and drops it into the called function, one parameter at a time. This trick lets us take the javascript 'arguments' array (an array of all arguments passed to the currently-scoped function) and pass it to the function that was meant to be throttled.
+
+The second argument passed to apply should be an array of arguments that JS will magically pass to myFunction, one argument at a time.
+
+```javascript
+function myFunction(a, b, c) {
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
+var argList = ["first", "second", "third"];
+myFunction.apply({}, argList);
+// => "first"
+// => "second"
+// => "third"
+```
+
+In our example, we're not worried about setting the context, but the second argument in `fn.apply()` lets us take the javascript 'arguments' array (an array of all arguments passed to the currently-scoped function) and pass it to the function that was meant to be throttled.
 
 ```javascript
 var throttle = function (ms, func) {
@@ -122,7 +153,10 @@ var throttle = function (ms, func) {
         if (now - last < ms) {
             return;
         }  
-        func.apply(this, arguments);
+
+        // whatever was passed to the throttled function is passed on to your function
+        func.apply(this, arguments); 
+
         last = now;
     }
 }
@@ -133,7 +167,7 @@ var doStuff = throttle(100, function (a, b) {
 });
 ```
 
-Now a throttled function can accept any number of arguments because they'll all be passed via the javascript `arguments` array. In 10 lines of code, you have a simple throttling factory, which comes in handy when you need to do a lot of complicated DOM stuff, for example.
+Now a throttled function can accept any number of arguments because they'll all be passed via the javascript `arguments` array. In ~10 lines of code, you have a simple throttling factory, which comes in handy when you need to do a lot of complicated DOM stuff, for example.
 
 ```javascript
 var complicatedDOMStuff = throttle(250, function (a, b) {
@@ -152,15 +186,15 @@ $(window).on('scroll', function (e) {
 
 Throttling is pretty easy to understand, but debouncing is arguably much more useful. The word 'debounce' comes from electrical engineering.
 
-> Bouncing is the tendency of any two metal contacts in an electronic device to generate multiple signals as the contacts close or open; debouncing is any kind of hardware device or software that ensures that only a single signal will be acted upon for a single opening or closing of a contact. ([Source](http://whatis.techtarget.com/definition/debouncing))
+> Bouncing is the tendency of any two metal contacts in an electronic device to generate multiple signals as the contacts close or open; debouncing is any kind of hardware device or software that ensures that only a single signal will be acted upon for a single opening or closing of a contact. ([&mdash;source](http://whatis.techtarget.com/definition/debouncing))
 
-You push the "c" key on your keyboard and you might make physical contact 3 or 4 times, but if it output "cccc" it would be really hard to get anything done. The signal debounces your keypress by only accepting one contact in a given number of milliseconds. 
+For example, when you push the "c" key on your keyboard, you might make physical contact 3 or 4 times, but if it output "cccc" it would be really hard to get anything done. The signal debounces your keypress by only accepting one contact in a given number of milliseconds. 
 
-You might ask, "But wouldn't throttling solve this problem?" Good question! And uh, yeah, it would, kind of. But throttling and debouncing are solutions to two slightly different problems. 
+You might ask, "But wouldn't throttling solve this problem?" Good question! And well, yeah, it would, kind of. But throttling and debouncing are solutions to two slightly different problems. 
 
 With **throttling**, if any two events are less than 'n' time apart, the later event should fail _if the earlier one was successful_.
 
-With **debouncing**, if any two events are less than 'n' time apart, only one event should fire, no matter how many are fired in a row.
+With **debouncing**, if any two events are less than 'n' time apart, only one event should fire, no matter how many are fired in a row. (Sometimes the first of the group, sometimes the last.)
 
 For example, if letters represent attempts to fire an event and a dash represents a unit of time
 
@@ -185,7 +219,7 @@ However, an event _debounced_ by 4 dashes results in 'd'*:
 * d? c is less than 4 dashes ago, cancel c, wait for 4 dashes before firing d
 * 4 dashes later, d fires
 
-\* <small>_Debouncing could theoretically result in just 'a', depending on the debouncing method. For my examples, it will always be the last event that ultimately fires because I find that to be a lot more useful in the browser._</small>
+<small>\* _Debouncing could theoretically result in just 'a', depending on the debouncing method. For my examples, it will always be the last event that ultimately fires because I find that to be a lot more useful in the browser._</small>
 
 Debouncing is perfect for listening to an event and only performing a task once a user has _stopped_ or _paused_&mdash;stopped scrolling to perform an animation, stopped typing to perform an AJAX request, or paused typing to perform validation, etc. 
 
@@ -235,6 +269,6 @@ Here's a GitHub gist of the two completed functions if you want to play with the
 
 {% gist 5407519 %}
 
-If you want to find slightly more robust versions of these functions, check out [Underscore.js](http://underscorejs.org) or [Ben Alman's jQuery throttle/debounce](http://benalman.com/projects/jquery-throttle-debounce-plugin/), which is *not* jQuery-dependent despite its name.
+If you want to find slightly more robust versions of these functions, check out [Underscore.js](http://underscorejs.org) or [Ben Alman's jQuery throttle/debounce](http://benalman.com/projects/jquery-throttle-debounce-plugin/) (which is *not* jQuery-dependent, despite its name).
 
-Happy debouncing.
+Hope that helps you calm down your JavaScript. Happy debouncing.
