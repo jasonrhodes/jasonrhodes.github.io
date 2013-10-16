@@ -7,3 +7,6 @@ lsi: false
 
 title: jasonrhodes.github.com
 twitter: rhodesjason
+
+port: 3000
+editor: subl
