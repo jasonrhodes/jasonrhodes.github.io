@@ -1,8 +1,0 @@
-li.teaser
-  small
-    time= p.date
-  h3.teaser-title
-    i(class="icon icon-" + p.collection)
-    a(href= "/" + p.path)= p.title
-  if (!skipSummary)
-    div.teaser-summary= p.summary
