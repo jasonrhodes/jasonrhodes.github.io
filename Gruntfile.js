@@ -94,7 +94,7 @@ grunt.initConfig({
     server: {
       options: {
         port: 4000,
-        host: 'localhost',
+        hostname: 'localhost',
         livereload: true,
         open: true
       }
