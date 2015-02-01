@@ -2,7 +2,7 @@
   "scripts": {
     "start": "grunt",
     "build": "grunt build",
-    "publish": "rm -rf drafts && git add --all && git add -u && git commit -m 'Publishing the site' && git push origin master"  
+    "publish": "git add --all && git add -u && git commit -m 'Publishing the site' && git push origin master"  
   },
   "devDependencies": {
     "grunt": "^0.4.5",
