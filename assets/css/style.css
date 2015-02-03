@@ -1,8 +1,8 @@
 body {
   font-family: 'Source Sans Pro', Helvetica, sans-serif;
   font-size: 20px;
-  max-width: 35em;
-  margin: 0 auto 0 12%;
+  max-width: 95%;
+  margin: 0 auto;
 }
 
 header {
@@ -32,7 +32,7 @@ h1, h2, h3, h4, h5, h6 {
 .post-nav {
   font-size: 0.75em;
   font-weight: bold;
-  margin: 4em 0;
+  margin: 1em 0;
   padding: 0.7em 0;
   border-style: solid;
   border-color: #efefef;
@@ -49,7 +49,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .post-nav .next {
-  float: right;
+  display: block;
+  margin-top: 1em;
 }
 
 .byline {
@@ -57,8 +58,13 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
 
+ul {
+  padding-left: 1.5em;
+}
+
 li {
   margin-bottom: 0.5em;
+  font-size: 0.85em;
 }
 
 blockquote {
@@ -66,12 +72,17 @@ blockquote {
   color: #444;
   padding-left: 1em;
   border-left: solid 6px #efefef;
-  margin-left: 2em;
+  margin-left: 0;
 }
 
 pre {
   background-color: #efefef;
   padding: 1em;
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
 code {
@@ -91,6 +102,36 @@ pre code {
   font-weight: normal;
   color: #000;
   line-height: 1.4em;
+}
+
+@media all and (min-width: 50em) {
+  body {
+    max-width: 35em;
+    margin: 0 auto 0 12%;
+  }
+
+  .post-nav {
+    font-size: 0.75em;
+    margin: 3em 0;
+  }
+
+  .post-nav .prev {
+    float: left;
+  }
+
+  .post-nav .next {
+    display: inline;
+    margin: 0;
+    float: right;
+  }
+
+  ul {
+    padding-left: 2em;
+  }
+
+  blockquote {
+    margin-left: 2em;
+  }
 }
 
 /* Highlight JS Theme, "GitHub" */
