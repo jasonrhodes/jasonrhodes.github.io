@@ -3,3 +3,14 @@ extends layout
 block body
   div.container.post-container
     != content
+
+  div.post-nav
+    if (prev)
+      a.prev(href=prev.url)= 'Prev: ' + prev.title
+    else
+      a.prev(disabled) Prev
+    span / 
+    if (next)
+      a.next(href=next.url)= 'Next: ' + next.title
+    else
+      a.next(disabled) Next

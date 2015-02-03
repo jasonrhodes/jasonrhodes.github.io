@@ -1,0 +1,51 @@
+body {
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+  font-size: 20px;
+  max-width: 30em;
+  margin: 0 auto 0 12%;
+}
+
+header {
+  font-size: 0.75em;
+  padding: 0.75em 0;
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+}
+
+.logo {
+  font-weight: bold;
+}
+
+.nav {
+  float: right;
+  text-align: right;
+}
+
+.post-container {
+  font-family: 'Lora', Georgia, serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+}
+
+.post-nav {
+  font-size: 0.7em;
+  font-weight: bold;
+  margin: 4em 0;
+  padding: 0.5em 0;
+  border-style: solid;
+  border-color: #d2d2d2;
+  border-width: 1px 0 0;
+}
+
+.post-nav a[disabled] {
+  color: #999;
+}
+
+.post-nav .prev {
+  margin-right: 1em;
+}
+
+.post-nav .next {
+  margin-left: 1em;
+}

@@ -11,15 +11,30 @@ html.no-js
     meta(name='viewport', content='width=device-width, initial-scale=1')
     
     block styles
-      link(rel='stylesheet', href='/assets/style.css')
+      link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,900,400italic')
+      link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic')
+      link(rel='stylesheet', href='/assets/css/style.css')
 
   body
 
+    block header
+      header
+        span.logo rhodesjasondotcom
+        span.nav
+          a(href='/')= 'home'
+          sep | 
+          a(href='/about.html')= 'about'
+          sep | 
+          a(href='/blog')= 'blog'
+
     block body
-      p this is just a rhodesjason dot com
+      p this is just a rhodesjasondotcom
+
+    script#postList(type='text/data')
+        != JSON.stringify(posts || [])
 
     block scripts
-      script(src='/assets/site.js')
+      script(src='/assets/js/site.js')
 
     //- Google Analytics: change UA-XXXXX-X to be your site's ID.
     //-
