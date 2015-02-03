@@ -64,6 +64,9 @@ ul {
 
 li {
   margin-bottom: 0.5em;
+}
+
+.post-container li {
   font-size: 0.85em;
 }
 
@@ -73,6 +76,11 @@ blockquote {
   padding-left: 1em;
   border-left: solid 6px #efefef;
   margin-left: 0;
+}
+
+blockquote blockquote {
+  padding-left: 0;
+  border: none;
 }
 
 pre {
@@ -106,6 +114,7 @@ pre code {
 
 @media all and (min-width: 50em) {
   body {
+    position: relative;
     max-width: 35em;
     margin: 0 auto 0 12%;
   }
@@ -131,6 +140,19 @@ pre code {
 
   blockquote {
     margin-left: 2em;
+  }
+
+  blockquote blockquote {
+    margin-left: 0;
+  }
+
+}
+
+@media all and (min-width: 70em) {
+  blockquote blockquote {
+    width: 25%;
+    position: absolute;
+    right: -40%;
   }
 }
 

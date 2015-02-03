@@ -20,7 +20,9 @@ I didn’t make it to CreateBaltimore for all kinds of boring reasons, but I’v
 
 **I don’t have a good answer to that question.** I think that most of the things I want to devote my small amounts of free time to would be just as viable and interesting and successful (or not) if I lived in any other place. That’s why I said what I said on Twitter. I’ve grown to love my time in Baltimore over the past almost 10 years, but I live here by accident. My answer sounds like “just because” because, well, that’s kind of what it is.
 
-That’s not a weak or snarky answer to me, either—I’m just not that interested in the question. Today, I started to understand that when people ask “Why Baltimore?”, I think they’re asking “Why would _others outside Baltimore_ want to come here?” or “Why would people here want to stay, instead of leaving to go somewhere else?” These are important questions to think about if you want to attract a great talent pool or a host of growing companies to your city. And because a lot of the people doing this work are awesome, they’re working on directing all that excited energy back into projects that will make the city great (and more attractive, again). 
+That’s not a weak or snarky answer to me, either—I’m just not that interested in the question. Today, I started to understand that when people ask “Why Baltimore?”, I think they’re asking “Why would _others outside Baltimore_ want to come here?” or “Why would people here want to stay, instead of leaving to go somewhere else?” These are important questions to think about if you want to attract a great talent pool or a host of growing companies to your city. And because a lot of the people doing this work are awesome, they’re working on directing all that excited energy back into projects that will make the city great (and more attractive, again).
+
+> > Be attractive to outsiders, develop for locals.
 
 In other words: **be attractive to outsiders, develop for locals**. Market to the world, bring good people here, make things for Baltimore.
 
