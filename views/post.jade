@@ -1,16 +1,21 @@
 extends layout
 
 block body
+  div.post-nav.top
+    if (prev)
+      a.prev(href=prev.url)= 'Prev: ' + prev.title
+
+    if (next)
+      a.next(href=next.url)= 'Next: ' + next.title
+
+  h1= title
+  p.byline= 'Posted by Jason on ' + bylineDate
   div.container.post-container
     != content
 
-  div.post-nav
+  div.post-nav.bottom
     if (prev)
       a.prev(href=prev.url)= 'Prev: ' + prev.title
-    else
-      a.prev(disabled) Prev
-    span / 
+    
     if (next)
       a.next(href=next.url)= 'Next: ' + next.title
-    else
-      a.next(disabled) Next

@@ -13,3 +13,5 @@ block body
         a(href=post.url)= post.title
         span= ' '
         small.date= '[' + post.prettyDate + ']'
+
+    - posts.reverse()

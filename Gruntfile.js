@@ -41,6 +41,7 @@ function getProcessor(defaultTemplate) {
     var template = parsed.template || defaultTemplate;
     
     parsed.posts = postList;
+    parsed.bylineDate = moment(parsed.date).format('MMMM Do, YYYY');
     var current = _.findIndex(postList, { title: parsed.title });
     parsed.prev = (current - 1) > -1 ? postList[current - 1] : false;
     parsed.next = (current + 1) < postList.length ? postList[current + 1] : false;
@@ -94,7 +95,7 @@ grunt.initConfig({
   },
   watch: {
     posts: {
-      files: 'src/posts/**/*.md',
+      files: 'src/blog/**/*.md',
       tasks: ['clean:posts', 'copy:posts'],
       options: {
         livereload: true
