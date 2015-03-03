@@ -3,6 +3,8 @@ template: home
 ---
 Hi, I'm Jason, and this is my HTML web site.
 
+![Jason profile](/assets/images/rhodesjason-01-glitched.square.256.png)
+
 I used to play with HyperCard a lot during middle school classes and now I write java scripts during basically all the different times. Some things a person could know:
 
 * I live in Baltimore, MD
