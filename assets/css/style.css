@@ -173,6 +173,30 @@ pre code {
   line-height: 1.4em;
 }
 
+.comments-intro {
+  text-align: center;
+  font-size: 85%;
+  line-height: 1.5;
+  padding: 1em;
+  margin: 2em 0;
+  background-color: #efefef;
+}
+
+.comments-intro .warning-icon {
+  font-size: 200%;
+  display: inline-block;
+  padding-right: 0.25em;
+  position: relative;
+  font-weight: bold;
+  /*text-shadow: 0 0 5px pink;*/
+  top: 4px;
+}
+
+.comments-intro em, .comments-intro .shrug {
+  position: relative;
+  top: -4px;
+}
+
 @media all and (min-width: 50em) {
   body {
     position: relative;
