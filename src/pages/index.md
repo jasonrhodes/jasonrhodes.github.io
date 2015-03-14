@@ -13,3 +13,4 @@ I used to play with HyperCard a lot during middle school classes and now I write
 * I love contributing to open source as [github/jasonrhodes](http://github.com/jasonrhodes)
 * I organize [Baltimore NodeSchool](http://nodeschool.io/baltimore)
 * I make educational video series for [tutsplus.com](http://tutsplus.com/authors/jason-rhodes)
+* I've given [some talks](https://speakerdeck.com/rhodesjason)
