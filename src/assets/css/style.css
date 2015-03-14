@@ -3,7 +3,30 @@ body {
   font-size: 20px;
   max-width: 95%;
   margin: 0 auto;
+  padding-bottom: 5em;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #E33B5A;
+}
+
+a:active {
+  color: #2D77CC;
+}
+
+ul {
+  padding-left: 1.5em;
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
 
 header {
   font-size: 0.75em;
@@ -12,12 +35,24 @@ header {
 }
 
 .logo {
+  display: inline-block;
+  line-height: 31px;
+  padding-left: 35px;
+  /*color: #E33B5A;*/
+  font-weight: normal;
   font-weight: bold;
+  background: url("../images/hypercard.png") left 2px no-repeat;
 }
 
 .nav {
+  display: inline-block;
+  line-height: 31px;
   float: right;
   text-align: right;
+}
+
+.nav a {
+  text-decoration: none;
 }
 
 .disabled-post-container {
@@ -31,13 +66,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .post-nav {
   font-size: 0.75em;
-  font-weight: bold;
   margin: 1em 0;
   padding: 0.7em 0;
   border-style: solid;
   border-color: #efefef;
-  border-width: 4px 0;
+  border-width: 2px 0;
   overflow: hidden;
+}
+
+.post-nav a {
+  text-decoration: none;
 }
 
 .post-nav a[disabled] {
@@ -53,34 +91,57 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 1em;
 }
 
+.post-title {
+  line-height: 110%;
+  width: 90%;
+  margin: 0.5em 0 0;
+}
+
 .byline {
   font-size: 0.75em;
-  font-weight: bold;
+  font-weight: normal;
+  margin: 0.5em 0 2em;
 }
 
-ul {
-  padding-left: 1.5em;
-}
-
-li {
-  margin-bottom: 0.5em;
+.post-container a, .home-container a {
+  border-bottom: 1px solid #ccc;
 }
 
 .post-container li {
   font-size: 0.85em;
 }
 
+.post-container hr {
+  text-align: center;
+  margin: 2em 0;
+  color: transparent;
+  border: none;
+}
+
+.post-container hr:after {
+  content: '★ ★ ★ ★ ★';
+  font-size: 20px;
+  letter-spacing: 12px;
+  color: #E33B5A;
+}
+
 blockquote {
   font-size: 0.85em;
   color: #444;
   padding-left: 1em;
-  border-left: solid 6px #efefef;
+  border-left: solid 6px #eed;
   margin-left: 0;
 }
 
 blockquote blockquote {
+  margin-left: 0;
   padding-left: 0;
-  border: none;
+  border-left: solid 6px #fff;
+  position: relative;
+  background-color: #fff;
+  left: -2em;
+  font-style: italic;
+  width: 100%;
 }
 
 pre {
@@ -121,7 +182,7 @@ pre code {
 
   .post-nav {
     font-size: 0.75em;
-    margin: 3em 0;
+    margin: 1.5em 0;
   }
 
   .post-nav .prev {
@@ -139,11 +200,11 @@ pre code {
   }
 
   blockquote {
-    margin-left: 2em;
+    margin-left: 1em;
   }
 
   blockquote blockquote {
-    margin-left: 0;
+    
   }
 
 }
@@ -152,7 +213,12 @@ pre code {
   blockquote blockquote {
     width: 25%;
     position: absolute;
+    left: auto;
     right: -40%;
+  }
+  blockquote blockquote p {
+    position: relative;
+    top: -10em;
   }
 }
 

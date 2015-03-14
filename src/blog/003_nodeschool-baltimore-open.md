@@ -1,5 +1,5 @@
 ---
-title: NodeSchool Baltimore is Open
+title: Baltimore NodeSchool is open
 date: 2014-03-31
 ---
 tl;dr: I have a ton of people to thank for how awesome this event has come together, and I’m super excited for it. If you just want to learn about the event itself, visit [our website](http://baltimorenodeschool.github.io) or go right to [the registration page](https://ti.to/baltimorenodeschool/nodeschool).

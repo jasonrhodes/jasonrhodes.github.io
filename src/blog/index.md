@@ -1,4 +1,4 @@
 ---
 template: blog-home
 ---
-You have to have something or it blows up.
+A blog is a place where the posts are.

@@ -7,17 +7,17 @@
     <meta name="description" content="A site for a rhodesjason">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="/assets/images/hypercard.png">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,900,400italic">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700,400italic">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic">
     <link rel="stylesheet" href="/assets/css/style.css">
   </head>
   <body>
     <header><span class="logo">rhodesjasondotcom</span><span class="nav"><a href="/">home</a>
         <sep>| </sep><a href="/blog">blog</a></span></header>
-    <div class="post-nav top"><a href="/blog/001_why-baltimore.html" class="prev">Prev: Why Baltimore?</a><a href="/blog/003_nodeschool-baltimore-open.html" class="next">Next: NodeSchool Baltimore is Open</a>
+    <div class="post-nav top"><a href="/blog/001_why-baltimore.html" class="prev">Prev: Why Baltimore?</a><a href="/blog/003_nodeschool-baltimore-open.html" class="next">Next: Baltimore NodeSchool is open</a>
     </div>
-    <h1>Calm down, JavaScript</h1>
-    <p class="byline">Posted by Jason on April 19th, 2013</p>
+    <h1 class="post-title">Calm down, JavaScript</h1>
+    <p class="byline">Posted by Jason Rhodes on April 19th, 2013</p>
     <div class="container post-container"><p>I’ve been writing a lot of JavaScript lately, mostly for browser interactions, animations, and single-page navigation controls. As you begin to attach more callbacks to the window’s onscroll event, you become aware of just how jumpy that event is, and how costly it becomes if your callbacks are doing anything remotely intense.</p>
 <p>I’d heard of the concepts of throttling and debouncing before—mostly from <a href="http://underscorejs.org">Underscore</a>—but a library isn’t always necessary, especially for two small utility functions. Not to mention it’d be nice to fully understand what throttling and debouncing are, what the difference is, and how they work. </p>
 <p>I started by reading through the Underscore docs for the _.throttle and _.debounce functions, which basically say something like this.</p>
@@ -233,9 +233,28 @@ $(input).on(<span class="hljs-string">'keypress'</span>, makeXHRRequest);
 <p>If you want to find slightly more robust versions of these functions, check out <a href="http://underscorejs.org">Underscore.js</a> or <a href="http://benalman.com/projects/jquery-throttle-debounce-plugin/">Ben Alman’s jQuery throttle/debounce</a> (which is <em>not</em> jQuery-dependent, despite its name).</p>
 
     </div>
-    <div class="post-nav bottom"><a href="/blog/001_why-baltimore.html" class="prev">Prev: Why Baltimore?</a><a href="/blog/003_nodeschool-baltimore-open.html" class="next">Next: NodeSchool Baltimore is Open</a>
+    <div class="post-nav bottom"><a href="/blog/001_why-baltimore.html" class="prev">Prev: Why Baltimore?</a><a href="/blog/003_nodeschool-baltimore-open.html" class="next">Next: Baltimore NodeSchool is open</a>
     </div>
-    <script id="postList" type="text/data">[{"title":"Why Baltimore?","date":"2013-12-10T00:00:00.000Z","prettyDate":"2013-12-09","url":"/blog/001_why-baltimore.html"},{"title":"Calm down, JavaScript","date":"2013-04-20T00:00:00.000Z","prettyDate":"2013-04-19","url":"/blog/002_calm-down-javascript.html"},{"title":"NodeSchool Baltimore is Open","date":"2014-03-31T00:00:00.000Z","prettyDate":"2014-03-30","url":"/blog/003_nodeschool-baltimore-open.html"}]
+    <script>
+      var disqus_title = 'Calm down, JavaScript'
+      
+    </script>
+    <div class="comments">
+      <p class="comments-intro"><em>Warning: Comments ahead. I'll delete comments that I think are shitty and will close comments whenever I think it's getting stupid. Thanks!</em></p><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES * * */
+  var disqus_shortname = 'rhodesjason';
+  
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+    <script id="postList" type="text/data">[{"title":"Why Baltimore?","date":"2013-12-10T00:00:00.000Z","prettyDate":"2013-12-09","url":"/blog/001_why-baltimore.html"},{"title":"Calm down, JavaScript","date":"2013-04-20T00:00:00.000Z","prettyDate":"2013-04-19","url":"/blog/002_calm-down-javascript.html"},{"title":"Baltimore NodeSchool is open","date":"2014-03-31T00:00:00.000Z","prettyDate":"2014-03-30","url":"/blog/003_nodeschool-baltimore-open.html"},{"title":"CSS whyyyyyy","date":"2014-12-30T00:00:00.000Z","prettyDate":"2014-12-29","url":"/blog/004_canteven-style-sheets.html"},{"title":"Lightly, lightly","date":"2015-01-09T00:00:00.000Z","prettyDate":"2015-01-08","url":"/blog/005_lightly-lightly.html"},{"title":"indie.bs","date":"2015-01-13T00:00:00.000Z","prettyDate":"2015-01-12","url":"/blog/006_indie-bs.html"},{"title":"Soliciting thoughts on our JavaScript community","date":"2015-03-14T00:00:00.000Z","prettyDate":"2015-03-13","url":"/blog/007_soliciting-thoughts-on-our-js-community.html"}]
     </script>
     <script src="/assets/js/site.js"></script>
   </body>

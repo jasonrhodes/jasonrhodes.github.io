@@ -8,8 +8,8 @@ block body
     if (next)
       a.next(href=next.url)= 'Next: ' + next.title
 
-  h1= title
-  p.byline= 'Posted by Jason on ' + bylineDate
+  h1.post-title= title
+  p.byline= 'Posted by Jason Rhodes on ' + bylineDate
   div.container.post-container
     != content
 
@@ -19,3 +19,11 @@ block body
     
     if (next)
       a.next(href=next.url)= 'Next: ' + next.title
+
+  script.
+    var disqus_title = '#{title}'
+
+  div.comments
+    p.comments-intro
+      em Warning: Comments ahead. I'll delete comments that I think are shitty and will close comments whenever I think it's getting stupid. Thanks!
+    include includes/disqus.html
