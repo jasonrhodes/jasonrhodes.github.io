@@ -12,5 +12,3 @@ Some things a person could know:
 * I organize [Baltimore NodeSchool](http://nodeschool.io/baltimore)
 * I make educational video series for [tutsplus.com](http://tutsplus.com/authors/jason-rhodes)
 * I've given [some talks with slides](https://speakerdeck.com/rhodesjason)
-
-_Did you know "series" is the plural of "series"?_
