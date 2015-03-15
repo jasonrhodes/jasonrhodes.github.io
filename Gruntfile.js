@@ -5,6 +5,7 @@ var fs        = require('fs');
 var Pagemaki  = require('pagemaki');
 var _         = require('lodash');
 var moment    = require('moment');
+var striptags = require('striptags');
 
 var maker = new Pagemaki();
 
@@ -15,13 +16,18 @@ var templates = {
   'blog-home': jade.compileFile('./views/blog-home.jade', { pretty: true })
 };
 
+var firstGraphRegex = new RegExp('<p>(.*)<\/p>');
+
 var postList = fs.readdirSync('src/blog').filter(function (post) {
   return post !== 'index.md';
 }).map(function (post) { 
   var data = maker.parse(fs.readFileSync('src/blog/' + post).toString());
-  data.prettyDate = moment(data.date).format('YYYY-MM-DD');
-  delete data.content;
+  data.machineDate = moment(data.date).format('YYYY-MM-DD');
+  data.prettyDate = moment(data.date).format('MMMM Do YYYY');
+  data.teaser = data.teaser || '<p>' + striptags(firstGraphRegex.exec(data.content)[1]) + '</p>';
   data.url = '/blog/' + post.replace(/md$/, 'html');
+
+  delete data.content;
   return data;
 });
 

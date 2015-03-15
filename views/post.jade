@@ -23,11 +23,12 @@ block body
   script.
     var disqus_title = '#{title}'
 
-  div.comments
+  div.container.comments
     p.comments-intro
       span.warning-icon ☣
       em
         strong Warning: 
-        span Comments ahead. Be nice or else. 
+        span= 'Comments ahead. '
+        span(style='white-space: nowrap;') Be nice or else.
     
     include includes/disqus.html

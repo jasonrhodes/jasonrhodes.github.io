@@ -1,0 +1,7 @@
+ul.post-list
+  for post in posts
+    li
+      a(href=post.url)
+        small.post-date= post.prettyDate
+        h3= post.title            
+        div.post-teaser!= post.teaser

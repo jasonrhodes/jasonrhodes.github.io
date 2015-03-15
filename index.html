@@ -12,32 +12,48 @@
     <link rel="stylesheet" href="/assets/css/style.css">
   </head>
   <body>
-    <header><span class="logo">rhodesjasondotcom</span><span class="nav"><a href="/">home</a>
-        <sep>| </sep><a href="/blog">blog</a></span></header>
-    <div class="container home-container"><p>Hi, I&#39;m Jason, and this is my HTML web site.</p>
-<p><img src="/assets/images/rhodesjason-01-glitched.square.256.png" alt="Jason profile"></p>
-<p>I used to play with HyperCard a lot during middle school classes and now I write java scripts during basically all the different times. Some things a person could know:</p>
+    <header><a href="/" class="logo">rhodesjasondotcom</a><span class="nav"><a href="/">home</a>
+        <sep> | </sep><a href="/blog">blog</a>
+        <sep> | </sep><a href="http://speakerdeck.com/rhodesjason">slides</a></span></header>
+    <div class="container home-container">
+      <div class="home-intro"><img src="/assets/images/rhodesjason-01-glitched.square.256.png" alt="Jason profile shot" class="home-intro-pic">
+        <div class="home-intro-text">
+          <marquee scrollamount="15">Hi, I'm Jason, and this is my HTML web site. ✌ ⚾ 🚀 ⌚ 🃏</marquee>
+        </div>
+      </div>
+      <div class="home-about col half">
+        <h3>About me</h3><p>I used to play with HyperCard a lot during middle school classes and now I write java scripts during basically all the different times.</p>
+<p>Some things a person could know:</p>
 <ul>
 <li>I live in Baltimore, MD</li>
 <li>I work for Message Systems, building the <a href="http://sparkpost.com">SparkPost</a> app</li>
 <li>I write words on twitter as <a href="http://twitter.com/rhodesjason">@rhodesjason</a></li>
-<li>I love contributing to open source as <a href="http://github.com/jasonrhodes">github/jasonrhodes</a></li>
+<li>I do open sourcey things at <a href="http://github.com/jasonrhodes">github/jasonrhodes</a></li>
 <li>I organize <a href="http://nodeschool.io/baltimore">Baltimore NodeSchool</a></li>
 <li>I make educational video series for <a href="http://tutsplus.com/authors/jason-rhodes">tutsplus.com</a></li>
-<li>I&#39;ve given <a href="https://speakerdeck.com/rhodesjason">some talks</a></li>
+<li>I&#39;ve given <a href="https://speakerdeck.com/rhodesjason">some talks with slides</a></li>
 </ul>
+<p><em>Did you know &quot;series&quot; is the plural of &quot;series&quot;?</em></p>
 
-      <h3> <span>Recent</span><span style="position:relative; top:-3px;">* </span><span>blog posts</span></h3>
-      <ul>
-        <li><a href="/blog/007_soliciting-thoughts-on-our-js-community.html">Soliciting thoughts on our JavaScript community</a><small class="date"> / 2015-03-13</small></li>
-        <li><a href="/blog/006_indie-bs.html">indie.bs</a><small class="date"> / 2015-01-12</small></li>
-        <li><a href="/blog/005_lightly-lightly.html">Lightly, lightly</a><small class="date"> / 2015-01-08</small></li>
-        <li><a href="/blog/004_canteven-style-sheets.html">CSS whyyyyyy</a><small class="date"> / 2014-12-29</small></li>
-        <li><a href="/blog/003_nodeschool-baltimore-open.html">Baltimore NodeSchool is open</a><small class="date"> / 2014-03-30</small></li>
-      </ul>
-      <p> <em>*<small>Recency is relative, ok?</small></em></p>
+      </div>
+      <div class="home-recent-posts col half end">
+        <h3> <span>Recent</span><span style="position:relative; top:-3px;">* </span><span>blog posts</span></h3>
+        <ul class="post-list">
+          <li><a href="/blog/007_RFT-baltimore-js-community.html"><small class="post-date">March 13th 2015</small>
+              <h3>Request for thoughts // the Baltimore JavaScript community</h3>
+              <div class="post-teaser"><p>We&#39;re currently planning our fourth NodeSchool event here in Baltimore. And when I say &quot;we&quot;, I mean I. I&#39;m doing it. It turns out that delegation and community organization are hard work. Who knew?</p></div></a></li>
+          <li><a href="/blog/006_indie-bs.html"><small class="post-date">January 12th 2015</small>
+              <h3>indie.bs</h3>
+              <div class="post-teaser"><p>Have you been following along with the indie project? A little over a year ago, when Aral Balkan (@aral) launched his project to empower humans and topple the closed silos of the internet world?</p></div></a></li>
+          <li><a href="/blog/005_lightly-lightly.html"><small class="post-date">January 8th 2015</small>
+              <h3>Lightly, lightly</h3>
+              <div class="post-teaser"><p>A friend sent me a quote yesterday and I keep going back to it. </p></div></a></li>
+        </ul>
+        <p><a href="/blog">Read all posts</a></p>
+        <p> <em>*<small>Recency is relative, ok?</small></em></p>
+      </div>
     </div>
-    <script id="postList" type="text/data">[{"title":"Baltimore NodeSchool is open","date":"2014-03-31T00:00:00.000Z","prettyDate":"2014-03-30","url":"/blog/003_nodeschool-baltimore-open.html"},{"title":"CSS whyyyyyy","date":"2014-12-30T00:00:00.000Z","prettyDate":"2014-12-29","url":"/blog/004_canteven-style-sheets.html"},{"title":"Lightly, lightly","date":"2015-01-09T00:00:00.000Z","prettyDate":"2015-01-08","url":"/blog/005_lightly-lightly.html"},{"title":"indie.bs","date":"2015-01-13T00:00:00.000Z","prettyDate":"2015-01-12","url":"/blog/006_indie-bs.html"},{"title":"Soliciting thoughts on our JavaScript community","date":"2015-03-14T00:00:00.000Z","prettyDate":"2015-03-13","url":"/blog/007_soliciting-thoughts-on-our-js-community.html"}]
+    <script id="postList" type="text/data">[{"title":"Lightly, lightly","date":"2015-01-09T00:00:00.000Z","machineDate":"2015-01-08","prettyDate":"January 8th 2015","teaser":"<p>A friend sent me a quote yesterday and I keep going back to it. </p>","url":"/blog/005_lightly-lightly.html"},{"title":"indie.bs","date":"2015-01-13T00:00:00.000Z","machineDate":"2015-01-12","prettyDate":"January 12th 2015","teaser":"<p>Have you been following along with the indie project? A little over a year ago, when Aral Balkan (@aral) launched his project to empower humans and topple the closed silos of the internet world?</p>","url":"/blog/006_indie-bs.html"},{"title":"Request for thoughts // the Baltimore JavaScript community","date":"2015-03-14T00:00:00.000Z","machineDate":"2015-03-13","prettyDate":"March 13th 2015","teaser":"<p>We&#39;re currently planning our fourth NodeSchool event here in Baltimore. And when I say &quot;we&quot;, I mean I. I&#39;m doing it. It turns out that delegation and community organization are hard work. Who knew?</p>","url":"/blog/007_RFT-baltimore-js-community.html"}]
     </script>
     <script src="/assets/js/site.js"></script>
   </body>

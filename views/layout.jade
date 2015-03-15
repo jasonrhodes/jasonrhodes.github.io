@@ -21,11 +21,13 @@ html.no-js
 
     block header
       header
-        span.logo rhodesjasondotcom
+        a.logo(href="/") rhodesjasondotcom
         span.nav
-          a(href='/')= 'home'
-          sep | 
-          a(href='/blog')= 'blog'
+          a(href='/') home
+          sep= ' | '
+          a(href='/blog') blog
+          sep= ' | '
+          a(href="http://speakerdeck.com/rhodesjason") slides
 
     block body
       p this is just a rhodesjasondotcom

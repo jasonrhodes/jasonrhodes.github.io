@@ -2,22 +2,31 @@ extends layout
 
 block body
   div.container.home-container
-    != content
 
-    h3 
-      span Recent
-      span(style='position:relative; top:-3px;')= "* "
-      span blog posts
-    ul
+    div.home-intro
+      img.home-intro-pic(src='/assets/images/rhodesjason-01-glitched.square.256.png' alt='Jason profile shot')
+      div.home-intro-text
+        marquee(scrollamount=15) Hi, I'm Jason, and this is my HTML web site. ✌ ⚾ 🚀 ⌚ 🃏
+
+    div.home-about.col.half
+      h3 About me
+      != content
+
+    div.home-recent-posts.col.half.end
+      h3 
+        span Recent
+        span(style='position:relative; top:-3px;')= "* "
+        span blog posts
+
       - posts.reverse()
-      - posts = posts.slice(0, 5)
-      for post in posts
-        li
-          a(href=post.url)= post.title
-          small.date= ' / ' + post.prettyDate
+      - posts = posts.slice(0, 3)
+      
+      include includes/postlist.jade
 
       - posts.reverse()
+      p
+        a(href="/blog") Read all posts
 
-    p 
-      em *
-        small Recency is relative, ok?
+      p 
+        em *
+          small Recency is relative, ok?

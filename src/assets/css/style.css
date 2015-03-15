@@ -1,4 +1,5 @@
 body {
+  background-color: #e3edf2;
   font-family: 'Source Sans Pro', Helvetica, sans-serif;
   font-size: 20px;
   max-width: 95%;
@@ -55,6 +56,54 @@ header {
   text-decoration: none;
 }
 
+.home-intro {
+  margin-top: 1em;
+  overflow: hidden;
+  margin-bottom: 2em;
+  position: relative;
+}
+
+.home-intro-pic {
+  float: left;
+  width: 25%;
+  height: auto;
+}
+
+.home-intro-text {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 75%;
+}
+
+.home-intro-text marquee {
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.home-container .col {
+  margin-bottom: 3em;
+}
+
+.home-about ul {
+  padding-left: 0.5em;
+}
+
+.home-about li {
+  list-style: none;
+  padding-left: 1.5em;
+  position: relative;
+  /*background: url('/assets/images/checkmark-icon-20x20.png') 0 4px no-repeat;*/
+}
+
+.home-about li:before {
+  content: '☆ ';
+  position: absolute;
+  top: -3px;
+  left: 0;
+}
+
 .disabled-post-container {
   font-family: 'Lora', Georgia, serif;
   line-height: 1.3em;
@@ -69,8 +118,9 @@ h1, h2, h3, h4, h5, h6 {
   margin: 1em 0;
   padding: 0.7em 0;
   border-style: solid;
-  border-color: #efefef;
-  border-width: 2px 0;
+  border-color: rgba(0,0,0,0.1);
+  border-width: 1px 0;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 1px 0 rgba(255,255,255,0.6) inset;
   overflow: hidden;
 }
 
@@ -104,7 +154,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .post-container a, .home-container a {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
 }
 
 .post-container li {
@@ -129,23 +179,23 @@ blockquote {
   font-size: 0.85em;
   color: #444;
   padding-left: 1em;
-  border-left: solid 6px #eed;
+  border-left: solid 6px rgba(0,0,0,0.1);
   margin-left: 0;
 }
 
 blockquote blockquote {
   margin-left: 0;
   padding-left: 0;
-  border-left: solid 6px #fff;
+  border-left: solid 6px #e3edf2;
   position: relative;
-  background-color: #fff;
+  background-color: #e3edf2;
   left: -2em;
   font-style: italic;
   width: 100%;
 }
 
 pre {
-  background-color: #efefef;
+  background-color: rgba(0,0,0,0.1);
   padding: 1em;
   white-space: pre-wrap;       /* css-3 */
   white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
@@ -155,7 +205,7 @@ pre {
 }
 
 code {
-  background-color: #efefef;
+  background-color: rgba(0,0,0,0.1);
   font-size: 0.8em;
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
   display: inline-block;
@@ -179,7 +229,7 @@ pre code {
   line-height: 1.5;
   padding: 1em;
   margin: 2em 0;
-  background-color: #efefef;
+  background-color: rgba(0,0,0,0.07);
 }
 
 .comments-intro .warning-icon {
@@ -188,20 +238,69 @@ pre code {
   padding-right: 0.25em;
   position: relative;
   font-weight: bold;
-  /*text-shadow: 0 0 5px pink;*/
   top: 4px;
 }
 
-.comments-intro em, .comments-intro .shrug {
+.comments-intro em {
   position: relative;
   top: -4px;
 }
 
+.post-list {
+  padding-left: 0;
+}
+
+.post-list h3 {
+  margin: 0 0 0.25em;
+}
+
+.post-list a {
+  display: block;
+  border: none;
+}
+
+.post-list .post-teaser p {
+  color: #555;
+  font-size: 85%;
+  margin-top: 0;
+}
+
+.post-list li {
+  padding-left: 0;
+  list-style: none;
+  margin-bottom: 1em;
+}
+
+.post-list .post-date {
+  display: block;
+  color: rgba(0,0,0,0.3);
+}
+
 @media all and (min-width: 50em) {
-  body {
+
+  .container {
     position: relative;
     max-width: 35em;
     margin: 0 auto 0 12%;
+  }
+
+  .home-container {
+    max-width: 50em;
+    margin: 0 auto;
+  }
+
+  .col {
+    float: left;
+    width: 30%;
+    margin-right: 5%;
+  }
+
+  .col.half {
+    width: 47.5%;
+  }
+
+  .col.end {
+    margin-right: 0;
   }
 
   .post-nav {
