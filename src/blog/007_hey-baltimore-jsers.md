@@ -1,8 +1,10 @@
 ---
-title: Request for thoughts // the Baltimore JavaScript community
+title: Hey Baltimore JavaScripters, what's up?
 date: 2015-03-14
 ---
-We're currently planning our fourth NodeSchool event here in Baltimore. And when I say "we", I mean I. I'm doing it. It turns out that delegation and community organization are hard work. Who knew?
+We're currently planning our fourth NodeSchool event here in Baltimore. And when I say "we", I mean I. I'm doing it. It turns out that delegation and community organization are hard work. Who knew? (I knew, but still.)
+
+> > Chris Stone knew, too&hellip;
 
 **Delegation is hard.** I was nervous to give work to people I hadn't really met or talked to much, and I didn't respond quickly to those I knew well. Others didn't offer at all, and I didn't find the time to ask directly.
 
@@ -18,6 +20,8 @@ is a lot different than
 
 Don't get me wrong, I'm grateful for those who have turned up to mentor because we couldn't have done the events we've done so far without them. But Baltimore NodeSchool itself isn't growing because the leadership is stagnant, and will eventually burn out.
 
+> > Seriously, thanks to every mentor who's given up 4+ hours on a weekend to help me teach people JavaScript. You all are the best.
+
 **Community-building is hard.**
 
 ***
@@ -26,13 +30,17 @@ Something else I've realized in the past year of NodeSchool planning is how dead
 
 It's no coincidence that the two most active JS events in the area are run by current or former [Message Systems](http://messagesystems.com) employees--they're one of the few companies in the area that's adopted a JS stack (or at least who've done so and shown an interest in the community).
 
+> > Maryland JavaScript and Baltimore NodeSchool&mdash;are there others I don't know about?
+
 But things aren't _totally_ dead--there's plenty of demand for JavaScript content in a more general sense. Many of the people I see at NodeSchool events are there because they want to learn JavaScript, which is a somewhat interesting problem I'm trying to solve by offering the "Javascripting" workshop at the next event. And when a few of us scraped together a JavaScript meetup a few months ago, it was very well attended, not to mention the 50-80 attendees that used to come when that group met regularly a few years ago.
 
 ***
 
 I'm not sure what the next steps are. I was looking into what it takes to create a 501(c)(3) non-profit organization just for NodeSchool this week, so that I can more easily handle cash flow from sponsors and determine how to give away unused sponsor money to a local tech-related charity (H/T Jed and BrooklynJS). But while clicking through paperwork on LegalZoom, I thought, "Maybe it's time to branch out and change the focus of 'NodeSchool' just a bit?" Like I said, I'm not sure.
 
-What I do know is that I finally made it to a [BrooklynJS](http://twitter.com/brooklyn_js) meetup last month and I was _blown away_. It's New York, of course, so it's not a totally fair comparison, but the energy in the room and the thought that [Jed](http://twitter.com/jedschmidt) and [Brian](http://twitter.com/brianloveswords) have put into the structure and flow of the event was so inspiring, it filled my head with ideas about what kinds of creativity we could apply to the community here in Baltimore. Not just shoving BrooklynJS into Baltimore but figuring out what kind of energy and structure would work here, for us. 
+What I do know is that I finally made it to a [BrooklynJS](http://twitter.com/brooklyn_js) meetup last month and I was _blown away_. It's New York, of course, so it's not a totally fair comparison, but the energy in the room and the thought that [Jed](http://twitter.com/jedschmidt) and [Brian](http://twitter.com/brianloveswords) have put into the structure and flow of the event was so inspiring, it filled my head with ideas about what kinds of creativity we could apply to the community here in Baltimore. Not just shoving BrooklynJS into Baltimore but figuring out what kind of energy and structure would work here, for us.
+
+> > Seriously (again), get to a Brooklyn JS if you can.
 
 Like I said. Not sure.
 

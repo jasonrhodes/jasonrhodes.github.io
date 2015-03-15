@@ -2,7 +2,7 @@
 title: Lightly, lightly
 date: 2015-01-09
 ---
-A friend sent me a quote yesterday and I keep going back to it. 
+A friend mentioned this quote yesterday and I keep going back to it. 
 
 > It’s dark because you are trying too hard. 
 Lightly child, lightly. Learn to do everything lightly. 
