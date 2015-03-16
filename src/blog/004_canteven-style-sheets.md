@@ -1,6 +1,8 @@
 ---
-title: CSS whyyyyyy
+title: CSS whyyyyyy whyyy whyyyyyyyyy
 date: 2014-12-30
+teaser: Whenever I say I hate CSS, people assume I probably don't understand it. Which makes me think maybe they've never used CSS?
+hero: /assets/images/css.gif
 ---
 _Note: this is a stream of conscious style dump of some thoughts that have been in my head for over a year now about CSS. It was originally posted on [BBS](https://bigboringsystem.com) and in that spirit it's going to stay long, rambly, unfocused, and incomplete. Now that I've gotten you excited..._
 
@@ -8,11 +10,11 @@ Alternate titles considered for this post:
 
 ## Cant-even Style Sheets, or 
 
-## CSS is the Worst but Oh Well Too Bad, or 
+## CSS is Suffering, or 
 
 ## Spooky Selectors at a Distance, or 
 
-## Some Random Thoughts About CSS
+## Some Random, Negative, and Not Necessarily Ground-Breaking Thoughts On CSS
 
 Whenever I say that I really hate CSS, people *seem* to make one of several assumptions about me. Either I don't understand it very well, or I come from back-end development/computer science and I'm being disparaging or patronizing toward it.
 
@@ -67,7 +69,9 @@ body section div {
 }
 ```
 
-What background color is that div? 
+What background color is that div?
+
+> > Imagine if collisions like this were a compile-time syntax error...
 
 If you said 'red' because the class selector is more specific than the element selector, you might be right. But the best answer is probably "no idea" because you don't know if there's another matching selector further down the page, or a slightly more specific one anywhere else, or inline styles in the HTML, or a matching !important declaration anywhere...
 
@@ -122,3 +126,5 @@ I think that's why we're seeing so many new CSS strategies designed to avoid and
 Simplifying, decomplecting. Good things, in my opinion, for how to deal with what we're dealt. Because CSS isn't going anywhere and we sure as hell need it.
 
 ::still thinking through more ways to overcome this problem::
+
+_Note: check out [Caleb's BBS post](https://bigboringsystem.com/post/post!1420752447-5c) for thoughts on one possible, experimental solution to some of these cascade problems._

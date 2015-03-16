@@ -153,6 +153,11 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0.5em 0 2em;
 }
 
+img.hero {
+  max-width: 100%;
+  height: auto;
+}
+
 .post-container a, .home-container a {
   border-bottom: 1px solid rgba(0,0,0,0.3);
 }
@@ -259,7 +264,7 @@ pre code {
   border: none;
 }
 
-.post-list .post-teaser p {
+.post-list .post-teaser {
   color: #555;
   font-size: 85%;
   margin-top: 0;

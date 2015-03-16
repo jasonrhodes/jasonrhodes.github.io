@@ -24,7 +24,7 @@ var postList = fs.readdirSync('src/blog').filter(function (post) {
   var data = maker.parse(fs.readFileSync('src/blog/' + post).toString());
   data.machineDate = moment(data.date).format('YYYY-MM-DD');
   data.prettyDate = moment(data.date).format('MMMM Do YYYY');
-  data.teaser = data.teaser || '<p>' + striptags(firstGraphRegex.exec(data.content)[1]) + '</p>';
+  data.teaser = data.teaser || striptags(firstGraphRegex.exec(data.content)[1]);
   data.url = '/blog/' + post.replace(/md$/, 'html');
 
   delete data.content;

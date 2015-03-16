@@ -8,6 +8,9 @@ block body
     if (next)
       a.next(href=next.url)= 'Next: ' + next.title
 
+  if hero
+    img.hero(src=hero)
+
   h1.post-title= title
   p.byline= 'Posted by Jason Rhodes on ' + bylineDate
   div.container.post-container
