@@ -3,7 +3,7 @@ title: Hey Baltimore JavaScripters, what's up?
 date: 2015-03-14
 hero: /assets/images/baltimore-harbor-skyline.jpg
 ---
-We're currently planning our fourth NodeSchool event here in Baltimore. And when I say "we", I mean I. I'm doing it. It turns out that delegation and community organization are hard work. Who knew? (I knew, but still.)
+We're currently planning [our fourth NodeSchool event](https://ti.to/baltimorenodeschool/four) here in Baltimore. And when I say "we", I mean I. I'm doing it. It turns out that delegation and community organization are hard work. Who knew? (I knew, but still.)
 
 > > Chris Stone knew, too&hellip;
 
