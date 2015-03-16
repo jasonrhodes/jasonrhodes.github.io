@@ -17,6 +17,10 @@ html.no-js
       link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic')
       link(rel='stylesheet', href='/assets/css/style.css')
 
+    //- Google Analytics: change UA-XXXXX-X to be your site's ID.
+    script
+      include includes/analytics.js
+      
   body
 
     block header
@@ -37,10 +41,6 @@ html.no-js
 
     block scripts
       script(src='/assets/js/site.js')
-
-    //- Google Analytics: change UA-XXXXX-X to be your site's ID.
-    script
-      include includes/analytics.js
 
 </script>
 
