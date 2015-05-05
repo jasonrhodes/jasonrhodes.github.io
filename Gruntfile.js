@@ -168,7 +168,7 @@ grunt.registerTask('gindex', function () {
     }
     files.forEach(function (f) {
       if (f === 'index.html') return;
-      list.push('<a href="' + f + '">' + f + '</a>');
+      list.push('<li><a href="' + f + '">' + f + '</a></li>');
     });
     html = '<h1>/g index</h1><ul>' + list.join('') + '</ul>';
     fs.writeFile('./g/index.html', html, { flags: 'w' }, done);
