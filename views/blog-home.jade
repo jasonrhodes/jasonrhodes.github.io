@@ -1,0 +1,12 @@
+extends layout
+
+block body
+  div.container.blog-container
+    
+    h2 Blog posts
+
+    != content
+
+    - posts.reverse()
+    include includes/postlist.jade
+    - posts.reverse()

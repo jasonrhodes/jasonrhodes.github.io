@@ -1,0 +1,477 @@
+body {
+  background-color: #e3edf2;
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+  font-size: 20px;
+  max-width: 95%;
+  margin: 0 auto;
+  padding-bottom: 5em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #E33B5A;
+}
+
+a:active {
+  color: #2D77CC;
+}
+
+ul {
+  padding-left: 1.5em;
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
+
+header {
+  font-size: 0.75em;
+  padding: 0.75em 0;
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+}
+
+.logo {
+  display: inline-block;
+  line-height: 31px;
+  padding-left: 35px;
+  /*color: #E33B5A;*/
+  font-weight: normal;
+  font-weight: bold;
+  background: url("../images/hypercard.png") left 2px no-repeat;
+}
+
+.nav {
+  display: inline-block;
+  line-height: 31px;
+  float: right;
+  text-align: right;
+}
+
+.nav a {
+  text-decoration: none;
+}
+
+.home-intro {
+  margin-top: 1em;
+  overflow: hidden;
+  margin-bottom: 2em;
+  position: relative;
+}
+
+.home-intro-pic {
+  float: left;
+  width: 25%;
+  height: auto;
+}
+
+.home-intro-text {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 75%;
+}
+
+.home-intro-text marquee {
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.home-container .col {
+  margin-bottom: 3em;
+}
+
+.home-about ul {
+  padding-left: 0.5em;
+}
+
+.home-about li {
+  list-style: none;
+  padding-left: 1.5em;
+  position: relative;
+  /*background: url('/assets/images/checkmark-icon-20x20.png') 0 4px no-repeat;*/
+}
+
+.home-about li:before {
+  content: '☆ ';
+  position: absolute;
+  top: -3px;
+  left: 0;
+}
+
+.disabled-post-container {
+  font-family: 'Lora', Georgia, serif;
+  line-height: 1.3em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+}
+
+.post-nav {
+  font-size: 0.75em;
+  margin: 1em 0;
+  padding: 0.7em 0;
+  border-style: solid;
+  border-color: rgba(0,0,0,0.1);
+  border-width: 1px 0;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 1px 0 rgba(255,255,255,0.6) inset;
+  overflow: hidden;
+}
+
+.post-nav a {
+  text-decoration: none;
+}
+
+.post-nav a[disabled] {
+  color: #999;
+}
+
+.post-nav .prev {
+  margin-right: 1em;
+}
+
+.post-nav .next {
+  display: block;
+  margin-top: 1em;
+}
+
+.post-title {
+  line-height: 110%;
+  width: 90%;
+  margin: 0.5em 0 0;
+}
+
+.byline {
+  font-size: 0.75em;
+  font-weight: normal;
+  margin: 0.5em 0 2em;
+}
+
+img.hero {
+  max-width: 100%;
+  height: auto;
+}
+
+.post-container a, .home-container a {
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+
+.post-container li {
+  font-size: 0.85em;
+}
+
+.post-container hr {
+  text-align: center;
+  margin: 2em 0;
+  color: transparent;
+  border: none;
+}
+
+.post-container hr:after {
+  content: '★ ★ ★ ★ ★';
+  font-size: 20px;
+  letter-spacing: 12px;
+  color: #E33B5A;
+}
+
+blockquote {
+  font-size: 0.85em;
+  color: #444;
+  padding-left: 1em;
+  border-left: solid 6px rgba(0,0,0,0.1);
+  margin-left: 0;
+}
+
+blockquote blockquote {
+  margin-left: 0;
+  padding-left: 0;
+  border-left: solid 6px #e3edf2;
+  position: relative;
+  background-color: #e3edf2;
+  left: -2em;
+  font-style: italic;
+  width: 100%;
+}
+
+pre {
+  background-color: rgba(0,0,0,0.1);
+  padding: 1em;
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+code {
+  background-color: rgba(0,0,0,0.1);
+  font-size: 0.8em;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
+  display: inline-block;
+  color: #333;
+  font-weight: bold;
+  padding: 0.1em 0.25em;
+}
+
+pre code {
+  padding: 0;
+  background-color: transparent;
+  font-size: 0.65em;
+  font-weight: normal;
+  color: #000;
+  line-height: 1.4em;
+}
+
+.comments-intro {
+  text-align: center;
+  font-size: 85%;
+  line-height: 1.5;
+  padding: 1em;
+  margin: 2em 0;
+  background-color: rgba(0,0,0,0.07);
+}
+
+.comments-intro .warning-icon {
+  font-size: 200%;
+  display: inline-block;
+  padding-right: 0.25em;
+  position: relative;
+  font-weight: bold;
+  top: 4px;
+}
+
+.comments-intro em {
+  position: relative;
+  top: -4px;
+}
+
+.post-list {
+  padding-left: 0;
+}
+
+.post-list h3 {
+  margin: 0 0 0.25em;
+}
+
+.post-list a {
+  display: block;
+  border: none;
+}
+
+.post-list .post-teaser {
+  color: #555;
+  font-size: 85%;
+  margin-top: 0;
+}
+
+.post-list li {
+  padding-left: 0;
+  list-style: none;
+  margin-bottom: 1em;
+}
+
+.post-list .post-date {
+  display: block;
+  color: rgba(0,0,0,0.3);
+}
+
+@media all and (min-width: 50em) {
+
+  .container {
+    position: relative;
+    max-width: 35em;
+    margin: 0 auto 0 12%;
+  }
+
+  .home-container {
+    max-width: 50em;
+    margin: 0 auto;
+  }
+
+  .col {
+    float: left;
+    width: 30%;
+    margin-right: 5%;
+  }
+
+  .col.half {
+    width: 47.5%;
+  }
+
+  .col.end {
+    margin-right: 0;
+  }
+
+  .post-nav {
+    font-size: 0.75em;
+    margin: 1.5em 0;
+  }
+
+  .post-nav .prev {
+    float: left;
+  }
+
+  .post-nav .next {
+    display: inline;
+    margin: 0;
+    float: right;
+  }
+
+  ul {
+    padding-left: 2em;
+  }
+
+  blockquote {
+    margin-left: 1em;
+  }
+
+  blockquote blockquote {
+    
+  }
+
+}
+
+@media all and (min-width: 70em) {
+  blockquote blockquote {
+    width: 25%;
+    position: absolute;
+    left: auto;
+    right: -40%;
+  }
+  blockquote blockquote p {
+    position: relative;
+    top: -5em;
+  }
+}
+
+/* Highlight JS Theme, "GitHub" */
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+  -webkit-text-size-adjust: none;
+}
+
+.hljs-comment,
+.diff .hljs-header,
+.hljs-javadoc {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.css .rule .hljs-keyword,
+.hljs-winutils,
+.nginx .hljs-title,
+.hljs-subst,
+.hljs-request,
+.hljs-status {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-hexcolor,
+.ruby .hljs-constant {
+  color: #008080;
+}
+
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-phpdoc,
+.hljs-dartdoc,
+.tex .hljs-formula {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-id,
+.scss .hljs-preprocessor {
+  color: #900;
+  font-weight: bold;
+}
+
+.hljs-list .hljs-keyword,
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-class .hljs-title,
+.hljs-type,
+.vhdl .hljs-literal,
+.tex .hljs-command {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-tag .hljs-title,
+.hljs-rules .hljs-property,
+.django .hljs-tag .hljs-keyword {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-attribute,
+.hljs-variable,
+.lisp .hljs-body {
+  color: #008080;
+}
+
+.hljs-regexp {
+  color: #009926;
+}
+
+.hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.lisp .hljs-keyword,
+.clojure .hljs-keyword,
+.scheme .hljs-keyword,
+.tex .hljs-special,
+.hljs-prompt {
+  color: #990073;
+}
+
+.hljs-built_in {
+  color: #0086b3;
+}
+
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-pi,
+.hljs-doctype,
+.hljs-shebang,
+.hljs-cdata {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.diff .hljs-change {
+  background: #0086b3;
+}
+
+.hljs-chunk {
+  color: #aaa;
+}

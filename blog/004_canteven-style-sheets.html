@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>rhodesjason dot com</title>
+    <meta name="description" content="A site for a rhodesjason">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/assets/images/hypercard.png">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700,400italic">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-60805914-1', 'auto');
+ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <header><a href="/" class="logo">rhodesjasondotcom</a><span class="nav"><a href="/">home</a>
+        <sep> | </sep><a href="/blog">blog</a>
+        <sep> | </sep><a href="http://speakerdeck.com/rhodesjason">slides</a></span></header>
+    <div class="post-nav top"><a href="/blog/003_nodeschool-baltimore-open.html" class="prev">Prev: Baltimore NodeSchool is open</a><a href="/blog/005_lightly-lightly.html" class="next">Next: Lightly, lightly</a>
+    </div><img src="/assets/images/css.gif" class="hero">
+    <h1 class="post-title">CSS whyyyyyy whyyy whyyyyyyyyy</h1>
+    <p class="byline">Posted by Jason Rhodes on December 29th, 2014</p>
+    <div class="container post-container"><p><em>Note: this is a stream of conscious style dump of some thoughts that have been in my head for over a year now about CSS. It was originally posted on <a href="https://bigboringsystem.com">BBS</a> and in that spirit it&#39;s going to stay long, rambly, unfocused, and incomplete. Now that I&#39;ve gotten you excited...</em></p>
+<p>Alternate titles considered for this post:</p>
+<h2 id="cant-even-style-sheets-or">Cant-even Style Sheets, or</h2>
+<h2 id="css-is-suffering-or">CSS is Suffering, or</h2>
+<h2 id="spooky-selectors-at-a-distance-or">Spooky Selectors at a Distance, or</h2>
+<h2 id="some-random-negative-and-not-necessarily-ground-breaking-thoughts-on-css">Some Random, Negative, and Not Necessarily Ground-Breaking Thoughts On CSS</h2>
+<p>Whenever I say that I really hate CSS, people <em>seem</em> to make one of several assumptions about me. Either I don&#39;t understand it very well, or I come from back-end development/computer science and I&#39;m being disparaging or patronizing toward it.</p>
+<p>Which is funny, because I don&#39;t come from a back-end/computer science background or from a design and art background. I come to the web from a nothing background, kind of. A &quot;Religious Studies and Sociology double major&quot; background, if you will. Never mind. I stumbled onto &quot;web stuff&quot; in a Barnes and Noble where I&#39;d discovered Jeffrey Zeldman&#39;s <em>Designing with Web Standards</em>, which I read/skimmed while sitting on the floor for about an hour that day and then went back to revisit several times after that.</p>
+<blockquote>
+<blockquote>
+<p>I just realized I probably should have bought the book at some point--sorry Zeldman, B&amp;N, etc.</p>
+</blockquote>
+</blockquote>
+<p>I wrote a ton of HTML and CSS back then and cobbled together some PHP and built shitty websites for people, the way you do. I wasn&#39;t a great designer and I knew fuck-all about programming, but I really loved making things out of HTML and CSS. I read A List Apart and had a Google Reader list full of Meyer and Shea and Zeldman and Cederholm etc. In 2009 I paid for my own flight to San Francisco and a not-cheap ticket to go to An Event Apart where I met Ethan Marcotte and saw Nicole Sullivan talk about Object Oriented CSS. I rode the wave of CSS3. I supported IE6. I memorized float hacks and quirks mode and all the rest.</p>
+<hr>
+<p>I say all of that kind of annoying shit to make it clear that I <em>know</em> CSS and I <em>appreciate</em> its power and complexity and usefulness.</p>
+<p>But then I discovered this talk by Rich Hickey called <a href="http://www.infoq.com/presentations/Simple-Made-Easy">Simple Made Easy</a> and I watch it a few times a year now. Hickey created a language called Clojure which I know almost nothing about, and which I have no plans to learn. But this talk, <em>ohhhh</em> this talk. A few of the things that stood out to me:</p>
+<blockquote>
+<p>Simplicity is a prerequisite to reliability<br>--Edsger Dijkstra</p>
+</blockquote>
+<p>Simple is different than easy and better than complex: <a href="http://www.infoq.com/resource/presentations/Simple-Made-Easy/en/slides/sl3.jpg">infoq.com/resource/presentations/Simple-Made-Easy/en/slides/sl3.jpg</a></p>
+<p>Simple is one braid:  </p>
+<ul>
+<li>one role</li>
+<li>one task</li>
+<li>one concept</li>
+<li>one dimension</li>
+</ul>
+<p>Four truths:   </p>
+<ul>
+<li>We can only hope to make reliable those things we can understand</li>
+<li>We can only consider a few things at a time</li>
+<li>Intertwined things must be considered together</li>
+<li>Complexity undermines understanding</li>
+</ul>
+<p><a href="http://www.infoq.com/resource/presentations/Simple-Made-Easy/en/slides/sl7.jpg">Limits!</a></p>
+<p>&quot;complect&quot; -&gt; to interleave, intertwine<br>&quot;compose&quot; -&gt; to place together</p>
+<blockquote>
+<p>Programming ... boils down to no more and no less than very effective thinking so as to avoid unmastered complexity, to very vigorous separation of your many different concerns<br>--Edsger Dijkstra</p>
+</blockquote>
+<hr>
+<p>CSS is <strong>complected by design</strong>. The cascade is complection by definition. Complected Style Sheets, pretty much. Consider this CSS:</p>
+<pre><code class="lang-css"><span class="hljs-tag">section</span><span class="hljs-class">.container</span> <span class="hljs-tag">div</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">background-color</span>:<span class="hljs-value"> red</span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-tag">body</span> <span class="hljs-tag">section</span> <span class="hljs-tag">div</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">background-color</span>:<span class="hljs-value"> green</span></span>;
+<span class="hljs-rule">}</span></span>
+</code></pre>
+<p>What background color is that div?</p>
+<blockquote>
+<blockquote>
+<p>Imagine if collisions like this were a compile-time syntax error...</p>
+</blockquote>
+</blockquote>
+<p>If you said &#39;red&#39; because the class selector is more specific than the element selector, you might be right. But the best answer is probably &quot;no idea&quot; because you don&#39;t know if there&#39;s another matching selector further down the page, or a slightly more specific one anywhere else, or inline styles in the HTML, or a matching !important declaration anywhere...</p>
+<p>The fact is that you can&#39;t look at a decent-sized set of stylesheet selectors and confidently figure out what the effect is until you see it in the browser. That should terrify you, I think.</p>
+<p><em>[A bunch of hands in the room go up.]</em></p>
+<p>This isn&#39;t just a side-effect of <em>bad</em> CSS, either.</p>
+<p><em>[Hands go down.]</em></p>
+<p>The cascade is designed to tempt you to override all the things, ie overload and complect. You could have defined a whole set of carefully set CSS properties and one of them can be so easily over-ridden by any other matching selector somewhere else in your stylesheet system. In programming we borrowed a term for this from Einstein, called &quot;spooky action at a distance&quot;. It&#39;s not a good thing.</p>
+<p>This article from <a href="http://www.technologyreview.com/view/427174/einsteins-spooky-action-at-a-distance-paradox-older-than-thought/">Technology Review</a> explains a little about spooky action using the term &quot;entanglement&quot;. A couple of good quotes:</p>
+<blockquote>
+<p>Entanglement occurs when two particles are so deeply linked that they share the same existence.</p>
+</blockquote>
+<p>.</p>
+<blockquote>
+<p>Entangled particles can become widely separated in space. But even so, the mathematics implies that a measurement on one immediately influences the other, regardless of the distance between them.</p>
+</blockquote>
+<p>This is generally a bad thing and makes it hard for you to reason about what&#39;s happening in your code. Which makes it harder to change and harder to debug and harder to maintain as it grows.</p>
+<p>So we have a language that&#39;s built on the idea that complection, or cascade, is fundamentally good when in traditional programming we try to avoid it if we can. You have selector specificity that relies on a formula that&#39;s nearly impossible to remember, and pretty much any CSS loaded anywhere is &quot;global&quot; and can affect any other CSS loaded in a &#39;spooky at a distance&#39; kind of way. So what did we do with that system?</p>
+<p>We built another level of complection right on top of it, of course! Enter: media queries. Now depending on the state of the browser, which you can&#39;t replicate outside of the browser, different sections of global cascading CSS selectors will apply and override other global cascading CSS selectors. Perfect! Now you can have this situation:</p>
+<pre><code class="lang-css"><span class="hljs-at_rule">@<span class="hljs-keyword">media</span> (max-width: <span class="hljs-number">600px</span>) </span>{
+  <span class="hljs-class">.container</span> <span class="hljs-tag">a</span> <span class="hljs-rules">{
+    <span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value"> green</span></span>;
+  <span class="hljs-rule">}</span></span>
+}
+
+<span class="hljs-tag">li</span> <span class="hljs-tag">a</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value"> red</span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-class">.nav</span> <span class="hljs-tag">a</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value"> black</span></span>;
+<span class="hljs-rule">}</span></span>
+</code></pre>
+<p>What color is the link? Now it&#39;s dependent on the cascade, the HTML structure it&#39;s within <em>and</em> the width of the browser, which I understand is by design for <em>very good reasons</em> but wow does it make it hard to think about anything!</p>
+<blockquote>
+<blockquote>
+<p>You could argue that CSS good practices and general programming good practices are opposites in some regard. Embracing the cascade and leveraging it, like mobile-first responsive design encourages you to do, is opposite to the advice that you should keep code simple and de-coupled from other parts of your code.</p>
+</blockquote>
+</blockquote>
+<p>So I get it, there&#39;s no better solution that I know of besides CSS and media queries. We have to use them, it&#39;s the only visual design solution we have and when we use them intelligently they can do some powerful, awesome things. But they&#39;re difficult and susceptible to inflexibility and strange frustrating bugs and other common problems because the system is built on the idea that complecting is good and should be leveraged. That&#39;s hard to overcome.</p>
+<p>I think that&#39;s why we&#39;re seeing so many new CSS strategies designed to avoid and ignore the cascade altogether. <a href="https://bem.info/method">BEM</a>, for instance, <a href="https://smacss.com/">SMACSS</a> to some extent, <a href="http://oocss.org/">OOCSS</a> (not very new) -- and a bunch of other even newer CSS abstractions and strategies aimed at adding descriptive classes to nested elements and <em>sidestepping the cascade</em> to create a more reliable, simple system. </p>
+<p>Simplifying, decomplecting. Good things, in my opinion, for how to deal with what we&#39;re dealt. Because CSS isn&#39;t going anywhere and we sure as hell need it.</p>
+<p>::still thinking through more ways to overcome this problem::</p>
+<p><em>Note: check out <a href="https://bigboringsystem.com/post/post!1420752447-5c">Caleb&#39;s BBS post</a> for thoughts on one possible, experimental solution to some of these cascade problems.</em></p>
+
+    </div>
+    <div class="post-nav bottom"><a href="/blog/003_nodeschool-baltimore-open.html" class="prev">Prev: Baltimore NodeSchool is open</a><a href="/blog/005_lightly-lightly.html" class="next">Next: Lightly, lightly</a>
+    </div>
+    <script>
+      var disqus_title = 'CSS whyyyyyy whyyy whyyyyyyyyy'
+      
+    </script>
+    <div class="container comments">
+      <p class="comments-intro"><span class="warning-icon">☣</span><em><strong>Warning: </strong><span>Comments ahead. </span><span style="white-space: nowrap;">Be nice or else.</span></em></p><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES * * */
+  var disqus_shortname = 'rhodesjason';
+  
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+    <script id="postList" type="text/data">[{"title":"Why Baltimore?","date":"2013-12-10T00:00:00.000Z","machineDate":"2013-12-09","prettyDate":"December 9th 2013","teaser":"A few hours ago, I tweeted a few times about the CreateBaltimore event happening today. I said:","url":"/blog/001_why-baltimore.html"},{"title":"Calm down, JavaScript","date":"2013-04-20T00:00:00.000Z","machineDate":"2013-04-19","prettyDate":"April 19th 2013","teaser":"I’ve been writing a lot of JavaScript lately, mostly for browser interactions, animations, and single-page navigation controls. As you begin to attach more callbacks to the window’s onscroll event, you become aware of just how jumpy that event is, and how costly it becomes if your callbacks are doing anything remotely intense.","url":"/blog/002_calm-down-javascript.html"},{"title":"Baltimore NodeSchool is open","date":"2014-03-31T00:00:00.000Z","machineDate":"2014-03-30","prettyDate":"March 30th 2014","teaser":"tl;dr: I have a ton of people to thank for how awesome this event has come together, and I’m super excited for it. If you just want to learn about the event itself, visit our website or go right to the registration page.","url":"/blog/003_nodeschool-baltimore-open.html"},{"title":"CSS whyyyyyy whyyy whyyyyyyyyy","date":"2014-12-30T00:00:00.000Z","teaser":"Whenever I say I hate CSS, people assume I probably don't understand it. Which makes me think maybe they've never used CSS?","hero":"/assets/images/css.gif","machineDate":"2014-12-29","prettyDate":"December 29th 2014","url":"/blog/004_canteven-style-sheets.html"},{"title":"Lightly, lightly","date":"2015-01-09T00:00:00.000Z","machineDate":"2015-01-08","prettyDate":"January 8th 2015","teaser":"A friend mentioned this quote yesterday and I keep going back to it. ","url":"/blog/005_lightly-lightly.html"},{"title":"indie.bs","date":"2015-01-13T00:00:00.000Z","machineDate":"2015-01-12","prettyDate":"January 12th 2015","teaser":"Have you been following along with the indie project? A little over a year ago, when Aral Balkan (@aral) launched his project to empower humans and topple the closed silos of the internet world?","url":"/blog/006_indie-bs.html"},{"title":"Hey Baltimore JavaScripters, what's up?","date":"2015-03-14T00:00:00.000Z","hero":"/assets/images/baltimore-harbor-skyline.jpg","machineDate":"2015-03-13","prettyDate":"March 13th 2015","teaser":"We&#39;re currently planning our fourth NodeSchool event here in Baltimore. And when I say &quot;we&quot;, I mean I. I&#39;m doing it. It turns out that delegation and community organization are hard work. Who knew? (I knew, but still.)","url":"/blog/007_hey-baltimore-jsers.html"}]
+    </script>
+    <script src="/assets/js/site.js"></script>
+  </body>
+</html></script>
+</script>

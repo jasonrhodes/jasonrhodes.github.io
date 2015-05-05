@@ -1,0 +1,37 @@
+extends layout
+
+block body
+  div.post-nav.top
+    if (prev)
+      a.prev(href=prev.url)= 'Prev: ' + prev.title
+
+    if (next)
+      a.next(href=next.url)= 'Next: ' + next.title
+
+  if hero
+    img.hero(src=hero)
+
+  h1.post-title= title
+  p.byline= 'Posted by Jason Rhodes on ' + bylineDate
+  div.container.post-container
+    != content
+
+  div.post-nav.bottom
+    if (prev)
+      a.prev(href=prev.url)= 'Prev: ' + prev.title
+    
+    if (next)
+      a.next(href=next.url)= 'Next: ' + next.title
+
+  script.
+    var disqus_title = '#{title}'
+
+  div.container.comments
+    p.comments-intro
+      span.warning-icon ☣
+      em
+        strong Warning: 
+        span= 'Comments ahead. '
+        span(style='white-space: nowrap;') Be nice or else.
+    
+    include includes/disqus.html

@@ -1,0 +1,47 @@
+doctype
+html.no-js
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    
+    block title
+      title rhodesjason dot com
+
+    meta(name='description', content='A site for a rhodesjason')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    
+    link(rel='icon' type='image/png' href='/assets/images/hypercard.png')
+    
+    block styles
+      link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700,400italic')
+      link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic')
+      link(rel='stylesheet', href='/assets/css/style.css')
+
+    //- Google Analytics: change UA-XXXXX-X to be your site's ID.
+    script
+      include includes/analytics.js
+      
+  body
+
+    block header
+      header
+        a.logo(href="/") rhodesjasondotcom
+        span.nav
+          a(href='/') home
+          sep= ' | '
+          a(href='/blog') blog
+          sep= ' | '
+          a(href="http://speakerdeck.com/rhodesjason") slides
+
+    block body
+      p this is just a rhodesjasondotcom
+
+    script#postList(type='text/data')
+        != JSON.stringify(posts || [])
+
+    block scripts
+      script(src='/assets/js/site.js')
+
+</script>
+
+</script>

@@ -1,0 +1,29 @@
+body {
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+  font-size: 20px;
+  max-width: 30em;
+  margin: 0 auto 0 12%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+}
+
+header {
+  font-size: 0.75em;
+  padding: 0.75em 0;
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+}
+
+.logo {
+  font-weight: bold;
+}
+
+.nav {
+  float: right;
+  text-align: right;
+}
+
+.post-container {
+  font-family: 'Lora', Georgia, serif;
+}
