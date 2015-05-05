@@ -158,3 +158,19 @@ grunt.initConfig({
 
 grunt.registerTask('build', ['clean', 'copy']);
 grunt.registerTask('default', ['build', 'connect:server', 'watch']);
+grunt.registerTask('gindex', function () {
+  var done = this.async();
+  fs.readdir('./g', function (err, files) {
+    var list = [], html = '';
+    if (err) {
+      console.error(err);
+      return done();
+    }
+    files.forEach(function (f) {
+      if (f === 'index.html') return;
+      list.push('<a href="' + f + '">' + f + '</a>');
+    });
+    html = '<h1>/g index</h1><ul>' + list.join('') + '</ul>';
+    fs.writeFile('./g/index.html', html, { flags: 'w' }, done);
+  });
+});
