@@ -18,3 +18,5 @@ I've always been an intense person in many ways. I squeeze down hard on good tim
 So then that quote came along and, oh. Yeah, that's exactly it, Aldous. Good job. 
 
 Lightly, lightly. I'll let you know how it goes.
+
+**Update (10/2015)**: It doesn't go very well. Lightly is hard.

@@ -22,13 +22,14 @@ var postList = fs.readdirSync('src/blog').filter(function (post) {
   return post !== 'index.md';
 }).map(function (post) { 
   var data = maker.parse(fs.readFileSync('src/blog/' + post).toString());
-  data.machineDate = moment(data.date).format('YYYY-MM-DD');
-  data.prettyDate = moment(data.date).format('MMMM Do YYYY');
-  data.teaser = data.teaser || striptags(firstGraphRegex.exec(data.content)[1]);
-  data.url = '/blog/' + post.replace(/md$/, 'html');
+  var options = data.options;
 
-  delete data.content;
-  return data;
+  options.machineDate = moment(options.date).format('YYYY-MM-DD');
+  options.prettyDate = moment(options.date).format('MMMM Do YYYY');
+  options.teaser = options.teaser || striptags(firstGraphRegex.exec(data.content)[1]);
+  options.url = '/blog/' + post.replace(/md$/, 'html');
+
+  return options;
 });
 
 grunt.loadNpmTasks('grunt-markdown');
@@ -41,16 +42,28 @@ function removeSrc(dest, src) {
   return path.join(dest, src.replace(/^src(\/pages)?/, ''));
 }
 
+var i = 0;
+
 function getProcessor(defaultTemplate) {
   return function (content, srcpath) {
     var parsed = maker.parse(content);
-    var template = parsed.template || defaultTemplate;
+    var options = parsed.options;
+    var template = options.template || defaultTemplate;
     
-    parsed.posts = postList;
-    parsed.bylineDate = moment(parsed.date).format('MMMM Do, YYYY');
-    var current = _.findIndex(postList, { title: parsed.title });
-    parsed.prev = (current - 1) > -1 ? postList[current - 1] : false;
-    parsed.next = (current + 1) < postList.length ? postList[current + 1] : false;
+    try {
+      parsed.posts = postList;
+      parsed.bylineDate = moment(options.date).format('MMMM Do, YYYY');
+      var current = _.findIndex(postList, { title: options.title });
+
+      parsed.prev = (current - 1) > -1 ? postList[current - 1] : false;
+      parsed.next = (current + 1) < postList.length ? postList[current + 1] : false;
+    } catch (err) {
+      console.error(err);
+      process.exit();
+    }
+
+    parsed = _.defaults({}, parsed, parsed.options);
+    delete parsed.options;
 
     return templates[template](parsed).trim() + '\n';
   }
