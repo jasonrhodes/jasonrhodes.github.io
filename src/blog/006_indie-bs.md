@@ -28,9 +28,13 @@ The big launch announcement is here - https://ind.ie/blog/1/ - and here are some
 
 > Currently, we are bootstrapping. Next year, we are crowdfunding. And in 2016, we ship Indie Phone.
 
+tl;dr: it's **extremely important** that we make a phone, and we're shipping it in 2016.
+
 ***
 
-They raised a good amount of money on these promises from people who were sick over the Snowden revelations, over loss of privacy, over Aaron Swartz and WikiLeaks and Chelsea Manning and others. I wasn't in that camp necessarily, but I appreciate why many were.
+They raised a good amount of money on these promises from people who were sick over [the Snowden revelations](https://en.wikipedia.org/wiki/Edward_Snowden#Global_surveillance_disclosures), over loss of privacy, over [Aaron Swartz](https://en.wikipedia.org/wiki/United_States_v._Swartz) and [WikiLeaks](https://en.wikipedia.org/wiki/WikiLeaks) and [Chelsea Manning](https://en.wikipedia.org/wiki/Chelsea_Manning#Publication_of_leaked_material) and others. I wasn't in that camp necessarily, but I appreciate why many were.
+
+> > Update (10/2015): I've since become far more sympathetic to all of these concerns. :(
 
 What have they accomplished so far, over a year later? Reading through the blog posts at http://ind.ie/blog, here's a list:
 
@@ -38,7 +42,7 @@ What have they accomplished so far, over a year later? Reading through the blog 
 * A minimal website ("It will be growing in the next few days and we have already begun to iterate over it.")
 * Moved away from using Mailchimp for newsletters to a hosted version of Sendy.
 * Indie Phone nominated as "Game Changer of the Year" at the .Net Awards
-* Aral nominated as Entrepreneur of the Year at the .Net Awards
+* Balkan nominated as Entrepreneur of the Year at the .Net Awards
 * An initial design of Indie Phone
 * Organized and put on the Indie Tech Summit (https://www.indietech.org/summit/)
 * Announced new idea: "Project Stratosphere" -- "our multi-year mission to create a peer-to-peer consumer platform to empower you to share the things that matter to you with the people you care about."
@@ -48,7 +52,7 @@ What have they accomplished so far, over a year later? Reading through the blog 
 
 You get the idea, I think. That's a lot of things. And it's not really clear where it's all headed in relationship to the original announcements, right?
 
-Mixed in with all of these announcements and introductions are some really powerful, inspirational proclamations from Aral himself, such as:
+Mixed in with all of these announcements and introductions are some really powerful, inspirational proclamations from Balkan himself, such as:
 
 > "We’ve set ourselves a mammoth task and yet it is a task that is entirely feasible with your continued friendship and support."
 
@@ -76,7 +80,7 @@ I don't know why anyone would support this particular effort moving forward.
 
 ***
 
-And to top it all off, in that focus post Aral used the Charlie Hebdo shootings as partial support for the re-focusing decision. I just ... wow. It doesn't matter what his intent was there, sometimes you have to be aware enough to see outside of your intent.
+And to top it all off, in that focus post Balkan used the Charlie Hebdo shootings as partial support for the re-focusing decision. I just ... wow. It doesn't matter what his intent was there, sometimes you have to be aware enough to see outside of your intent.
 
 Ugh. One last interesting tweet thread: https://twitter.com/thijs/status/531813416671780864
 

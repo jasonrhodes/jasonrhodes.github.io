@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="/assets/images/hypercard.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,100" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700" type="text/css">
+    <link rel="stylesheet" href="/assets/css/hljs/tomorrow-night.css">
     <link rel="stylesheet" href="/assets/css/style.css">
     <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -21,7 +23,7 @@ ga('send', 'pageview');
   <body>
     <header><a href="/" class="logo">rhodesjasondotcom</a><span class="nav"><a href="/">home</a>
         <sep> | </sep><a href="/blog">blog</a>
-        <sep> | </sep><a href="http://speakerdeck.com/rhodesjason">slides</a></span></header>
+        <sep> | </sep><a href="http://speakerdeck.com/rhodesjason">slides</a></span><img src="/assets/images/rhodesjason-01-glitched.square.256.png" class="avatar"></header>
     <div class="post-nav top"><a href="/blog/001_why-baltimore.html" class="prev">Prev: Why Baltimore?</a><a href="/blog/003_nodeschool-baltimore-open.html" class="next">Next: Baltimore NodeSchool is open</a>
     </div>
     <h1 class="post-title">Calm down, JavaScript</h1>
@@ -36,7 +38,7 @@ ga('send', 'pageview');
 <p>The first fifty times I read those descriptions, I couldn’t tell the difference, so I decided to make my own versions. I started with throttling. I knew what I wanted was to keep track of the last time a function is run and not run it again until <code>wait</code> milliseconds later, so I threw something together:</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> wait = <span class="hljs-number">100</span>;
 <span class="hljs-keyword">var</span> last;
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doStuff</span><span class="hljs-params">()</span> </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doStuff</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">var</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
   <span class="hljs-keyword">if</span> (now - last &lt; wait) {
     <span class="hljs-keyword">return</span>;
@@ -65,9 +67,9 @@ ga('send', 'pageview');
 })();
 </code></pre>
 <p>This fixes the scope problem, but we still need to separate out the throttling code and make it flexible. For that, we need a function that takes a function and turns it into a newly throttled function. (Function!)</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> throttle = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(wait, func)</span> </span>{
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> throttle = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">wait, func</span>) </span>{
   <span class="hljs-keyword">var</span> last;
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">var</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
     <span class="hljs-keyword">if</span> (now - last &lt; wait) {
       <span class="hljs-keyword">return</span>;
@@ -77,7 +79,7 @@ ga('send', 'pageview');
   }
 };
 
-<span class="hljs-keyword">var</span> doStuff = throttle(<span class="hljs-number">500</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+<span class="hljs-keyword">var</span> doStuff = throttle(<span class="hljs-number">500</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
   <span class="hljs-comment">// do stuff </span>
 });
 
@@ -130,7 +132,7 @@ purchase.apply(sweetRide, [<span class="hljs-number">3000</span>]);
 <span class="hljs-comment">// =&gt; -15999 (somebody needs a loan)</span>
 </code></pre>
 <p>The second argument passed to apply should be an array of arguments that JS will magically pass to myFunction, one argument at a time.</p>
-<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myFunction</span><span class="hljs-params">(a, b, c)</span> </span>{
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myFunction</span>(<span class="hljs-params">a, b, c</span>) </span>{
   <span class="hljs-built_in">console</span>.log(a);
   <span class="hljs-built_in">console</span>.log(b);
   <span class="hljs-built_in">console</span>.log(c);
@@ -142,9 +144,9 @@ myFunction.apply({}, argList);
 <span class="hljs-comment">// =&gt; "third"</span>
 </code></pre>
 <p>In our example, we’re not worried about setting the context, but the second argument in <code>fn.apply()</code> lets us take the javascript ‘arguments’ array (an array of all arguments passed to the currently-scoped function) and pass it to the function that was meant to be throttled.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> throttle = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(wait, func)</span> </span>{
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> throttle = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">wait, func</span>) </span>{
   <span class="hljs-keyword">var</span> last;
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">var</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
     <span class="hljs-keyword">if</span> (now - last &lt; wait) {
       <span class="hljs-keyword">return</span>;
@@ -157,19 +159,19 @@ myFunction.apply({}, argList);
   }
 }
 
-<span class="hljs-keyword">var</span> doStuff = throttle(<span class="hljs-number">100</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(a, b)</span> </span>{
+<span class="hljs-keyword">var</span> doStuff = throttle(<span class="hljs-number">100</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a, b</span>) </span>{
   <span class="hljs-comment">// do stuff </span>
   <span class="hljs-built_in">console</span>.log(a, b);
 });
 </code></pre>
 <p>Now a throttled function can accept any number of arguments because they’ll all be passed via the javascript <code>arguments</code> array. In ~10 lines of code, you have a simple throttling factory, which comes in handy when you need to do a lot of complicated DOM stuff, for example.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> complicatedDOMStuff = throttle(<span class="hljs-number">250</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(a, b)</span> </span>{
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> complicatedDOMStuff = throttle(<span class="hljs-number">250</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a, b</span>) </span>{
   <span class="hljs-comment">// all kinds of dom interactions etc</span>
 });
 
 <span class="hljs-keyword">var</span> a = <span class="hljs-string">"something, maybe a jquery wrapped element or data structure"</span>;
 
-$(<span class="hljs-built_in">window</span>).on(<span class="hljs-string">'scroll'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(e)</span> </span>{ 
+$(<span class="hljs-built_in">window</span>).on(<span class="hljs-string">'scroll'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{ 
   <span class="hljs-keyword">var</span> b = <span class="hljs-string">"something you want to look up on EVERY unthrottled event"</span>;
   complicatedDOMStuff(a, b);
 }
@@ -203,11 +205,11 @@ $(<span class="hljs-built_in">window</span>).on(<span class="hljs-string">'scrol
 <p><small>* <em>Debouncing could theoretically result in just ‘a’, depending on the debouncing method. For my examples, it will always be the last event that ultimately fires because I find that to be a lot more useful in the browser.</em></small></p>
 <p>Debouncing is perfect for listening to an event and only performing a task once a user has <em>stopped</em> or <em>paused</em>—stopped scrolling = perform an animation, stopped typing = perform an AJAX request, paused typing = perform validation, etc. </p>
 <p>My first attempt at a simple debounce factory looked something like this. (<em>Note: I&#39;ve named the anonymous functions here just to make it easier to talk about them.</em>)</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> debounce = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(wait, func)</span> </span>{
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> debounce = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">wait, func</span>) </span>{
   <span class="hljs-keyword">var</span> timer;
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myDebouncer</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myDebouncer</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-built_in">window</span>.clearTimeout(timer);
-    timer = <span class="hljs-built_in">window</span>.setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">waiter</span><span class="hljs-params">()</span> </span>{
+    timer = <span class="hljs-built_in">window</span>.setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">waiter</span>(<span class="hljs-params"></span>) </span>{
       func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
     }, wait);
   }
@@ -216,20 +218,20 @@ $(<span class="hljs-built_in">window</span>).on(<span class="hljs-string">'scrol
 <p>Which is actually really close to what we need. Instead of checking to see if enough time has passed since the last successful call, we set a timer for when the function should execute and if the function gets called again before that timer ‘goes off’, then the timer gets reset.</p>
 <p>Unfortunately, I broke the original function because <code>arguments</code> in the example above is always empty. The debounce factory returns a copy of the function I&#39;ve named <code>myDebouncer</code>, which should seem to the user like an <em>exact copy</em> of the function they debounced, just with the new debouncing properties added. That&#39;s why we use the special <code>arguments</code> array to accommodate any list of arguments used. </p>
 <p>However, because we use <code>setTimeout</code>, we have to pass it another function, the one I&#39;ve called <code>waiter</code>. Inside that function <code>this</code> and <code>arguments</code> are relative to <code>waiter</code>, which received no arguments at all. That&#39;s why it&#39;s empty in the example above. The fix is simple: save copies of <code>this</code> and <code>arguments</code> as <code>that</code> and <code>args</code> in the scope above.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> debounce = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(wait, func)</span> </span>{
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> debounce = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">wait, func</span>) </span>{
   <span class="hljs-keyword">var</span> timer;
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myDebouncer</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myDebouncer</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">var</span> that = <span class="hljs-keyword">this</span>;
     <span class="hljs-keyword">var</span> args = <span class="hljs-built_in">arguments</span>;
     <span class="hljs-built_in">window</span>.clearTimeout(timer);
-    timer = <span class="hljs-built_in">window</span>.setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">waiter</span><span class="hljs-params">()</span> </span>{
+    timer = <span class="hljs-built_in">window</span>.setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">waiter</span>(<span class="hljs-params"></span>) </span>{
       func.apply(that, args);
     }, wait);
   }
 };
 </code></pre>
 <p>Ta da! Now I can be way more efficient with AJAX requests, for example.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> makeXHRRequest = debounce(<span class="hljs-number">500</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> makeXHRRequest = debounce(<span class="hljs-number">500</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
    <span class="hljs-comment">// make request, process results, etc</span>
 });
 
