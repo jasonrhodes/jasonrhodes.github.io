@@ -177,6 +177,19 @@ img.hero {
   border-bottom: 1px solid rgba(0,0,0,0.3);
 }
 
+.post-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.post-container .image-small {
+  max-width: 500px;
+}
+
+.linked-image a {
+  border: none;
+}
+
 .post-container li {
   font-size: 0.85em;
 }
@@ -193,6 +206,11 @@ img.hero {
   font-size: 20px;
   letter-spacing: 12px;
   color: #E33B5A;
+}
+
+div.with-caption {
+  font-size: 75%;
+  color: rgba(0,0,0,0.7);
 }
 
 blockquote {
@@ -347,7 +365,7 @@ pre code {
   }
 
   blockquote blockquote {
-    
+
   }
 
 }
