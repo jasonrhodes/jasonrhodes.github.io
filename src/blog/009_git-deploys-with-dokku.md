@@ -13,13 +13,13 @@ $ git push heroku master
 
 That's all it takes to deploy an app. And since my apps are almost always node.js apps, I can put the startup command in the `npm start` script inside `package.json` and that's all I have to do. Make a change, push to `heroku master`, it figures out dependencies, restarts the process, proxies to nginx. It's the best.
 
-The only reason I looked for anything else is because I can't justify $7 per app when, like I said, these are little shitty hobby apps. I'd rather throw $10-20 at [Digital Ocean](https://www.digitalocean.com/) every month and be free to cram that box as full as it'll go with garbage apps and idiot bots. But dammit I want my easy git deployment, too. Waaaaaaaaah.
+The only reason I looked for anything else is because I can't justify $7 per app when, like I said, these are little shitty hobby apps. I'd rather throw $10-20 at [Digital Ocean](https://m.do.co/c/4e1fe8fd0656) every month and be free to cram that box as full as it'll go with garbage apps and idiot bots. But dammit I want my easy git deployment, too. Waaaaaaaaah.
 
 I was about to take a stab at some git hook magic myself today when at about 6:04 PM my pal [Visnup](https://twitter.com/visnup) suggested, "Dokku sounds close to what you want." I had never heard of Dokku. It's now 9:48 PM and I have a working Dokku instance running and a test app successfully deployed. And it's only costing me $5/mo for the cloud server and about $10/year for a cheap domain. Here's what I did.
 
 ## Digital Ocean
 
-Since I'd already decided to use Digital Ocean, my first step was to spin up a droplet. If you're not familiar, they're a great service that provides cloud servers for a monthly fee. [They even have a Dokku image](https://cloud.digitalocean.com/droplets/new?image=dokku), which I happily grabbed.
+Since I'd already decided to use Digital Ocean, my first step was to spin up a droplet. If you're not familiar, DO is a great service that provides cloud servers for cheap monthly fees ([give me those sweet referral credits](https://m.do.co/c/4e1fe8fd0656)). [They even have a Dokku image](https://cloud.digitalocean.com/droplets/new?image=dokku), which I happily grabbed.
 
 <div class="linked-image image-small">
 [![Dokku on Digital Ocean](/assets/images/do-dokku-droplet.png)](https://cloud.digitalocean.com/droplets/new?image=dokku)
