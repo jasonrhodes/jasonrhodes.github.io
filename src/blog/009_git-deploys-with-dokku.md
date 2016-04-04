@@ -3,7 +3,11 @@ title: Easy Heroku-like git deployments with Dokku and Digital Ocean
 date: 2016-04-02
 hero: /assets/images/dokku-header-2.jpeg
 ---
-_tl;dr I'm gonna explain how I just set up a Digital Ocean server so I can deploy apps to it with `git push`, and oh btw I accidentally got custom DNS subdomain management (via nginx) because Dokker is p cool._
+_tl;dr I'm gonna explain how I just set up a Digital Ocean server so I can deploy apps to it with `git push`, and oh btw I accidentally got custom DNS subdomain management (via nginx) because Dokku is p cool._
+
+**Update:** After publishing, I discovered [this step (creating the app remotely)](#creating-a-new-dokku-app) isn't even necessary. It's even easier than I thought.
+
+<hr>
 
 I really like [Heroku](https://www.heroku.com/). I know some developers aren't big fans, but for small hobby apps like bots or side projects, I love it for one main reason:
 
@@ -15,7 +19,7 @@ That's all it takes to deploy an app. And since my apps are almost always node.j
 
 The only reason I looked for anything else is because I can't justify $7 per app when, like I said, these are little shitty hobby apps. I'd rather throw $10-20 at [Digital Ocean](https://m.do.co/c/4e1fe8fd0656) every month and be free to cram that box as full as it'll go with garbage apps and idiot bots. But dammit I want my easy git deployment, too. Waaaaaaaaah.
 
-I was about to take a stab at some git hook magic myself today when at about 6:04 PM my pal [Visnup](https://twitter.com/visnup) suggested, "Dokku sounds close to what you want." I had never heard of Dokku. It's now 9:48 PM and I have a working Dokku instance running and a test app successfully deployed. And it's only costing me $5/mo for the cloud server and about $10/year for a cheap domain. Here's what I did.
+I was about to take a stab at some git hook magic myself today when at about 6:04 PM my pal [Visnup](https://twitter.com/visnup) suggested, "Dokku sounds close to what you want." I had never heard of [Dokku](https://github.com/dokku/dokku). It's now 9:48 PM and I have a working Dokku instance running and a test app successfully deployed. And it's only costing me $5/mo for the cloud server and about $10/year for a cheap domain. Here's what I did.
 
 ## Digital Ocean
 
@@ -73,6 +77,8 @@ cat ~/.ssh/id_rsa.pub | ssh root@dokku.me "sudo sshcommand acl-add dokku USER"
 To be honest, it's not totally clear to me the point of the `USER` in that above command. I think just adding your key to the `dokku` user is enough, unless you have some special deploy user that a tool has to use.
 
 ## Creating a new dokku app
+
+**Update:** This step isn't necessary at all. I just discovered while playing with dokku a bit more that pushing to the remote will create the repo for you if it doesn't exist, using a tool called [gitreceive](https://github.com/progrium/gitreceive). So it's even awesomer than I thought. [Skip to the next step](#deploying-your-local-repo-with-a-simple-git-push).
 
 To create the remote repo, you have to log into the box where Dokku is running. This is a one-time setup for each app. Log into the box, then run:
 
@@ -158,8 +164,9 @@ etc etc. When it finishes, you should see something like this:
        http://sample-dokku.mydokku.rhodesjason.com
 ```
 
-Huzzah, the app is deployed to my custom subdomain. Any time I make changes that I want to deploy, I just push to the `dokku` remote and off they go. And creating new apps with the same deployment process just takes a quick log in to the remote box to create the app. So far, this is exactly what I wanted. Thanks, @Visnup!
+Huzzah, the app is deployed to my custom subdomain. Any time I make changes that I want to deploy, I just push to the `dokku` remote and off they go. And creating new apps with the same deployment process just takes <del>a quick log in to the remote box to create the app</del> pushing a new git repo to the dokku remote! So far, this is exactly what I wanted. Thanks, @Visnup!
 
 More resources that may or may not be helpful:
 - http://dokku.viewdocs.io/dokku/
 - https://www.andrewmunsell.com/blog/dokku-tutorial-digital-ocean/
+- http://progrium.com/blog/2013/06/19/dokku-the-smallest-paas-implementation-youve-ever-seen/
