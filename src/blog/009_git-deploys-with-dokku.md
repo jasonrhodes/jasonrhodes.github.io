@@ -25,7 +25,7 @@ Since I'd already decided to use Digital Ocean, my first step was to spin up a d
 [![Dokku on Digital Ocean](/assets/images/do-dokku-droplet.png)](https://cloud.digitalocean.com/droplets/new?image=dokku)
 </div>
 
-After picking the image, you pick a size (I grabbed the 512 MB RAM / 20 GB HD for $5/mo just to start), a datacenter, and then [add your SSH public key](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2). You can also choose an optional hostname for your new droplet if you want your apps to run on something other than http://<ip.ad.dr.ess>.
+After picking the image, you pick a size (I grabbed the 512 MB RAM / 20 GB HD for $5/mo just to start), a datacenter, and then [add your SSH public key](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2). You can also choose an optional hostname for your new droplet if you want your apps to run on something other than the dumb IP address URL.
 
 That's it for the Digital Ocean side. The droplet should get created in under a minute.
 
@@ -62,7 +62,13 @@ Since DNS can take some time to "propagate", I usually check http://whatsmydns.n
 
 This part of the setup bit me. I just added my public key to `/home/dokku/.ssh/authorized_keys` thinking that would give me all the permissions I need to push to the git remotes that Dokku makes, but it didn't work. Turns out there is [a special command you need to run to set up the permissions correctly](http://dokku.viewdocs.io/dokku/deployment/user-management/#adding-deploy-users).
 
-<script src="https://gist.github.com/jasonrhodes/919516e75daa50faf4ee037f7dbb0645.js"></script>
+```console
+# from your local machine
+# replace dokku.me with your domain name or the host's IP
+# replace root with your server's root user
+# USER is the username you use to refer to this particular key
+cat ~/.ssh/id_rsa.pub | ssh root@dokku.me "sudo sshcommand acl-add dokku USER"
+```
 
 To be honest, it's not totally clear to me the point of the `USER` in that above command. I think just adding your key to the `dokku` user is enough, unless you have some special deploy user that a tool has to use.
 
@@ -81,15 +87,14 @@ This does 2 things:
 
 ## Deploying your local repo with a simple git push
 
-All I need now is a little app to test this thing out with. I threw together a simple nodejs app, but as best as I can tell, you don't have to use node. If you just want something simple to test with, feel free to clone https://github.com/jasonrhodes/sample-dokku and use that. When you have your local git repo ready to go, you just have to add the dokku remote and push it:
+All I need now is a little app to test this thing out with. As best as I can tell, you can use any language you want, but I threw together [a simple nodejs sample app](https://github.com/jasonrhodes/sample-dokku). If you just want something simple to test with, feel free to `git clone git@github.com:jasonrhodes/sample-dokku.git`. When you have your local git repo ready to go, you just have to add the dokku remote and push it:
 
 ```console
-$ git clone git@github.com:jasonrhodes/sample-dokku.git
 $ git remote add dokku dokku@<your-host-name>:<your-project-name>
 $ git push dokku master
 ```
 
-If everything is set up right, you'll see a long stream of output very similar to Heroku's deploy output:
+If everything is set up right, on push you'll see a long stream of output very similar to Heroku's deploy output:
 
 ```console
 Counting objects: 5, done.

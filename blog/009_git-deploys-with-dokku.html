@@ -39,7 +39,7 @@ ga('send', 'pageview');
 <p>Since I&#39;d already decided to use Digital Ocean, my first step was to spin up a droplet. If you&#39;re not familiar, DO is a great service that provides cloud servers for cheap monthly fees (<a href="https://m.do.co/c/4e1fe8fd0656">give me those sweet referral credits</a>). <a href="https://cloud.digitalocean.com/droplets/new?image=dokku">They even have a Dokku image</a>, which I happily grabbed.</p>
 <div class="linked-image image-small"><br><a href="https://cloud.digitalocean.com/droplets/new?image=dokku"><img src="/assets/images/do-dokku-droplet.png" alt="Dokku on Digital Ocean"></a><br></div>
 
-<p>After picking the image, you pick a size (I grabbed the 512 MB RAM / 20 GB HD for $5/mo just to start), a datacenter, and then <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2">add your SSH public key</a>. You can also choose an optional hostname for your new droplet if you want your apps to run on something other than http://<ip.ad.dr.ess>.</p>
+<p>After picking the image, you pick a size (I grabbed the 512 MB RAM / 20 GB HD for $5/mo just to start), a datacenter, and then <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2">add your SSH public key</a>. You can also choose an optional hostname for your new droplet if you want your apps to run on something other than the dumb IP address URL.</p>
 <p>That&#39;s it for the Digital Ocean side. The droplet should get created in under a minute.</p>
 <div class="with-caption image-small"><br><img src="/assets/images/dokku-do.gif" alt="Dokku image getting created"><br>Well, maybe not <em>this</em> fast. But it&#39;s fast.<br></div>
 
@@ -57,8 +57,12 @@ ga('send', 'pageview');
 <p>Since DNS can take some time to &quot;propagate&quot;, I usually check <a href="http://whatsmydns.net">http://whatsmydns.net</a> to keep track of the status. You can use <code>dig</code> on  the command line, too. Once it&#39;s propagated, you can finish setting up Dokku.</p>
 <h2 id="deploy-authorization">Deploy authorization</h2>
 <p>This part of the setup bit me. I just added my public key to <code>/home/dokku/.ssh/authorized_keys</code> thinking that would give me all the permissions I need to push to the git remotes that Dokku makes, but it didn&#39;t work. Turns out there is <a href="http://dokku.viewdocs.io/dokku/deployment/user-management/#adding-deploy-users">a special command you need to run to set up the permissions correctly</a>.</p>
-<script src="https://gist.github.com/jasonrhodes/919516e75daa50faf4ee037f7dbb0645.js"></script>
-
+<pre><code class="lang-console"># from your local machine
+# <span class="hljs-keyword">replace</span> dokku.me <span class="hljs-keyword">with</span> your <span class="hljs-keyword">domain</span> <span class="hljs-keyword">name</span> <span class="hljs-keyword">or</span> the host<span class="hljs-string">'s IP
+# replace root with your server'</span>s root <span class="hljs-keyword">user</span>
+# <span class="hljs-keyword">USER</span> <span class="hljs-keyword">is</span> the username you <span class="hljs-keyword">use</span> <span class="hljs-keyword">to</span> refer <span class="hljs-keyword">to</span> this particular <span class="hljs-keyword">key</span>
+cat ~/.ssh/id_rsa.pub | ssh root@dokku.me <span class="hljs-string">"sudo sshcommand acl-add dokku USER"</span>
+</code></pre>
 <p>To be honest, it&#39;s not totally clear to me the point of the <code>USER</code> in that above command. I think just adding your key to the <code>dokku</code> user is enough, unless you have some special deploy user that a tool has to use.</p>
 <h2 id="creating-a-new-dokku-app">Creating a new dokku app</h2>
 <p>To create the remote repo, you have to log into the box where Dokku is running. This is a one-time setup for each app. Log into the box, then run:</p>
@@ -70,12 +74,11 @@ ga('send', 'pageview');
 <li>Links the app to my subdomain <code>sample-dokku.mydokku.rhodesjason.com</code></li>
 </ol>
 <h2 id="deploying-your-local-repo-with-a-simple-git-push">Deploying your local repo with a simple git push</h2>
-<p>All I need now is a little app to test this thing out with. I threw together a simple nodejs app, but as best as I can tell, you don&#39;t have to use node. If you just want something simple to test with, feel free to clone <a href="https://github.com/jasonrhodes/sample-dokku">https://github.com/jasonrhodes/sample-dokku</a> and use that. When you have your local git repo ready to go, you just have to add the dokku remote and push it:</p>
-<pre><code class="lang-console"><span class="hljs-variable">$ </span>git clone git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>jasonrhodes/sample-dokku.git
-<span class="hljs-variable">$ </span>git remote add dokku dokku@&lt;your-host-name&gt;<span class="hljs-symbol">:&lt;your-project-name&gt;</span>
+<p>All I need now is a little app to test this thing out with. As best as I can tell, you can use any language you want, but I threw together <a href="https://github.com/jasonrhodes/sample-dokku">a simple nodejs sample app</a>. If you just want something simple to test with, feel free to <code>git clone git@github.com:jasonrhodes/sample-dokku.git</code>. When you have your local git repo ready to go, you just have to add the dokku remote and push it:</p>
+<pre><code class="lang-console"><span class="hljs-variable">$ </span>git remote add dokku dokku@&lt;your-host-name&gt;<span class="hljs-symbol">:&lt;your-project-name&gt;</span>
 <span class="hljs-variable">$ </span>git push dokku master
 </code></pre>
-<p>If everything is set up right, you&#39;ll see a long stream of output very similar to Heroku&#39;s deploy output:</p>
+<p>If everything is set up right, on push you&#39;ll see a long stream of output very similar to Heroku&#39;s deploy output:</p>
 <pre><code class="lang-console">Counting objects: 5, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (4/4), done.
