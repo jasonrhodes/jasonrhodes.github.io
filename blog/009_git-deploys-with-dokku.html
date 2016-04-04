@@ -25,26 +25,29 @@ ga('send', 'pageview');
         <sep> | </sep><a href="/blog">blog</a>
         <sep> | </sep><a href="http://speakerdeck.com/rhodesjason">slides</a></span><img src="/assets/images/rhodesjason-01-glitched.square.256.png" class="avatar"></header>
     <div class="post-nav top"><a href="/blog/008_airplay-magic.html" class="prev">Prev: AirPlay Problems Disappear With This One Weird Trick!</a>
-    </div><img src="/assets/images/airplay-magic.jpg" class="hero">
-    <h1 class="post-title">Deploy apps with 'git push' using Dokku and Digital Ocean</h1>
+    </div><img src="/assets/images/dokku-header-2.jpeg" class="hero">
+    <h1 class="post-title">Easy Heroku-like git deployments with Dokku and Digital Ocean</h1>
     <p class="byline">Posted by Jason Rhodes on April 1st, 2016</p>
-    <div class="container post-container"><p>I really like Heroku. I know some developers aren&#39;t big fans (&quot;that sounds nice, but I like to have more control anyway&quot;), but it has worked great for me for little apps like Slack bots or Twitter bots or tiny things I need to ping once in a while. The greatest thing about Heroku apps is that I can deploy them with a simple <code>git push heroku master</code>, watch a ton of logs pour out, and my new code is pushed, dependecies in place, and services restarted.</p>
-<p>Recently, Heroku started enforcing its &quot;6 hours of sleep per day&quot; rule for free apps. All apps get put to bed for 6 hours a day, unless you upgrade to the $7/mo plan, which you have to pay per dyno (so per app at least). To be clear, I think this is fair and I think the pricing is fair, but for little hobby shit I just couldn&#39;t justify paying a fee per app like that.</p>
-<p>For what I do, I much prefer giving Digital Ocean $10-20 bucks per month and being able to shove as much as I can fit on one of their boxes. But with DO, I have to figure out how to deploy my code there. UGGGH life is really hard. I was going to try to write some git hook magic myself today when my waffley pal <a href="https://twitter.com/visnup">Visnup</a> said, &quot;Dokku sounds close to what you want.&quot; That was at 6:04PM, and I had never heard of Dokku. It&#39;s now 9:48PM later that day and I have a working instance running with a test app deployed. Here&#39;s what I did.</p>
+    <div class="container post-container"><p><em>tl;dr I&#39;m gonna explain how I just set up a Digital Ocean server so I can deploy apps to it with <code>git push</code>, and oh btw I accidentally got custom DNS subdomain management (via nginx) because Dokker is p cool.</em></p>
+<p>I really like <a href="https://www.heroku.com/">Heroku</a>. I know some developers aren&#39;t big fans, but for small hobby apps like bots or side projects, I love it for one main reason:</p>
+<pre><code class="lang-console">$ git <span class="hljs-keyword">push </span>heroku master
+</code></pre>
+<p>That&#39;s all it takes to deploy an app. And since my apps are almost always node.js apps, I can put the startup command in the <code>npm start</code> script inside <code>package.json</code> and that&#39;s all I have to do. Make a change, push to <code>heroku master</code>, it figures out dependencies, restarts the process, proxies to nginx. It&#39;s the best.</p>
+<p>The only reason I looked for anything else is because I can&#39;t justify $7 per app when, like I said, these are little shitty hobby apps. I&#39;d rather throw $10-20 at <a href="https://www.digitalocean.com/">Digital Ocean</a> every month and be free to cram that box as full as it&#39;ll go with garbage apps and idiot bots. But dammit I want my easy git deployment, too. Waaaaaaaaah.</p>
+<p>I was about to take a stab at some git hook magic myself today when at about 6:04 PM my pal <a href="https://twitter.com/visnup">Visnup</a> suggested, &quot;Dokku sounds close to what you want.&quot; I had never heard of Dokku. It&#39;s now 9:48 PM and I have a working Dokku instance running and a test app successfully deployed. And it&#39;s only costing me $5/mo for the cloud server and about $10/year for a cheap domain. Here&#39;s what I did.</p>
 <h2 id="digital-ocean">Digital Ocean</h2>
-<p>Since I&#39;d already decided to use Digital Ocean, my first step was to spin up a droplet. If you&#39;re not familiar with <a href="https://www.digitalocean.com/">Digital Ocean</a>, they&#39;re a great service that provides cloud servers for a monthly fee. <a href="https://cloud.digitalocean.com/droplets/new?image=dokku">They even have a Dokku image</a>, which I happily grabbed.</p>
+<p>Since I&#39;d already decided to use Digital Ocean, my first step was to spin up a droplet. If you&#39;re not familiar, they&#39;re a great service that provides cloud servers for a monthly fee. <a href="https://cloud.digitalocean.com/droplets/new?image=dokku">They even have a Dokku image</a>, which I happily grabbed.</p>
 <div class="linked-image image-small"><br><a href="https://cloud.digitalocean.com/droplets/new?image=dokku"><img src="/assets/images/do-dokku-droplet.png" alt="Dokku on Digital Ocean"></a><br></div>
 
-<p>After picking the image, you pick a size (I grabbed the 512 MB RAM / 20 GB HD for $5/mo just to start), a datacenter, and then <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2">add your SSH public key</a>. The last step is to choose an optional hostname for your new droplet. If you want your apps to run on something like <a href="http://123.45.67.8">http://123.45.67.8</a>, then you can leave this alone, but if you have a domain you&#39;d like to use, enter it in the hostname now.</p>
-<p>That&#39;s it for the DO side. The droplet should get created in under a minute.</p>
+<p>After picking the image, you pick a size (I grabbed the 512 MB RAM / 20 GB HD for $5/mo just to start), a datacenter, and then <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2">add your SSH public key</a>. You can also choose an optional hostname for your new droplet if you want your apps to run on something other than http://<ip.ad.dr.ess>.</p>
+<p>That&#39;s it for the Digital Ocean side. The droplet should get created in under a minute.</p>
 <div class="with-caption image-small"><br><img src="/assets/images/dokku-do.gif" alt="Dokku image getting created"><br>Well, maybe not <em>this</em> fast. But it&#39;s fast.<br></div>
-
 
 <h2 id="dokku">Dokku</h2>
 <p>Once I got Dokku installed and running on Digital Ocean, I went to the new box&#39;s IP address in the browser to bring up the Dokku setup screen.</p>
 <div class="image-small"><br><img src="/assets/images/dokku-setup-1.png" alt="Dokku setup screen"><br></div>
 
-<p>It imported my public key from the Digital Ocean setup (was a little scary to see that there tbqh), but not my hostname. I think it was supposed to bring the hostname over, but for me I had to add it again. After adding it back, I checked the &quot;Use virtualhost naming for apps&quot; checkbox, and the url preview changed to <code>http://&lt;app-name&gt;.mydokku.rhodesjason.com</code>. Clicking &quot;Finish Setup&quot; redirected me to the Dokku documentation page. Great success.</p>
+<p>It imported my public key from the Digital Ocean setup (tbqh it was a little scary to see that pop up there), but not my hostname. I think it was supposed to bring the hostname over, but for me I had to add it again, and then check the &quot;Use virtualhost naming for apps&quot; checkbox which made the url preview change to <code>http://&lt;app-name&gt;.mydokku.rhodesjason.com</code>. Clicking &quot;Finish Setup&quot; redirected me to the Dokku documentation page. Great success.</p>
 <h2 id="dns">DNS</h2>
 <p>Since I&#39;d opted to use hostnames instead of the IP for my Dokku apps, I needed to get my DNS set up correctly too. My domains are mostly managed through <a href="http://iwantmyname.com">http://iwantmyname.com</a>, but most domain management services should have a similar interface for managing your DNS records.</p>
 <p>After logging in and finding my way to the &quot;Manage DNS Records&quot; page for my rhodesjason.com domain, I added two A records pointed at the IP address of my Dokku server.</p>
@@ -59,7 +62,7 @@ ga('send', 'pageview');
 <p>To be honest, it&#39;s not totally clear to me the point of the <code>USER</code> in that above command. I think just adding your key to the <code>dokku</code> user is enough, unless you have some special deploy user that a tool has to use.</p>
 <h2 id="creating-a-new-dokku-app">Creating a new dokku app</h2>
 <p>To create the remote repo, you have to log into the box where Dokku is running. This is a one-time setup for each app. Log into the box, then run:</p>
-<pre><code class="lang-bash">dokku apps:<span class="hljs-keyword">create</span> <span class="hljs-keyword">sample</span>-dokku
+<pre><code class="lang-console">dokku apps:<span class="hljs-keyword">create</span> <span class="hljs-keyword">sample</span>-dokku
 </code></pre>
 <p>This does 2 things:</p>
 <ol>
@@ -67,12 +70,13 @@ ga('send', 'pageview');
 <li>Links the app to my subdomain <code>sample-dokku.mydokku.rhodesjason.com</code></li>
 </ol>
 <h2 id="deploying-your-local-repo-with-a-simple-git-push">Deploying your local repo with a simple git push</h2>
-<p>All I need now is a little nodejs app to test this thing out with. If you&#39;re testing yours, feel free to clone <a href="https://github.com/jasonrhodes/sample-dokku">https://github.com/jasonrhodes/sample-dokku</a> and use that. When you have a git repo ready to go, you just have to add the dokku remote and push it:</p>
-<pre><code class="lang-bash"><span class="hljs-variable">$ </span>git remote add dokku dokku<span class="hljs-variable">@mydokku</span>.rhodesjason.<span class="hljs-symbol">com:</span>sample-dokku
+<p>All I need now is a little app to test this thing out with. I threw together a simple nodejs app, but as best as I can tell, you don&#39;t have to use node. If you just want something simple to test with, feel free to clone <a href="https://github.com/jasonrhodes/sample-dokku">https://github.com/jasonrhodes/sample-dokku</a> and use that. When you have your local git repo ready to go, you just have to add the dokku remote and push it:</p>
+<pre><code class="lang-console"><span class="hljs-variable">$ </span>git clone git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>jasonrhodes/sample-dokku.git
+<span class="hljs-variable">$ </span>git remote add dokku dokku@&lt;your-host-name&gt;<span class="hljs-symbol">:&lt;your-project-name&gt;</span>
 <span class="hljs-variable">$ </span>git push dokku master
 </code></pre>
 <p>If everything is set up right, you&#39;ll see a long stream of output very similar to Heroku&#39;s deploy output:</p>
-<pre><code>Counting objects: 5, done.
+<pre><code class="lang-console">Counting objects: 5, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (4/4), done.
 Writing objects: 100% (5/5), 654 bytes | 0 bytes/s, done.
@@ -111,8 +115,9 @@ Total 5 (delta 0), reused 0 (delta 0)
        <span class="hljs-string">`-- express@4.13.4
        +-- accepts@1.2.13
        | +-- mime-types@2.1.10</span>
-</code></pre><p>etc etc. When it finishes, you&#39;ll see something like this:</p>
-<pre><code>-<span class="ruby">----&gt; Default container check successful!
+</code></pre>
+<p>etc etc. When it finishes, you should see something like this:</p>
+<pre><code class="lang-console">-<span class="ruby">----&gt; Default container check successful!
 </span>-<span class="ruby">----&gt; Running post-deploy
 </span>-<span class="ruby">----&gt; Attempting to run scripts.dokku.postdeploy from app.json (<span class="hljs-keyword">if</span> <span class="hljs-keyword">defined</span>)
 </span>=<span class="ruby">====&gt; renaming container (<span class="hljs-number">86</span>ac85941b97) pedantic_mirzakhani to sample-dokku.web.<span class="hljs-number">1</span>
@@ -127,18 +132,23 @@ Total 5 (delta 0), reused 0 (delta 0)
 </span>       DOKKU_APP_RESTORE: 1
 =<span class="ruby">====&gt; Application <span class="hljs-symbol">deployed:</span>
 </span>       http://sample-dokku.mydokku.rhodesjason.com
-</code></pre><p>Ta da! The app is deployed to my custom subdomain. Any time I make changes that I want to deploy, I just push to the <code>dokku</code> remote and off they go. Creating new apps just takes a log-in on the remote box to create the app. And if you want to let others push to the remote, just add their keys with the same command used above.</p>
-<p>I just started using it but so far it seems like just what I was looking for. Hope it works for you, too!</p>
+</code></pre>
+<p>Huzzah, the app is deployed to my custom subdomain. Any time I make changes that I want to deploy, I just push to the <code>dokku</code> remote and off they go. And creating new apps with the same deployment process just takes a quick log in to the remote box to create the app. So far, this is exactly what I wanted. Thanks, @Visnup!</p>
+<p>More resources that may or may not be helpful:</p>
+<ul>
+<li><a href="http://dokku.viewdocs.io/dokku/">http://dokku.viewdocs.io/dokku/</a></li>
+<li><a href="https://www.andrewmunsell.com/blog/dokku-tutorial-digital-ocean/">https://www.andrewmunsell.com/blog/dokku-tutorial-digital-ocean/</a></li>
+</ul>
 
     </div>
     <div class="post-nav bottom"><a href="/blog/008_airplay-magic.html" class="prev">Prev: AirPlay Problems Disappear With This One Weird Trick!</a>
     </div>
     <script>
-      var disqus_title = 'Deploy apps with 'git push' using Dokku and Digital Ocean'
+      var disqus_title = 'Easy Heroku-like git deployments with Dokku and Digital Ocean'
       
     </script>
     <div class="container comments">
-      <p class="comments-intro"><span class="warning-icon">☣</span><em><strong>Warning: </strong><span>Comments ahead. </span><span style="white-space: nowrap;">Be nice or else.</span></em></p><div id="disqus_thread"></div>
+      <p class="comments-intro"><span class="warning-icon"></span><em><strong>Warning:</strong><span> Comments ahead. </span><span style="white-space: nowrap;">Never read them.</span></em></p><div id="disqus_thread"></div>
 <script type="text/javascript">
   /* * * CONFIGURATION VARIABLES * * */
   var disqus_shortname = 'rhodesjason';
@@ -152,7 +162,7 @@ Total 5 (delta 0), reused 0 (delta 0)
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     </div>
-    <script id="postList" type="text/data">[{"title":"Why Baltimore?","date":"2013-12-10T00:00:00.000Z","machineDate":"2013-12-09","prettyDate":"December 9th 2013","teaser":"A few hours ago, I tweeted a few times about the CreateBaltimore event happening today. I said:","url":"/blog/001_why-baltimore.html"},{"title":"Calm down, JavaScript","date":"2013-04-20T00:00:00.000Z","machineDate":"2013-04-19","prettyDate":"April 19th 2013","teaser":"I’ve been writing a lot of JavaScript lately, mostly for browser interactions, animations, and single-page navigation controls. As you begin to attach more callbacks to the window’s onscroll event, you become aware of just how jumpy that event is, and how costly it becomes if your callbacks are doing anything remotely intense.","url":"/blog/002_calm-down-javascript.html"},{"title":"Baltimore NodeSchool is open","date":"2014-03-31T00:00:00.000Z","machineDate":"2014-03-30","prettyDate":"March 30th 2014","teaser":"tl;dr: I have a ton of people to thank for how awesome this event has come together, and I’m super excited for it. If you just want to learn about the event itself, visit our website or go right to the registration page.","url":"/blog/003_nodeschool-baltimore-open.html"},{"title":"CSS whyyyyyy whyyy whyyyyyyyyy","date":"2014-12-30T00:00:00.000Z","teaser":"Whenever I say I hate CSS, people assume I probably don't understand it. Which makes me think maybe they've never used CSS?","hero":"/assets/images/css.gif","machineDate":"2014-12-29","prettyDate":"December 29th 2014","url":"/blog/004_canteven-style-sheets.html"},{"title":"Lightly, lightly","date":"2015-01-09T00:00:00.000Z","machineDate":"2015-01-08","prettyDate":"January 8th 2015","teaser":"A friend mentioned this quote yesterday and I keep going back to it. ","url":"/blog/005_lightly-lightly.html"},{"title":"indie.bs","date":"2015-01-13T00:00:00.000Z","machineDate":"2015-01-12","prettyDate":"January 12th 2015","teaser":"Have you been following along with the indie project? A little over a year ago, when Aral Balkan (@aral) launched his project to empower humans and topple the closed silos of the internet world?","url":"/blog/006_indie-bs.html"},{"title":"Hey Baltimore JavaScripters, what's up?","date":"2015-03-14T00:00:00.000Z","hero":"/assets/images/baltimore-harbor-skyline.jpg","machineDate":"2015-03-13","prettyDate":"March 13th 2015","teaser":"We&#39;re currently planning our fourth NodeSchool event here in Baltimore. And when I say &quot;we&quot;, I mean I. I&#39;m doing it. It turns out that delegation and community organization are hard work. Who knew? (I knew, but still.)","url":"/blog/007_hey-baltimore-jsers.html"},{"title":"AirPlay Problems Disappear With This One Weird Trick!","date":"2015-10-24T00:00:00.000Z","hero":"/assets/images/airplay-magic.jpg","machineDate":"2015-10-23","prettyDate":"October 23rd 2015","teaser":"I bought an Apple TV for my living room when we cut DirecTV earlier this year, but the AirPlay mirroring feature never worked. Today, I finally discovered why, kind of, or at least how to fix it, I think.","url":"/blog/008_airplay-magic.html"},{"title":"Deploy apps with 'git push' using Dokku and Digital Ocean","date":"2016-04-02T00:00:00.000Z","hero":"/assets/images/airplay-magic.jpg","machineDate":"2016-04-01","prettyDate":"April 1st 2016","teaser":"I really like Heroku. I know some developers aren&#39;t big fans (&quot;that sounds nice, but I like to have more control anyway&quot;), but it has worked great for me for little apps like Slack bots or Twitter bots or tiny things I need to ping once in a while. The greatest thing about Heroku apps is that I can deploy them with a simple git push heroku master, watch a ton of logs pour out, and my new code is pushed, dependecies in place, and services restarted.","url":"/blog/009_git-deploys-with-dokku.html"}]
+    <script id="postList" type="text/data">[{"title":"Why Baltimore?","date":"2013-12-10T00:00:00.000Z","machineDate":"2013-12-09","prettyDate":"December 9th 2013","teaser":"A few hours ago, I tweeted a few times about the CreateBaltimore event happening today. I said:","url":"/blog/001_why-baltimore.html"},{"title":"Calm down, JavaScript","date":"2013-04-20T00:00:00.000Z","machineDate":"2013-04-19","prettyDate":"April 19th 2013","teaser":"I’ve been writing a lot of JavaScript lately, mostly for browser interactions, animations, and single-page navigation controls. As you begin to attach more callbacks to the window’s onscroll event, you become aware of just how jumpy that event is, and how costly it becomes if your callbacks are doing anything remotely intense.","url":"/blog/002_calm-down-javascript.html"},{"title":"Baltimore NodeSchool is open","date":"2014-03-31T00:00:00.000Z","machineDate":"2014-03-30","prettyDate":"March 30th 2014","teaser":"tl;dr: I have a ton of people to thank for how awesome this event has come together, and I’m super excited for it. If you just want to learn about the event itself, visit our website or go right to the registration page.","url":"/blog/003_nodeschool-baltimore-open.html"},{"title":"CSS whyyyyyy whyyy whyyyyyyyyy","date":"2014-12-30T00:00:00.000Z","teaser":"Whenever I say I hate CSS, people assume I probably don't understand it. Which makes me think maybe they've never used CSS?","hero":"/assets/images/css.gif","machineDate":"2014-12-29","prettyDate":"December 29th 2014","url":"/blog/004_canteven-style-sheets.html"},{"title":"Lightly, lightly","date":"2015-01-09T00:00:00.000Z","machineDate":"2015-01-08","prettyDate":"January 8th 2015","teaser":"A friend mentioned this quote yesterday and I keep going back to it. ","url":"/blog/005_lightly-lightly.html"},{"title":"indie.bs","date":"2015-01-13T00:00:00.000Z","machineDate":"2015-01-12","prettyDate":"January 12th 2015","teaser":"Have you been following along with the indie project? A little over a year ago, when Aral Balkan (@aral) launched his project to empower humans and topple the closed silos of the internet world?","url":"/blog/006_indie-bs.html"},{"title":"Hey Baltimore JavaScripters, what's up?","date":"2015-03-14T00:00:00.000Z","hero":"/assets/images/baltimore-harbor-skyline.jpg","machineDate":"2015-03-13","prettyDate":"March 13th 2015","teaser":"We&#39;re currently planning our fourth NodeSchool event here in Baltimore. And when I say &quot;we&quot;, I mean I. I&#39;m doing it. It turns out that delegation and community organization are hard work. Who knew? (I knew, but still.)","url":"/blog/007_hey-baltimore-jsers.html"},{"title":"AirPlay Problems Disappear With This One Weird Trick!","date":"2015-10-24T00:00:00.000Z","hero":"/assets/images/airplay-magic.jpg","machineDate":"2015-10-23","prettyDate":"October 23rd 2015","teaser":"I bought an Apple TV for my living room when we cut DirecTV earlier this year, but the AirPlay mirroring feature never worked. Today, I finally discovered why, kind of, or at least how to fix it, I think.","url":"/blog/008_airplay-magic.html"},{"title":"Easy Heroku-like git deployments with Dokku and Digital Ocean","date":"2016-04-02T00:00:00.000Z","hero":"/assets/images/dokku-header-2.jpeg","machineDate":"2016-04-01","prettyDate":"April 1st 2016","teaser":"tl;dr I&#39;m gonna explain how I just set up a Digital Ocean server so I can deploy apps to it with git push, and oh btw I accidentally got custom DNS subdomain management (via nginx) because Dokker is p cool.","url":"/blog/009_git-deploys-with-dokku.html"}]
     </script>
     <script src="/assets/js/site.js"></script>
   </body>

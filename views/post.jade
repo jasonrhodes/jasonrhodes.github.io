@@ -19,7 +19,7 @@ block body
   div.post-nav.bottom
     if (prev)
       a.prev(href=prev.url)= 'Prev: ' + prev.title
-    
+
     if (next)
       a.next(href=next.url)= 'Next: ' + next.title
 
@@ -28,10 +28,10 @@ block body
 
   div.container.comments
     p.comments-intro
-      span.warning-icon ☣
+      span.warning-icon
       em
-        strong Warning: 
-        span= 'Comments ahead. '
-        span(style='white-space: nowrap;') Be nice or else.
-    
+        strong Warning:
+        span= ' Comments ahead. '
+        span(style='white-space: nowrap;') Never read them.
+
     include includes/disqus.html

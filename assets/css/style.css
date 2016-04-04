@@ -1,5 +1,5 @@
 body {
-  background-color: #e1ded7; /* #e3edf2; */
+  background-color: rgba(238, 223, 204, 0.2); /* #fff; #e1ded7; #e3edf2; */
   font-family: 'Roboto', Helvetica, sans-serif;
   font-size: 20px;
   line-height: 1.4;
@@ -180,6 +180,7 @@ img.hero {
 .post-container img {
   max-width: 100%;
   height: auto;
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
 .post-container .image-small {
@@ -261,13 +262,24 @@ pre code {
   line-height: 1.4em;
 }
 
+/* Override shitty bash syntax highlight from highlight.js */
+.lang-console span {
+  color: #c5c8c6 !important;
+}
+/* But keep comment color if it accurately finds a comment */
+.lang-console span.hljs-comment {
+  color: #969896 !important;
+}
+
 .comments-intro {
   text-align: center;
   font-size: 85%;
   line-height: 1.5;
-  padding: 1em;
+  padding: 1em 1em 0.75em;
   margin: 2em 0;
-  background-color: rgba(0,0,0,0.07);
+  background-color: OrangeRed;
+  color: #fff;
+  opacity: 0.8;
 }
 
 .comments-intro .warning-icon {
