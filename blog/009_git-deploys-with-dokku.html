@@ -24,7 +24,7 @@ ga('send', 'pageview');
     <header><a href="/" class="logo">rhodesjasondotcom</a><span class="nav"><a href="/">home</a>
         <sep> | </sep><a href="/blog">blog</a>
         <sep> | </sep><a href="http://speakerdeck.com/rhodesjason">slides</a></span><img src="/assets/images/rhodesjason-01-glitched.square.256.png" class="avatar"></header>
-    <div class="post-nav top"><a href="/blog/008_airplay-magic.html" class="prev">Prev: AirPlay Problems Disappear With This One Weird Trick!</a>
+    <div class="post-nav top"><a href="/blog/008_airplay-magic.html" class="prev">Prev: AirPlay Problems Disappear With This One Weird Trick!</a><a href="/blog/010_react-context-littleform.html" class="next">Next: I accidentally built a form library</a>
     </div><img src="/assets/images/dokku-header-2.jpeg" class="hero">
     <h1 class="post-title">Easy Heroku-like git deployments with Dokku and Digital Ocean</h1>
     <p class="byline">Posted by Jason Rhodes on April 1st, 2016</p>
@@ -60,11 +60,11 @@ ga('send', 'pageview');
 <p>Since DNS can take some time to &quot;propagate&quot;, I usually check <a href="http://whatsmydns.net">http://whatsmydns.net</a> to keep track of the status. You can use <code>dig</code> on  the command line, too. Once it&#39;s propagated, you can finish setting up Dokku.</p>
 <h2 id="deploy-authorization">Deploy authorization</h2>
 <p>This part of the setup bit me. I just added my public key to <code>/home/dokku/.ssh/authorized_keys</code> thinking that would give me all the permissions I need to push to the git remotes that Dokku makes, but it didn&#39;t work. Turns out there is <a href="http://dokku.viewdocs.io/dokku/deployment/user-management/#adding-deploy-users">a special command you need to run to set up the permissions correctly</a>.</p>
-<pre><code class="lang-console"># from your local machine
-# <span class="hljs-keyword">replace</span> dokku.me <span class="hljs-keyword">with</span> your <span class="hljs-keyword">domain</span> <span class="hljs-keyword">name</span> <span class="hljs-keyword">or</span> the host<span class="hljs-string">'s IP
-# replace root with your server'</span>s root <span class="hljs-keyword">user</span>
-# <span class="hljs-keyword">USER</span> <span class="hljs-keyword">is</span> the username you <span class="hljs-keyword">use</span> <span class="hljs-keyword">to</span> refer <span class="hljs-keyword">to</span> this particular <span class="hljs-keyword">key</span>
-cat ~/.ssh/id_rsa.pub | ssh root@dokku.me <span class="hljs-string">"sudo sshcommand acl-add dokku USER"</span>
+<pre><code class="lang-console"><span class="hljs-comment"># from your local machine</span>
+<span class="hljs-comment"># replace dokku.me with your domain name or the host's IP</span>
+<span class="hljs-comment"># replace root with your server's root user</span>
+<span class="hljs-comment"># USER is the username you use to refer to this particular key</span>
+cat ~<span class="hljs-regexp">/.ssh/id</span>_rsa.pub | ssh root<span class="hljs-variable">@dokku</span>.me <span class="hljs-string">"sudo sshcommand acl-add dokku USER"</span>
 </code></pre>
 <p>To be honest, it&#39;s not totally clear to me the point of the <code>USER</code> in that above command. I think just adding your key to the <code>dokku</code> user is enough, unless you have some special deploy user that a tool has to use.</p>
 <h2 id="creating-a-new-dokku-app">Creating a new dokku app</h2>
@@ -84,61 +84,61 @@ cat ~/.ssh/id_rsa.pub | ssh root@dokku.me <span class="hljs-string">"sudo sshcom
 </code></pre>
 <p>If everything is set up right, on push you&#39;ll see a long stream of output very similar to Heroku&#39;s deploy output:</p>
 <pre><code class="lang-console">Counting objects: 5, done.
-Delta compression using up to 4 threads.
+Delta compression using up <span class="hljs-keyword">to</span> 4 threads.
 Compressing objects: 100% (4/4), done.
 Writing objects: 100% (5/5), 654 bytes | 0 bytes/s, done.
 Total 5 (delta 0), reused 0 (delta 0)
-<span class="hljs-comment">-----&gt; Cleaning up...</span>
-<span class="hljs-comment">-----&gt; Building sample-dokku from herokuish...</span>
-<span class="hljs-comment">-----&gt; Setting config vars</span>
+-----&gt; Cleaning up<span class="hljs-built_in">..</span>.
+-----&gt; Building sample-dokku <span class="hljs-keyword">from</span> herokuish<span class="hljs-built_in">..</span>.
+-----&gt; Setting<span class="hljs-built_in"> config </span>vars
        CURL_CONNECT_TIMEOUT: 5
-<span class="hljs-comment">-----&gt; Setting config vars</span>
+-----&gt; Setting<span class="hljs-built_in"> config </span>vars
        CURL_TIMEOUT: 30
-<span class="hljs-comment">-----&gt; Adding BUILD_ENV to build environment...</span>
-<span class="hljs-comment">-----&gt; Node.js app detected</span>
+-----&gt; Adding BUILD_ENV <span class="hljs-keyword">to</span> build environment<span class="hljs-built_in">..</span>.
+-----&gt; Node.js app detected
 
-<span class="hljs-comment">-----&gt; Creating runtime environment</span>
+-----&gt; Creating runtime environment
 
-       NPM_CONFIG_LOGLEVEL=error
-       NPM_CONFIG_PRODUCTION=true
-       NODE_ENV=production
-       NODE_MODULES_CACHE=true
+       <span class="hljs-attribute">NPM_CONFIG_LOGLEVEL</span>=error
+       <span class="hljs-attribute">NPM_CONFIG_PRODUCTION</span>=<span class="hljs-literal">true</span>
+       <span class="hljs-attribute">NODE_ENV</span>=production
+       <span class="hljs-attribute">NODE_MODULES_CACHE</span>=<span class="hljs-literal">true</span>
 
-<span class="hljs-comment">-----&gt; Installing binaries</span>
+-----&gt; Installing binaries
        engines.node (package.json):  unspecified
-       engines.npm (package.json):   unspecified (<span class="hljs-keyword">use</span> <span class="hljs-keyword">default</span>)
+       engines.npm (package.json):   unspecified (use default)
 
-       Resolving node <span class="hljs-keyword">version</span> (latest stable) via semver.io...
-       Downloading <span class="hljs-keyword">and</span> installing node <span class="hljs-number">5.10</span><span class="hljs-number">.0</span>...
-       <span class="hljs-keyword">Using</span> <span class="hljs-keyword">default</span> npm <span class="hljs-keyword">version</span>: <span class="hljs-number">3.8</span><span class="hljs-number">.3</span>
+       Resolving node version (latest stable) via semver.io<span class="hljs-built_in">..</span>.
+       Downloading <span class="hljs-keyword">and</span> installing node 5.10.0<span class="hljs-built_in">..</span>.
+       Using<span class="hljs-built_in"> default </span>npm version: 3.8.3
 
-<span class="hljs-comment">-----&gt; Restoring cache</span>
-       Skipping <span class="hljs-keyword">cache</span> <span class="hljs-keyword">restore</span> (<span class="hljs-keyword">new</span> runtime signature)
+-----&gt; Restoring cache
+       Skipping cache restore (new runtime signature)
 
-<span class="hljs-comment">-----&gt; Building dependencies</span>
-       Pruning <span class="hljs-keyword">any</span> extraneous modules
-       Installing node modules (<span class="hljs-keyword">package</span>.<span class="hljs-keyword">json</span>)
-       <span class="hljs-keyword">sample</span>-dokku@<span class="hljs-number">1.0</span><span class="hljs-number">.0</span> /tmp/<span class="hljs-keyword">build</span>
-       <span class="hljs-string">`-- express@4.13.4
+-----&gt; Building dependencies
+       Pruning any extraneous modules
+       Installing node modules (package.json)
+       sample-dokku@1.0.0 /tmp/build
+       `-- express@4.13.4
        +-- accepts@1.2.13
-       | +-- mime-types@2.1.10</span>
+       | +-- mime-types@2.1.10
 </code></pre>
 <p>etc etc. When it finishes, you should see something like this:</p>
-<pre><code class="lang-console">-<span class="ruby">----&gt; Default container check successful!
-</span>-<span class="ruby">----&gt; Running post-deploy
-</span>-<span class="ruby">----&gt; Attempting to run scripts.dokku.postdeploy from app.json (<span class="hljs-keyword">if</span> <span class="hljs-keyword">defined</span>)
-</span>=<span class="ruby">====&gt; renaming container (<span class="hljs-number">86</span>ac85941b97) pedantic_mirzakhani to sample-dokku.web.<span class="hljs-number">1</span>
-</span>-<span class="ruby">----&gt; Creating new /home/dokku/sample-dokku/VHOST...
-</span>-<span class="ruby">----&gt; Setting config vars
-</span>       DOKKU_NGINX_PORT: 80
--<span class="ruby">----&gt; Configuring sample-dokku.mydokku.rhodesjason.com...(using built-<span class="hljs-keyword">in</span> template)
-</span>-<span class="ruby">----&gt; Creating http nginx.conf
-</span>-<span class="ruby">----&gt; Running nginx-pre-reload
-</span>       Reloading nginx
--<span class="ruby">----&gt; Setting config vars
-</span>       DOKKU_APP_RESTORE: 1
-=<span class="ruby">====&gt; Application <span class="hljs-symbol">deployed:</span>
-</span>       http://sample-dokku.mydokku.rhodesjason.com
+<pre><code class="lang-console">-----&gt; Default container check successful!
+-----&gt; Running post-deploy
+-----&gt; Attempting to run scripts<span class="hljs-selector-class">.dokku</span><span class="hljs-selector-class">.postdeploy</span> from app<span class="hljs-selector-class">.json</span> (<span class="hljs-keyword">if</span> defined)
+=====&gt; renaming container (<span class="hljs-number">86</span>ac85941b97) pedantic_mirzakhani to sample-dokku<span class="hljs-selector-class">.web</span>.<span class="hljs-number">1</span>
+-----&gt; Creating new /home/dokku/sample-dokku/VHOST...
+-----&gt; Setting config vars
+       DOKKU_NGINX_PORT: <span class="hljs-number">80</span>
+-----&gt; Configuring sample-dokku<span class="hljs-selector-class">.mydokku</span><span class="hljs-selector-class">.rhodesjason</span><span class="hljs-selector-class">.com</span>...(using built-<span class="hljs-keyword">in</span> template)
+-----&gt; Creating http nginx<span class="hljs-selector-class">.conf</span>
+-----&gt; Running nginx-pre-reload
+       Reloading nginx
+-----&gt; Setting config vars
+       DOKKU_APP_RESTORE: <span class="hljs-number">1</span>
+=====&gt; Application deployed:
+       http:<span class="hljs-comment">//sample-dokku.mydokku.rhodesjason.com</span>
 </code></pre>
 <p>Huzzah, the app is deployed to my custom subdomain. Any time I make changes that I want to deploy, I just push to the <code>dokku</code> remote and off they go. And creating new apps with the same deployment process just takes <del>a quick log in to the remote box to create the app</del> pushing a new git repo to the dokku remote! So far, this is exactly what I wanted. Thanks, @Visnup!</p>
 <p>More resources that may or may not be helpful:</p>
@@ -149,7 +149,7 @@ Total 5 (delta 0), reused 0 (delta 0)
 </ul>
 
     </div>
-    <div class="post-nav bottom"><a href="/blog/008_airplay-magic.html" class="prev">Prev: AirPlay Problems Disappear With This One Weird Trick!</a>
+    <div class="post-nav bottom"><a href="/blog/008_airplay-magic.html" class="prev">Prev: AirPlay Problems Disappear With This One Weird Trick!</a><a href="/blog/010_react-context-littleform.html" class="next">Next: I accidentally built a form library</a>
     </div>
     <script>
       var disqus_title = 'Easy Heroku-like git deployments with Dokku and Digital Ocean'
@@ -170,7 +170,7 @@ Total 5 (delta 0), reused 0 (delta 0)
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     </div>
-    <script id="postList" type="text/data">[{"title":"Why Baltimore?","date":"2013-12-10T00:00:00.000Z","machineDate":"2013-12-09","prettyDate":"December 9th 2013","teaser":"A few hours ago, I tweeted a few times about the CreateBaltimore event happening today. I said:","url":"/blog/001_why-baltimore.html"},{"title":"Calm down, JavaScript","date":"2013-04-20T00:00:00.000Z","machineDate":"2013-04-19","prettyDate":"April 19th 2013","teaser":"I’ve been writing a lot of JavaScript lately, mostly for browser interactions, animations, and single-page navigation controls. As you begin to attach more callbacks to the window’s onscroll event, you become aware of just how jumpy that event is, and how costly it becomes if your callbacks are doing anything remotely intense.","url":"/blog/002_calm-down-javascript.html"},{"title":"Baltimore NodeSchool is open","date":"2014-03-31T00:00:00.000Z","machineDate":"2014-03-30","prettyDate":"March 30th 2014","teaser":"tl;dr: I have a ton of people to thank for how awesome this event has come together, and I’m super excited for it. If you just want to learn about the event itself, visit our website or go right to the registration page.","url":"/blog/003_nodeschool-baltimore-open.html"},{"title":"CSS whyyyyyy whyyy whyyyyyyyyy","date":"2014-12-30T00:00:00.000Z","teaser":"Whenever I say I hate CSS, people assume I probably don't understand it. Which makes me think maybe they've never used CSS?","hero":"/assets/images/css.gif","machineDate":"2014-12-29","prettyDate":"December 29th 2014","url":"/blog/004_canteven-style-sheets.html"},{"title":"Lightly, lightly","date":"2015-01-09T00:00:00.000Z","machineDate":"2015-01-08","prettyDate":"January 8th 2015","teaser":"A friend mentioned this quote yesterday and I keep going back to it. ","url":"/blog/005_lightly-lightly.html"},{"title":"indie.bs","date":"2015-01-13T00:00:00.000Z","machineDate":"2015-01-12","prettyDate":"January 12th 2015","teaser":"Have you been following along with the indie project? A little over a year ago, when Aral Balkan (@aral) launched his project to empower humans and topple the closed silos of the internet world?","url":"/blog/006_indie-bs.html"},{"title":"Hey Baltimore JavaScripters, what's up?","date":"2015-03-14T00:00:00.000Z","hero":"/assets/images/baltimore-harbor-skyline.jpg","machineDate":"2015-03-13","prettyDate":"March 13th 2015","teaser":"We&#39;re currently planning our fourth NodeSchool event here in Baltimore. And when I say &quot;we&quot;, I mean I. I&#39;m doing it. It turns out that delegation and community organization are hard work. Who knew? (I knew, but still.)","url":"/blog/007_hey-baltimore-jsers.html"},{"title":"AirPlay Problems Disappear With This One Weird Trick!","date":"2015-10-24T00:00:00.000Z","hero":"/assets/images/airplay-magic.jpg","machineDate":"2015-10-23","prettyDate":"October 23rd 2015","teaser":"I bought an Apple TV for my living room when we cut DirecTV earlier this year, but the AirPlay mirroring feature never worked. Today, I finally discovered why, kind of, or at least how to fix it, I think.","url":"/blog/008_airplay-magic.html"},{"title":"Easy Heroku-like git deployments with Dokku and Digital Ocean","date":"2016-04-02T00:00:00.000Z","hero":"/assets/images/dokku-header-2.jpeg","machineDate":"2016-04-01","prettyDate":"April 1st 2016","teaser":"tl;dr I&#39;m gonna explain how I just set up a Digital Ocean server so I can deploy apps to it with git push, and oh btw I accidentally got custom DNS subdomain management (via nginx) because Dokku is p cool.","url":"/blog/009_git-deploys-with-dokku.html"}]
+    <script id="postList" type="text/data">[{"title":"Why Baltimore?","date":"2013-12-10T00:00:00.000Z","machineDate":"2013-12-09","prettyDate":"December 9th 2013","teaser":"A few hours ago, I tweeted a few times about the CreateBaltimore event happening today. I said:","url":"/blog/001_why-baltimore.html"},{"title":"Calm down, JavaScript","date":"2013-04-20T00:00:00.000Z","machineDate":"2013-04-19","prettyDate":"April 19th 2013","teaser":"I’ve been writing a lot of JavaScript lately, mostly for browser interactions, animations, and single-page navigation controls. As you begin to attach more callbacks to the window’s onscroll event, you become aware of just how jumpy that event is, and how costly it becomes if your callbacks are doing anything remotely intense.","url":"/blog/002_calm-down-javascript.html"},{"title":"Baltimore NodeSchool is open","date":"2014-03-31T00:00:00.000Z","machineDate":"2014-03-30","prettyDate":"March 30th 2014","teaser":"tl;dr: I have a ton of people to thank for how awesome this event has come together, and I’m super excited for it. If you just want to learn about the event itself, visit our website or go right to the registration page.","url":"/blog/003_nodeschool-baltimore-open.html"},{"title":"CSS whyyyyyy whyyy whyyyyyyyyy","date":"2014-12-30T00:00:00.000Z","teaser":"Whenever I say I hate CSS, people assume I probably don't understand it. Which makes me think maybe they've never used CSS?","hero":"/assets/images/css.gif","machineDate":"2014-12-29","prettyDate":"December 29th 2014","url":"/blog/004_canteven-style-sheets.html"},{"title":"Lightly, lightly","date":"2015-01-09T00:00:00.000Z","machineDate":"2015-01-08","prettyDate":"January 8th 2015","teaser":"A friend mentioned this quote yesterday and I keep going back to it. ","url":"/blog/005_lightly-lightly.html"},{"title":"indie.bs","date":"2015-01-13T00:00:00.000Z","machineDate":"2015-01-12","prettyDate":"January 12th 2015","teaser":"Have you been following along with the indie project? A little over a year ago, when Aral Balkan (@aral) launched his project to empower humans and topple the closed silos of the internet world?","url":"/blog/006_indie-bs.html"},{"title":"Hey Baltimore JavaScripters, what's up?","date":"2015-03-14T00:00:00.000Z","hero":"/assets/images/baltimore-harbor-skyline.jpg","machineDate":"2015-03-13","prettyDate":"March 13th 2015","teaser":"We&#39;re currently planning our fourth NodeSchool event here in Baltimore. And when I say &quot;we&quot;, I mean I. I&#39;m doing it. It turns out that delegation and community organization are hard work. Who knew? (I knew, but still.)","url":"/blog/007_hey-baltimore-jsers.html"},{"title":"AirPlay Problems Disappear With This One Weird Trick!","date":"2015-10-24T00:00:00.000Z","hero":"/assets/images/airplay-magic.jpg","machineDate":"2015-10-23","prettyDate":"October 23rd 2015","teaser":"I bought an Apple TV for my living room when we cut DirecTV earlier this year, but the AirPlay mirroring feature never worked. Today, I finally discovered why, kind of, or at least how to fix it, I think.","url":"/blog/008_airplay-magic.html"},{"title":"Easy Heroku-like git deployments with Dokku and Digital Ocean","date":"2016-04-02T00:00:00.000Z","hero":"/assets/images/dokku-header-2.jpeg","machineDate":"2016-04-01","prettyDate":"April 1st 2016","teaser":"tl;dr I&#39;m gonna explain how I just set up a Digital Ocean server so I can deploy apps to it with git push, and oh btw I accidentally got custom DNS subdomain management (via nginx) because Dokku is p cool.","url":"/blog/009_git-deploys-with-dokku.html"},{"title":"I accidentally built a form library","date":"2019-01-02T00:00:00.000Z","machineDate":"2019-01-01","prettyDate":"January 1st 2019","teaser":"This is a story about how I accidentally built another form library for React, and about how that library works, and about how React context works. Like so many things in the late 2010s, it starts with a podcast.","url":"/blog/010_react-context-littleform.html"}]
     </script>
     <script src="/assets/js/site.js"></script>
   </body>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>rhodesjason dot com</title>
+    <meta name="description" content="A site for a rhodesjason">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/assets/images/hypercard.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,100" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700" type="text/css">
+    <link rel="stylesheet" href="/assets/css/hljs/tomorrow-night.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-60805914-1', 'auto');
+ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <header><a href="/" class="logo">rhodesjasondotcom</a><span class="nav"><a href="/">home</a>
+        <sep> | </sep><a href="/blog">blog</a>
+        <sep> | </sep><a href="http://speakerdeck.com/rhodesjason">slides</a></span><img src="/assets/images/rhodesjason-01-glitched.square.256.png" class="avatar"></header>
+    <div class="post-nav top"><a href="/blog/009_git-deploys-with-dokku.html" class="prev">Prev: Easy Heroku-like git deployments with Dokku and Digital Ocean</a>
+    </div>
+    <h1 class="post-title">I accidentally built a form library</h1>
+    <p class="byline">Posted by Jason Rhodes on January 1st, 2019</p>
+    <div class="container post-container"><p>This is a story about how I accidentally built another form library for React, and about how that library works, and about how React context works. Like so many things in the late 2010s, it starts with a podcast.</p>
+<p>I&#39;ve been listening to <a href="">the Slashfilmcast</a> for almost 10 years. I even joined <em>a Slack community</em> that revolves around that podcast so I can talk to other listeners about the movies and TV shows I see by myself because I&#39;m over 30 and I never had much luck making long-lasting friends. Anyway, old episodes of this podcast are a bit hard to find, so over the holiday break, I thought I&#39;d take a run at indexing them using Elasticsearch.</p>
+<p>Oh, right, I should back up. I recently took a job at <a href="https://www.elastic.co">Elastic</a> and I&#39;ve been wanting to get more familiar with our main product, Elasticsearch, a powerful search index database. I thought I&#39;d add the episodes, along with some metadata, to an Elasticsearch index to make them easy to find. To do that, I&#39;d need a way to enter information about each episode. &quot;Not a problem!&quot; I thought, excitedly! I know how to build a web UI! All I need is a little React app and ... a form.</p>
+<p>It sounds so easy, just a few inputs and a submit button, right? So why are the popular libraries so large and complicated? Maybe I should just, you know, throw something small and simple together myself. How hard can it be?</p>
+<h2 id="how-to-build-a-form">How to build a form</h2>
+<p>As a baseline, I just need an input to keep track of value state internally, and a form wrapper that handles submitting all of those values. The input:</p>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TextInput</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    value: <span class="hljs-string">""</span>
+  };
+
+  onChange = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ value: event.target.value });
+  };
+
+  render() {
+    <span class="hljs-keyword">return</span> (
+      &lt;input
+        <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"text"</span>
+        {...<span class="hljs-keyword">this</span>.props}
+        value={<span class="hljs-keyword">this</span>.state.value}
+        onChange={<span class="hljs-keyword">this</span>.onChange}
+      /&gt;
+    );
+  }
+}
+</code></pre>
+<p>And the form:</p>
+<pre><code class="lang-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Form</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  handleSubmit = e =&gt; {
+    e.preventDefault();
+    const values = extractFormData(e.target);
+    <span class="hljs-keyword">this</span>.props.onSubmit &amp;&amp; <span class="hljs-keyword">this</span>.props.onSubmit(values);
+  };
+
+  render() {
+    <span class="hljs-keyword">return</span> &lt;form onSubmit={<span class="hljs-keyword">this</span>.handleSubmit}&gt;{<span class="hljs-keyword">this</span>.props.children}&lt;/form&gt;;
+  }
+}
+</code></pre>
+<p>To keep it simple, we can just use the browser&#39;s form APIs. The <code>extractFormData</code> function used here looks like this:</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extractFormData</span>(<span class="hljs-params">target</span>) </span>{
+  <span class="hljs-keyword">const</span> FD = <span class="hljs-keyword">new</span> FormData(target);
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Array</span>.from(FD).reduce(<span class="hljs-function">(<span class="hljs-params">acc, [k, v]</span>) =&gt;</span> ({ ...acc, [k]: v }), {});
+}
+</code></pre>
+<p>It uses <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData">the <code>FormData</code> API</a> to pull all of the values out of the current form context. Using these two components together is pretty simple, too:</p>
+<pre><code class="lang-jsx">&lt;Form onSubmit={values =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">JSON</span>.stringify(values, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>))}&gt;
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">TextInput</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Your Email"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">Form</span>&gt;</span></span>
+</code></pre>
+<p><a href="https://codesandbox.io/s/5w70l3vqnn">Play with this form on codesandbox.io</a></p>
+<p><img src="/assets/images/simple-form-01.png" alt="simple form 01"></p>
+<p>Submitting this simple form will print the following to the console:</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">"email"</span>: <span class="hljs-string">"me@example.com"</span>
+}
+</code></pre>
+<p>Now we can easily abstract the input state-management to make other kinds of inputs easier to create. Instead of directly building a text input, we&#39;ll move the logic into a base input, and then build a basic text input and a textarea input that both use the base.</p>
+<pre><code class="lang-jsx"><span class="hljs-keyword">class</span> BaseInput <span class="hljs-keyword">extends</span> React.Component {
+  state = {
+    <span class="hljs-keyword">value</span>: <span class="hljs-string">""</span>
+  };
+
+  handleChange = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ <span class="hljs-keyword">value</span>: event.target.<span class="hljs-keyword">value</span> });
+  };
+
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="hljs-keyword">this</span>.props.render({
+        <span class="hljs-keyword">value</span>={<span class="hljs-keyword">this</span>.state.<span class="hljs-keyword">value</span>}
+        onChange={<span class="hljs-keyword">this</span>.handleChange}
+      });
+    );
+  }
+}
+
+<span class="hljs-keyword">function</span> TextInput(props) {
+  <span class="hljs-keyword">return</span> (
+    &lt;BaseInput render={({ <span class="hljs-keyword">value</span>, onChange }) =&gt; (
+      &lt;input
+        type=<span class="hljs-string">"text"</span>
+        <span class="hljs-keyword">value</span>={<span class="hljs-keyword">value</span>}
+        onChange={onChange}
+        {...props}
+      /&gt;
+    )} /&gt;
+  );
+}
+
+<span class="hljs-keyword">function</span> TextArea(props) {
+  <span class="hljs-keyword">return</span> (
+    &lt;BaseInput render={({ <span class="hljs-keyword">value</span>, onChange }) =&gt; (
+      &lt;textarea
+        <span class="hljs-keyword">value</span>={<span class="hljs-keyword">value</span>}
+        onChange={onChange}
+        {...props}
+      /&gt;
+    )} /&gt;
+  )
+}
+</code></pre>
+<p>This is all you need! Unless you care about making sure your values are valid. (You do.)</p>
+<h2 id="validation-styles">Validation styles</h2>
+<p>Some of the other small form libraries I&#39;ve seen available on npm leave validation up to you, which seems ... wrong? Validation is a pretty key part of formness, in my opinion. To validate an input, we need to add some logic to the base input.</p>
+<pre><code class="lang-jsx"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseInput</span> <span class="hljs-title">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    value: <span class="hljs-string">""</span>,
+    valid: <span class="hljs-literal">true</span>
+  };
+
+  handleChange = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ value: event.target.value }, <span class="hljs-keyword">this</span>.checkValidity);
+  };
+
+  checkValidity = () =&gt; {
+    <span class="hljs-keyword">const</span> { validators = [] } = <span class="hljs-keyword">this</span>.props;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.validators.length === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">const</span> failed = validators.find((validate) =&gt; validate(<span class="hljs-keyword">this</span>.state.value));
+    <span class="hljs-keyword">if</span> (failed) {
+      <span class="hljs-keyword">this</span>.setState({ valid: <span class="hljs-literal">false</span>, errorMessage: failed(<span class="hljs-keyword">this</span>.state.value) });
+    }
+  }
+
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="hljs-keyword">this</span>.props.render({
+        value={<span class="hljs-keyword">this</span>.state.value}
+        onChange={<span class="hljs-keyword">this</span>.handleChange}
+        valid={<span class="hljs-keyword">this</span>.state.valid}
+        errorMessage={<span class="hljs-keyword">this</span>.state.errorMessage}
+      });
+    );
+  }
+}
+</code></pre>
+<p>This validation strategy is a conventional one where validation functions return null/undefined if the value is valid, or a string error message if the value is invalid. You could create a &quot;required&quot; validator easily this way.</p>
+<pre><code class="lang-jsx"><span class="hljs-keyword">const</span> required = <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> (value === <span class="hljs-string">""</span> ? <span class="hljs-string">"This value is required"</span> : <span class="hljs-literal">null</span>);
+
+<span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">TextInput</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">validators</span>=<span class="hljs-string">{[required]}</span> /&gt;</span>;</span>
+</code></pre>
+<p>As long as <code>TextInput</code> passes along the validators to the <code>BaseInput</code> internally, it can then check the given <code>valid</code> and <code>errorMessage</code> props to handle when the input is invalid. Unfortunately, we probably don&#39;t want to check validity on every change, but instead on initial mount, and then on the input&#39;s &quot;blur&quot; event.</p>
+<pre><code class="lang-jsx"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseInput</span> <span class="hljs-title">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    value: <span class="hljs-string">""</span>,
+    valid: <span class="hljs-literal">true</span>
+  };
+
+  componentDidMount() {
+    <span class="hljs-keyword">this</span>.checkValidity();
+  }
+
+  handleChange = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ value: event.target.value });
+  };
+
+  handleBlur = event =&gt; {
+    <span class="hljs-keyword">this</span>.checkValidity();
+  }
+
+  checkValidity = () =&gt; {
+    <span class="hljs-keyword">const</span> { validators = [] } = <span class="hljs-keyword">this</span>.props;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.validators.length === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">const</span> failed = validators.find((validate) =&gt; validate(<span class="hljs-keyword">this</span>.state.value));
+    <span class="hljs-keyword">if</span> (failed) {
+      <span class="hljs-keyword">this</span>.setState({ valid: <span class="hljs-literal">false</span>, errorMessage: failed(<span class="hljs-keyword">this</span>.state.value) });
+    }
+  }
+
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="hljs-keyword">this</span>.props.render({
+        value={<span class="hljs-keyword">this</span>.state.value}
+        valid={<span class="hljs-keyword">this</span>.state.valid}
+        errorMessage={<span class="hljs-keyword">this</span>.state.errorMessage}
+        onChange={<span class="hljs-keyword">this</span>.handleChange}
+        onBlur={<span class="hljs-keyword">this</span>.handleBlur}
+      });
+    );
+  }
+}
+</code></pre>
+<p>To round out validity, we need to account for when an input has been &quot;touched&quot;, and when it&#39;s &quot;active&quot;. We usually don&#39;t want to display the error state unless the input has been touched and the input is not currently active.</p>
+<pre><code class="lang-jsx"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseInput</span> <span class="hljs-title">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    value: <span class="hljs-string">""</span>,
+    valid: <span class="hljs-literal">true</span>,
+    touched: <span class="hljs-literal">false</span>,
+    active: <span class="hljs-literal">false</span>
+  };
+
+  componentDidMount() {
+    <span class="hljs-keyword">this</span>.checkValidity();
+  }
+
+  handleChange = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ value: event.target.value });
+  };
+
+  handleFocus = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ active: <span class="hljs-literal">true</span>, touched: <span class="hljs-literal">true</span> });
+  }
+
+  handleBlur = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ active: <span class="hljs-literal">false</span> }, <span class="hljs-keyword">this</span>.checkValidity);
+  }
+
+  checkValidity = () =&gt; {
+    <span class="hljs-keyword">const</span> { validators = [] } = <span class="hljs-keyword">this</span>.props;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.validators.length === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">const</span> failed = validators.find((validate) =&gt; validate(<span class="hljs-keyword">this</span>.state.value));
+    <span class="hljs-keyword">if</span> (failed) {
+      <span class="hljs-keyword">this</span>.setState({ valid: <span class="hljs-literal">false</span>, errorMessage: failed(<span class="hljs-keyword">this</span>.state.value) });
+    }
+  }
+
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="hljs-keyword">this</span>.props.render({
+        value={<span class="hljs-keyword">this</span>.state.value}
+        valid={<span class="hljs-keyword">this</span>.state.valid}
+        active={<span class="hljs-keyword">this</span>.state.active}
+        touched={<span class="hljs-keyword">this</span>.state.touched}
+        errorMessage={<span class="hljs-keyword">this</span>.state.errorMessage}
+        onChange={<span class="hljs-keyword">this</span>.handleChange}
+        onBlur={<span class="hljs-keyword">this</span>.handleBlur}
+        onFocus={<span class="hljs-keyword">this</span>.handleFocus}
+      });
+    );
+  }
+}
+</code></pre>
+<p>We can provide some basic CSS hooks for styling if we add some classes around the input based on the current state. To do this, we&#39;ll use the <a href="https://github.com/JedWatson/classnames"><code>classnames</code></a> library.</p>
+<pre><code class="lang-jsx">// <span class="hljs-keyword">in</span> BaseInput
+render() {
+  const classes = classnames({
+    <span class="hljs-string">"form-inactive"</span>: !this.<span class="hljs-keyword">state</span>.active,
+    <span class="hljs-string">"form-touched"</span>: this.<span class="hljs-keyword">state</span>.touched,
+    <span class="hljs-string">"form-invalid"</span>: !this.<span class="hljs-keyword">state</span>.valid
+  });
+
+  return (
+    <span class="hljs-variable">&lt;span className={classes}&gt;</span>
+      {this.props.render({
+        value={this.<span class="hljs-keyword">state</span>.value}
+        valid={this.<span class="hljs-keyword">state</span>.valid}
+        active={this.<span class="hljs-keyword">state</span>.active}
+        touched={this.<span class="hljs-keyword">state</span>.touched}
+        errorMessage={this.<span class="hljs-keyword">state</span>.errorMessage}
+        <span class="hljs-keyword">on</span>Change={this.handleChange}
+        <span class="hljs-keyword">on</span>Blur={this.handleBlur}
+        <span class="hljs-keyword">on</span>Focus={this.handleFocus}
+      })}
+    &lt;/span&gt;
+  );
+}
+</code></pre>
+<p>This solves validation from a styling perspective. Each input can display an error message, change its border color, etc. if it&#39;s in a specific invalid/touched/active state. But the <em>form itself</em> still has no idea if any of its values are invalid, and it currently can&#39;t get a hold of the validation functions assigned to each input, either. If we want to prevent the form from submitting while any of its values are invalid, we&#39;re going to have to change course.</p>
+<h2 id="switching-to-react-context">Switching to React context</h2>
+<p>The only way for the form to know about the validity of all of its input children is to keep track of validity at the top level. Which means we&#39;ll need to provide that validity state back to the inputs, as well as an <code>onValidityChange</code> method for the inputs to call to set that state. To do this, we&#39;ll need to use React&#39;s context API.</p>
+<pre><code class="lang-jsx"><span class="hljs-keyword">const</span> FormContext = React.createContext({});
+<span class="hljs-keyword">const</span> FormConsumer = FormContext.Consumer;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Form</span> <span class="hljs-title">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    validity: {}
+  };
+
+  handleSubmit = e =&gt; {
+    e.preventDefault();
+    <span class="hljs-keyword">const</span> values = extractFormData(e.target);
+    <span class="hljs-keyword">this</span>.props.onSubmit &amp;&amp; <span class="hljs-keyword">this</span>.props.onSubmit(values);
+  };
+
+  handleValidityChange = change =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ validity: { ...<span class="hljs-keyword">this</span>.state.validity, ...change }});
+  };
+
+  render() {
+    <span class="hljs-keyword">return</span> (
+      &lt;FormContext.Provider
+        value={{
+          validity: <span class="hljs-keyword">this</span>.state.validity,
+          onValidityChange={<span class="hljs-keyword">this</span>.handleValidityChange}
+        }}
+      &gt;
+        &lt;form onSubmit={<span class="hljs-keyword">this</span>.handleSubmit}&gt;{<span class="hljs-keyword">this</span>.props.children}&lt;/form&gt;
+      &lt;/FormContext.Provider&gt;
+    );
+  }
+}
+</code></pre>
+<p>Then in the <code>BaseInput</code>, we have to use this new function. If we hadn&#39;t used context and made <code>onValidityChange</code> some kind of render prop, you would have to pass that method and the validity object down through every input. By making it available on a context provider, we can now use the context consumer as far down in the tree as we want, like in the <code>BaseInput</code>, for example.</p>
+<pre><code class="lang-jsx">// <span class="hljs-keyword">in</span> BaseInput
+render() {
+  return (
+    <span class="hljs-variable">&lt;FormConsumer&gt;</span>
+      {(form) =&gt; {
+        const valid = !form.validity[this.props.name];
+        const classes = classnames({
+          <span class="hljs-string">"form-inactive"</span>: !this.<span class="hljs-keyword">state</span>.active,
+          <span class="hljs-string">"form-touched"</span>: this.<span class="hljs-keyword">state</span>.touched,
+          <span class="hljs-string">"form-invalid"</span>: !valid
+        });
+        return (
+          <span class="hljs-variable">&lt;span className={classes}&gt;</span>
+            {this.props.render({
+              value={this.<span class="hljs-keyword">state</span>.value}
+              valid={valid}
+              active={this.<span class="hljs-keyword">state</span>.active}
+              touched={this.<span class="hljs-keyword">state</span>.touched}
+              errorMessage={this.<span class="hljs-keyword">state</span>.errorMessage}
+              <span class="hljs-keyword">on</span>Change={this.handleChange}
+              <span class="hljs-keyword">on</span>Blur={this.handleBlur}
+              <span class="hljs-keyword">on</span>Focus={this.handleFocus}
+            })}
+          &lt;/span&gt;
+        )
+      }}
+    &lt;/FormConsumer&gt;
+  );
+}
+</code></pre>
+<p>A React context consumer uses the &quot;children as function&quot; pattern, which is why you see that function directly inside the <code>FormConsumer</code>. The <code>form</code> value <em>provided</em> there is the <code>value</code> that&#39;s being set in the provider above, currently containing <code>validity</code> and <code>onValidityChange</code>. However, when we use the consumer directly like this, we only have access to the provided values within the render function, and we need the <code>onValidityChange</code> function outside of render. A small <code>withForm</code> convenience wrapper will give us <code>this.props.form</code> so we can access those values throughout the component.</p>
+<pre><code class="lang-jsx"><span class="hljs-keyword">const</span> withForm = (Component) =&gt; (props) =&gt; &lt;FormConsumer&gt;{(form) =&gt; &lt;Component {...props} form={form} /&gt;}&lt;/FormConsumer&gt;;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseInput</span> <span class="hljs-title">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    value: <span class="hljs-string">""</span>,
+    touched: <span class="hljs-literal">false</span>,
+    active: <span class="hljs-literal">false</span>
+  };
+
+  componentDidMount() {
+    <span class="hljs-keyword">this</span>.checkValidity();
+  }
+
+  handleChange = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ value: event.target.value });
+  };
+
+  handleFocus = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ active: <span class="hljs-literal">true</span>, touched: <span class="hljs-literal">true</span> });
+  }
+
+  handleBlur = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ active: <span class="hljs-literal">false</span> }, <span class="hljs-keyword">this</span>.checkValidity);
+  }
+
+  checkValidity = () =&gt; {
+    <span class="hljs-keyword">const</span> { validators = [] } = <span class="hljs-keyword">this</span>.props;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.validators.length === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">const</span> failed = validators.find((validate) =&gt; validate(<span class="hljs-keyword">this</span>.state.value));
+    <span class="hljs-keyword">if</span> (failed) {
+      <span class="hljs-keyword">this</span>.props.form.onValidityChange({ [<span class="hljs-keyword">this</span>.props.name]: <span class="hljs-literal">false</span> });
+      <span class="hljs-keyword">this</span>.setState({ errorMessage: failed(<span class="hljs-keyword">this</span>.state.value) });
+    }
+  }
+
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="hljs-keyword">this</span>.props.render({
+        value={<span class="hljs-keyword">this</span>.state.value}
+        valid={!<span class="hljs-keyword">this</span>.props.form.validity[<span class="hljs-keyword">this</span>.props.name]}
+        active={<span class="hljs-keyword">this</span>.state.active}
+        touched={<span class="hljs-keyword">this</span>.state.touched}
+        errorMessage={<span class="hljs-keyword">this</span>.state.errorMessage}
+        onChange={<span class="hljs-keyword">this</span>.handleChange}
+        onBlur={<span class="hljs-keyword">this</span>.handleBlur}
+        onFocus={<span class="hljs-keyword">this</span>.handleFocus}
+      });
+    );
+  }
+}
+
+<span class="hljs-comment">// use withForm helper to make `this.props.form` available</span>
+<span class="hljs-keyword">const</span> BaseInput = withForm(BaseInputView);
+</code></pre>
+<p>And now we can block submissions if the form is in an &quot;invalid&quot; state!</p>
+<pre><code class="lang-jsx"><span class="hljs-comment">// in Form</span>
+handleSubmit = <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
+  e.preventDefault();
+  <span class="hljs-keyword">if</span> (
+    <span class="hljs-built_in">Object</span>.keys(<span class="hljs-keyword">this</span>.state.validity).some(
+      <span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> <span class="hljs-keyword">this</span>.state.validity[key] === <span class="hljs-literal">false</span>
+    )
+  ) {
+    <span class="hljs-keyword">return</span>;
+  }
+  <span class="hljs-keyword">const</span> values = extractFormData(e.target);
+  <span class="hljs-keyword">this</span>.props.onSubmit &amp;&amp; <span class="hljs-keyword">this</span>.props.onSubmit(values);
+};
+</code></pre>
+<p>If we&#39;re storing validity in the form, there&#39;s no reason not to store the values there too.</p>
+<pre><code class="lang-jsx"><span class="hljs-keyword">const</span> FormContext = React.createContext({});
+<span class="hljs-keyword">const</span> FormConsumer = FormContext.Consumer;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Form</span> <span class="hljs-title">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    values: {},
+    validity: {},
+    submitted: <span class="hljs-literal">false</span>
+  };
+
+  handleSubmit = e =&gt; {
+    e.preventDefault();
+    <span class="hljs-keyword">this</span>.setState({ submitted: <span class="hljs-literal">true</span> });
+    <span class="hljs-keyword">if</span> (Object.keys(<span class="hljs-keyword">this</span>.state.validity).some((key) =&gt; <span class="hljs-keyword">this</span>.state.validity[key] === <span class="hljs-literal">false</span>)) {
+      <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">this</span>.props.onSubmit &amp;&amp; <span class="hljs-keyword">this</span>.props.onSubmit(<span class="hljs-keyword">this</span>.state.values);
+  };
+
+  handleChange = change =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ values: { ...<span class="hljs-keyword">this</span>.state.values, ...change }});
+  }
+
+  handleValidityChange = change =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ validity: { ...<span class="hljs-keyword">this</span>.state.validity, ...change }});
+  };
+
+  render() {
+    <span class="hljs-keyword">const</span> classes = classnames({
+      <span class="hljs-string">"form-submitted"</span>: <span class="hljs-keyword">this</span>.state.submitted
+    });
+
+    <span class="hljs-keyword">return</span> (
+      &lt;FormContext.Provider
+        value={{
+          values: <span class="hljs-keyword">this</span>.state.values,
+          validity: <span class="hljs-keyword">this</span>.state.validity,
+          onChange: <span class="hljs-keyword">this</span>.state.handleChange,
+          onValidityChange={<span class="hljs-keyword">this</span>.handleValidityChange},
+          submitted: <span class="hljs-keyword">this</span>.state.submitted
+        }}
+      &gt;
+        &lt;form className={classes} onSubmit={<span class="hljs-keyword">this</span>.handleSubmit}&gt;{<span class="hljs-keyword">this</span>.props.children}&lt;/form&gt;
+      &lt;/FormContext.Provider&gt;
+    );
+  }
+}
+</code></pre>
+<p>We also added a &quot;submitted&quot; state to the form, and a corresponding class. This lets us display errors for fields even if they haven&#39;t been blurred. Then in the BaseInput, we&#39;ll use the form&#39;s onChange instead of our local one.</p>
+<pre><code class="lang-jsx"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseInput</span> <span class="hljs-title">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    touched: <span class="hljs-literal">false</span>,
+    active: <span class="hljs-literal">false</span>
+  };
+
+  componentDidMount() {
+    <span class="hljs-keyword">this</span>.checkValidity();
+  }
+
+  handleChange = event =&gt; {
+    <span class="hljs-keyword">this</span>.props.form.onChange({ [<span class="hljs-keyword">this</span>.props.name]: event.target.value });
+  };
+
+  handleFocus = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ active: <span class="hljs-literal">true</span>, touched: <span class="hljs-literal">true</span> });
+  }
+
+  handleBlur = event =&gt; {
+    <span class="hljs-keyword">this</span>.setState({ active: <span class="hljs-literal">false</span> }, <span class="hljs-keyword">this</span>.checkValidity);
+  }
+
+  checkValidity = () =&gt; {
+    <span class="hljs-keyword">const</span> { validators = [] } = <span class="hljs-keyword">this</span>.props;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.validators.length === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">const</span> failed = validators.find((validate) =&gt; validate(<span class="hljs-keyword">this</span>.state.value));
+    <span class="hljs-keyword">if</span> (failed) {
+      <span class="hljs-keyword">this</span>.props.form.onValidityChange({ [<span class="hljs-keyword">this</span>.props.name]: <span class="hljs-literal">false</span> });
+      <span class="hljs-keyword">this</span>.setState({ errorMessage: failed(<span class="hljs-keyword">this</span>.state.value) });
+    }
+  }
+
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="hljs-keyword">this</span>.props.render({
+        form={<span class="hljs-keyword">this</span>.props.form}
+        value={<span class="hljs-keyword">this</span>.props.form.values[<span class="hljs-keyword">this</span>.props.name]}
+        valid={!<span class="hljs-keyword">this</span>.props.form.validity[<span class="hljs-keyword">this</span>.props.name]}
+        active={<span class="hljs-keyword">this</span>.state.active}
+        touched={<span class="hljs-keyword">this</span>.state.touched}
+        errorMessage={<span class="hljs-keyword">this</span>.state.errorMessage}
+        onChange={<span class="hljs-keyword">this</span>.handleChange}
+        onBlur={<span class="hljs-keyword">this</span>.handleBlur}
+        onFocus={<span class="hljs-keyword">this</span>.handleFocus}
+      });
+    );
+  }
+}
+
+<span class="hljs-keyword">const</span> BaseInput = withForm(BaseInputView);
+</code></pre>
+<p>Now the form works as intended.</p>
+
+    </div>
+    <div class="post-nav bottom"><a href="/blog/009_git-deploys-with-dokku.html" class="prev">Prev: Easy Heroku-like git deployments with Dokku and Digital Ocean</a>
+    </div>
+    <script>
+      var disqus_title = 'I accidentally built a form library'
+      
+    </script>
+    <div class="container comments">
+      <p class="comments-intro"><span class="warning-icon"></span><em><strong>Warning:</strong><span> Comments ahead. </span><span style="white-space: nowrap;">Never read them.</span></em></p><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES * * */
+  var disqus_shortname = 'rhodesjason';
+  
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+    <script id="postList" type="text/data">[{"title":"Why Baltimore?","date":"2013-12-10T00:00:00.000Z","machineDate":"2013-12-09","prettyDate":"December 9th 2013","teaser":"A few hours ago, I tweeted a few times about the CreateBaltimore event happening today. I said:","url":"/blog/001_why-baltimore.html"},{"title":"Calm down, JavaScript","date":"2013-04-20T00:00:00.000Z","machineDate":"2013-04-19","prettyDate":"April 19th 2013","teaser":"I’ve been writing a lot of JavaScript lately, mostly for browser interactions, animations, and single-page navigation controls. As you begin to attach more callbacks to the window’s onscroll event, you become aware of just how jumpy that event is, and how costly it becomes if your callbacks are doing anything remotely intense.","url":"/blog/002_calm-down-javascript.html"},{"title":"Baltimore NodeSchool is open","date":"2014-03-31T00:00:00.000Z","machineDate":"2014-03-30","prettyDate":"March 30th 2014","teaser":"tl;dr: I have a ton of people to thank for how awesome this event has come together, and I’m super excited for it. If you just want to learn about the event itself, visit our website or go right to the registration page.","url":"/blog/003_nodeschool-baltimore-open.html"},{"title":"CSS whyyyyyy whyyy whyyyyyyyyy","date":"2014-12-30T00:00:00.000Z","teaser":"Whenever I say I hate CSS, people assume I probably don't understand it. Which makes me think maybe they've never used CSS?","hero":"/assets/images/css.gif","machineDate":"2014-12-29","prettyDate":"December 29th 2014","url":"/blog/004_canteven-style-sheets.html"},{"title":"Lightly, lightly","date":"2015-01-09T00:00:00.000Z","machineDate":"2015-01-08","prettyDate":"January 8th 2015","teaser":"A friend mentioned this quote yesterday and I keep going back to it. ","url":"/blog/005_lightly-lightly.html"},{"title":"indie.bs","date":"2015-01-13T00:00:00.000Z","machineDate":"2015-01-12","prettyDate":"January 12th 2015","teaser":"Have you been following along with the indie project? A little over a year ago, when Aral Balkan (@aral) launched his project to empower humans and topple the closed silos of the internet world?","url":"/blog/006_indie-bs.html"},{"title":"Hey Baltimore JavaScripters, what's up?","date":"2015-03-14T00:00:00.000Z","hero":"/assets/images/baltimore-harbor-skyline.jpg","machineDate":"2015-03-13","prettyDate":"March 13th 2015","teaser":"We&#39;re currently planning our fourth NodeSchool event here in Baltimore. And when I say &quot;we&quot;, I mean I. I&#39;m doing it. It turns out that delegation and community organization are hard work. Who knew? (I knew, but still.)","url":"/blog/007_hey-baltimore-jsers.html"},{"title":"AirPlay Problems Disappear With This One Weird Trick!","date":"2015-10-24T00:00:00.000Z","hero":"/assets/images/airplay-magic.jpg","machineDate":"2015-10-23","prettyDate":"October 23rd 2015","teaser":"I bought an Apple TV for my living room when we cut DirecTV earlier this year, but the AirPlay mirroring feature never worked. Today, I finally discovered why, kind of, or at least how to fix it, I think.","url":"/blog/008_airplay-magic.html"},{"title":"Easy Heroku-like git deployments with Dokku and Digital Ocean","date":"2016-04-02T00:00:00.000Z","hero":"/assets/images/dokku-header-2.jpeg","machineDate":"2016-04-01","prettyDate":"April 1st 2016","teaser":"tl;dr I&#39;m gonna explain how I just set up a Digital Ocean server so I can deploy apps to it with git push, and oh btw I accidentally got custom DNS subdomain management (via nginx) because Dokku is p cool.","url":"/blog/009_git-deploys-with-dokku.html"},{"title":"I accidentally built a form library","date":"2019-01-02T00:00:00.000Z","machineDate":"2019-01-01","prettyDate":"January 1st 2019","teaser":"This is a story about how I accidentally built another form library for React, and about how that library works, and about how React context works. Like so many things in the late 2010s, it starts with a podcast.","url":"/blog/010_react-context-littleform.html"}]
+    </script>
+    <script src="/assets/js/site.js"></script>
+  </body>
+</html></script>
+</script>
