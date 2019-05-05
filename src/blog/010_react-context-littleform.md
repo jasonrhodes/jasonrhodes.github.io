@@ -335,14 +335,14 @@ class Form extends React.Component {
     this.setState({ validity: { ...this.state.validity, ...change }});
   };
 
+  const value = {
+    validity: this.state.validity,
+    onValidityChange={this.handleValidityChange}
+  };
+
   render() {
     return (
-      <FormContext.Provider
-        value={{
-          validity: this.state.validity,
-          onValidityChange={this.handleValidityChange}
-        }}
-      >
+      <FormContext.Provider value={value}>
         <form onSubmit={this.handleSubmit}>{this.props.children}</form>
       </FormContext.Provider>
     );
@@ -497,16 +497,16 @@ class Form extends React.Component {
       "form-submitted": this.state.submitted
     });
 
+    const value = {
+      values: this.state.values,
+      validity: this.state.validity,
+      onChange: this.state.handleChange,
+      onValidityChange={this.handleValidityChange},
+      submitted: this.state.submitted
+    };
+
     return (
-      <FormContext.Provider
-        value={{
-          values: this.state.values,
-          validity: this.state.validity,
-          onChange: this.state.handleChange,
-          onValidityChange={this.handleValidityChange},
-          submitted: this.state.submitted
-        }}
-      >
+      <FormContext.Provider value={value}>
         <form className={classes} onSubmit={this.handleSubmit}>{this.props.children}</form>
       </FormContext.Provider>
     );

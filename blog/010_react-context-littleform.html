@@ -299,34 +299,34 @@ render() {
 <pre><code class="lang-jsx"><span class="hljs-keyword">const</span> FormContext = React.createContext({});
 <span class="hljs-keyword">const</span> FormConsumer = FormContext.Consumer;
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Form</span> <span class="hljs-title">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Form</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   state = {
-    validity: {}
+    <span class="hljs-attr">validity</span>: {}
   };
 
-  handleSubmit = e =&gt; {
+  handleSubmit = <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
     e.preventDefault();
     <span class="hljs-keyword">const</span> values = extractFormData(e.target);
     <span class="hljs-keyword">this</span>.props.onSubmit &amp;&amp; <span class="hljs-keyword">this</span>.props.onSubmit(values);
   };
 
-  handleValidityChange = change =&gt; {
-    <span class="hljs-keyword">this</span>.setState({ validity: { ...<span class="hljs-keyword">this</span>.state.validity, ...change }});
+  handleValidityChange = <span class="hljs-function"><span class="hljs-params">change</span> =&gt;</span> {
+    <span class="hljs-keyword">this</span>.setState({ <span class="hljs-attr">validity</span>: { ...this.state.validity, ...change }});
+  };
+
+  <span class="hljs-keyword">const</span> value = {
+    <span class="hljs-attr">validity</span>: <span class="hljs-keyword">this</span>.state.validity,
+    onValidityChange={<span class="hljs-keyword">this</span>.handleValidityChange}
   };
 
   render() {
     <span class="hljs-keyword">return</span> (
-      &lt;FormContext.Provider
-        value={{
-          validity: <span class="hljs-keyword">this</span>.state.validity,
-          onValidityChange={<span class="hljs-keyword">this</span>.handleValidityChange}
-        }}
-      &gt;
-        &lt;form onSubmit={<span class="hljs-keyword">this</span>.handleSubmit}&gt;{<span class="hljs-keyword">this</span>.props.children}&lt;/form&gt;
-      &lt;/FormContext.Provider&gt;
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">FormContext.Provider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{value}</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{this.handleSubmit}</span>&gt;</span>{this.props.children}<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">FormContext.Provider</span>&gt;</span>
     );
   }
-}
+}</span>
 </code></pre>
 <p>Then in the <code>BaseInput</code>, we have to use this new function. If we hadn&#39;t used context and made <code>onValidityChange</code> some kind of render prop, you would have to pass that method and the validity object down through every input. By making it available on a context provider, we can now use the context consumer as far down in the tree as we want, like in the <code>BaseInput</code>, for example.</p>
 <pre><code class="lang-jsx">// <span class="hljs-keyword">in</span> BaseInput
@@ -432,49 +432,49 @@ handleSubmit = <span class="hljs-function"><span class="hljs-params">e</span> =&
 };
 </code></pre>
 <p>If we&#39;re storing validity in the form, there&#39;s no reason not to store the values there too.</p>
-<pre><code class="lang-jsx"><span class="hljs-keyword">const</span> FormContext = React.createContext({});
-<span class="hljs-keyword">const</span> FormConsumer = FormContext.Consumer;
+<pre><code class="lang-jsx">const FormContext = React.createContext({});
+const FormConsumer = FormContext.Consumer;
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Form</span> <span class="hljs-title">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
-  state = {
+class Form extends React.Component {
+  <span class="hljs-keyword">state</span> = {
     values: {},
     validity: {},
-    submitted: <span class="hljs-literal">false</span>
+    submitted: false
   };
 
   handleSubmit = e =&gt; {
     e.preventDefault();
-    <span class="hljs-keyword">this</span>.setState({ submitted: <span class="hljs-literal">true</span> });
-    <span class="hljs-keyword">if</span> (Object.keys(<span class="hljs-keyword">this</span>.state.validity).some((key) =&gt; <span class="hljs-keyword">this</span>.state.validity[key] === <span class="hljs-literal">false</span>)) {
-      <span class="hljs-keyword">return</span>;
+    this.<span class="hljs-built_in">set</span>State({ submitted: true });
+    if (Object.keys(this.<span class="hljs-keyword">state</span>.validity).some((key) =&gt; this.<span class="hljs-keyword">state</span>.validity[key] === false)) {
+      return;
     }
-    <span class="hljs-keyword">this</span>.props.onSubmit &amp;&amp; <span class="hljs-keyword">this</span>.props.onSubmit(<span class="hljs-keyword">this</span>.state.values);
+    this.props.<span class="hljs-keyword">on</span>Submit &amp;&amp; this.props.<span class="hljs-keyword">on</span>Submit(this.<span class="hljs-keyword">state</span>.values);
   };
 
   handleChange = change =&gt; {
-    <span class="hljs-keyword">this</span>.setState({ values: { ...<span class="hljs-keyword">this</span>.state.values, ...change }});
+    this.<span class="hljs-built_in">set</span>State({ values: { ...this.<span class="hljs-keyword">state</span>.values, ...change }});
   }
 
   handleValidityChange = change =&gt; {
-    <span class="hljs-keyword">this</span>.setState({ validity: { ...<span class="hljs-keyword">this</span>.state.validity, ...change }});
+    this.<span class="hljs-built_in">set</span>State({ validity: { ...this.<span class="hljs-keyword">state</span>.validity, ...change }});
   };
 
   render() {
-    <span class="hljs-keyword">const</span> classes = classnames({
-      <span class="hljs-string">"form-submitted"</span>: <span class="hljs-keyword">this</span>.state.submitted
+    const classes = classnames({
+      <span class="hljs-string">"form-submitted"</span>: this.<span class="hljs-keyword">state</span>.submitted
     });
 
-    <span class="hljs-keyword">return</span> (
-      &lt;FormContext.Provider
-        value={{
-          values: <span class="hljs-keyword">this</span>.state.values,
-          validity: <span class="hljs-keyword">this</span>.state.validity,
-          onChange: <span class="hljs-keyword">this</span>.state.handleChange,
-          onValidityChange={<span class="hljs-keyword">this</span>.handleValidityChange},
-          submitted: <span class="hljs-keyword">this</span>.state.submitted
-        }}
-      &gt;
-        &lt;form className={classes} onSubmit={<span class="hljs-keyword">this</span>.handleSubmit}&gt;{<span class="hljs-keyword">this</span>.props.children}&lt;/form&gt;
+    const value = {
+      values: this.<span class="hljs-keyword">state</span>.values,
+      validity: this.<span class="hljs-keyword">state</span>.validity,
+      <span class="hljs-keyword">on</span>Change: this.<span class="hljs-keyword">state</span>.handleChange,
+      <span class="hljs-keyword">on</span>ValidityChange={this.handleValidityChange},
+      submitted: this.<span class="hljs-keyword">state</span>.submitted
+    };
+
+    return (
+      <span class="hljs-variable">&lt;FormContext.Provider value={value}&gt;</span>
+        <span class="hljs-variable">&lt;form className={classes} onSubmit={this.handleSubmit}&gt;</span>{this.props.children}&lt;/form&gt;
       &lt;/FormContext.Provider&gt;
     );
   }
