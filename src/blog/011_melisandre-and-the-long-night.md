@@ -2,7 +2,10 @@
 title: Melisandre and The Very Long Night
 date: 2019-05-05
 hero: /assets/images/melisandre-arya-long-night.jpg
+teaser: How are traffic lights, prayer, and Game of Thrones episode "The Long Night" intertwined?
 ---
+
+_Note: This post contains frank and spoiler-filled discussion of everything in Game of Thrones up to and including Season 8, Episode 3: The Long Night._
 
 Imagine that on the evening of this past week's episode of _Game of Thrones_, titled _The Long Night_, you were running a bit late on your way to your Thrones watch party. You race down the street going a safe but calculated 11 MPH over the speed limit but, as luck would have it, you've hit three straight red lights and your patience is running out. As you wait at the third one for what seems like a Westerosi winter, you remember something in the back of your mind: isn't there some trick with traffic lights where you can force them to change by flashing your car's bright headlights at them?
 
