@@ -2,7 +2,7 @@
 template: home
 ---
 
-I used to play with HyperCard a lot during middle school classes and now I write java scripts for money and watch movies for fun.
+I used to play with HyperCard during middle school classes. Now I write java scripts for money and watch movies for fun.
 
 Some things a person could know:
 
