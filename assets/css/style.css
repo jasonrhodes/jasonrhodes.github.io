@@ -1,0 +1,101 @@
+:root {
+  --eggplant: #564154;
+  --ivory: #fffff2;
+  --richBlack: #011627;
+  --turquoise: #41D3BD;
+  --pink: #FF729F;
+}
+
+body {
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+  background-color: var(--ivory);
+  color: var(--richBlack);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+@media only screen and (min-width: 600px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bungee', sans-serif;
+}
+
+.container {
+  padding: 2em;
+}
+
+.container .content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.container.masthead {
+  background-color: var(--eggplant);
+  color: var(--ivory);
+  padding-bottom: 4em;
+}
+
+.masthead .profile-photo {
+  width: 200px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.profile-photo img {
+  width: 100%;
+  height: auto;
+}
+
+.masthead .above-line {
+  display: flex;
+  border-bottom: 9px solid var(--turquoise);
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.masthead .above-line .intro-display-text {
+  display: none;
+}
+
+.masthead .intro-display-text h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.masthead .below-line .intro-display-text {
+  text-align: center;
+  margin-top: 0;
+}
+
+.main-content h2 {
+  text-align: center;
+  font-size: 2em;
+  color: var(--pink);
+}
+
+ul.about-me-facts {
+  list-style: none;
+  padding-left: 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+ul.about-me-facts li {
+  padding-left: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-image: url('/assets/images/arrow-26x28.png');
+  background-position: center left;
+  background-repeat: no-repeat;
+  font-size: 1.2em;
+}
+
+.about-me-facts a {
+  color: var(--turquoise);
+  font-weight: 600;
+}
